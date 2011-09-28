@@ -191,7 +191,7 @@ namespace ENFORM
             stopWatch = new Stopwatch();
             iteration = 0;
             updateCount = 0;
-            results = new float[2000];
+            results = new float[2000000];
 
             // Thread.CurrentThread.Name = o.ToString();
             while (Thread.CurrentThread.IsAlive)
@@ -245,8 +245,8 @@ namespace ENFORM
         {
             BackpropagationNetwork network = (BackpropagationNetwork) sender;
             
-            results[iteration] = e.TrainingIteration;
-            results[iteration + 1] = stopWatch.ElapsedMilliseconds;
+            results[iteration] = (float)network.MeanSquaredError;
+            results[iteration + 1] = (float) stopWatch.Elapsed.TotalMilliseconds;
             
             iteration += 2;
             //Updating the UI thread bottlenecks performance
