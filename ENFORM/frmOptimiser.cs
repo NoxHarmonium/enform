@@ -32,15 +32,15 @@ namespace ENFORM
         private Queue<Job> jobs = new Queue<Job>();       
 
         [ThreadStatic]    
-        static int updateCount = 0;
+        static int updateCount;
         [ThreadStatic]
-        static Job currentJob = null;
+        static Job currentJob;
         [ThreadStatic]
-        static float[] results = new float[int.MaxValue];
+        static float[] results;
         [ThreadStatic]
-        static int iteration = 0;
+        static int iteration;
         [ThreadStatic]
-        static Stopwatch stopWatch = new Stopwatch();
+        static Stopwatch stopWatch;
         
 
         
@@ -188,7 +188,12 @@ namespace ENFORM
 
         void runThread(object o)
         {
-           // Thread.CurrentThread.Name = o.ToString();
+            stopWatch = new Stopwatch();
+            iteration = 0;
+            updateCount = 0;
+            results = new float[2000];
+
+            // Thread.CurrentThread.Name = o.ToString();
             while (Thread.CurrentThread.IsAlive)
             {
 
