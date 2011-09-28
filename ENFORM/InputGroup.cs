@@ -45,8 +45,8 @@ namespace ENFORM
 
             switch (this.inputGroupType)
             {
-                case ENFORM.InputGroupType.Grid:          
-                   return hIndex + vIndex*2;
+                case ENFORM.InputGroupType.Grid:
+                    return hIndex + vIndex * segments;
                  
                 case ENFORM.InputGroupType.Horozontal:
                     return vIndex;            
