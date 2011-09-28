@@ -197,8 +197,8 @@ namespace NeuronDotNet.Core.Backpropagation
                                     
                                 foreach (ActivationNeuron sourceNeuron in sourceLayer.Neurons)
                                 {
-                                    sourceIndex++;
-                                    int segment = inputGroup.GetSegment(sourceIndex, width, height);
+                                    
+                                    int segment = inputGroup.GetSegment(sourceIndex++, width, height);
 
                                     synapses[synapseCount++] = new BackpropagationSynapse(sourceNeuron, targetNeurons[totalTargetNeuron + segment], this);
                                 }
