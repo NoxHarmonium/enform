@@ -85,19 +85,42 @@ namespace ENFORM
 
         public void SaveResult(string jobUUID, Network finalNetwork, int iterations, float[] results, DateTime startTime, DateTime endTime)
         {
+
+            /*
+              CREATE TABLE [Runs] (
+                [RunID] INTEGER  PRIMARY KEY AUTOINCREMENT NOT NULL,
+                [StartTime] TIMESTAMP  NULL,
+                [EndTime] TIMESTAMP  NULL,
+                [Status] INTEGER  NULL,
+                [BLOBindex] INTEGER  NULL,
+                [JobUUID] TEXT NULL
+                );            
+             */
             int networkID = database.InsertBLOBNetwork(finalNetwork);
             int runid = 0;
+           
+            //string sStartTime = "strftime('%s','2004-01-01 02:34:56');"
+
+
 
             string query = "INSERT INTO RUNS\n" + 
-                "VALUES (''," + jobUUID;
+                "VALUES (NULL," +
+                 "'" + startTime.ToString("yyyy-MM-dd HH:mm:ss") +"'," +
+                "'" + endTime.ToString("yyyy-MM-dd HH:mm:ss") + "'," +
+                "'0','" + 
+                networkID.ToString() + "','" + 
+                jobUUID +"');"+
+                "SELECT last_insert_rowid();";
 
+            DataSet result = database.RunQuery(query);
+            runid = Convert.ToInt32(result.Tables[0].Rows[0][0]);
 
             query = "BEGIN;\n";
 
             for (int i = 0; i < iterations; i += 2)
             {
                 query += "INSERT INTO Results \n" +
-                    "VALUES('','" + runid.ToString() + "','" + i / 2 + "','" + results[i + 1].ToString() + "','" + results[i].ToString() + "')\n";
+                    "VALUES(NULL,'" + runid.ToString() + "','" + i / 2 + "','" + results[i + 1].ToString() + "','" + results[i].ToString() + "');\n";
 
             }
 

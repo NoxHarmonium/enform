@@ -128,7 +128,7 @@ namespace ENFORM
             byte[] data = new byte[stream.Length];
             int i = 0;
             int b;
-            while ((b = stream.ReadByte()) != 0)
+            while ((b = stream.ReadByte()) != -1)
             {
                 data[i++] = (byte)b;
             }
