@@ -12,7 +12,7 @@ namespace ENFORM
 
         public Job(string filename)
         {
-            Guid guid = new Guid();
+            Guid guid = Guid.NewGuid();
             id = guid.ToString();
             this.filename = filename;
          
