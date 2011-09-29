@@ -6,7 +6,7 @@ using System.Text;
 namespace ENFORM
 {
   
-    
+    [Serializable]
     public class InputGroup
     {
         private InputGroupType inputGroupType;
