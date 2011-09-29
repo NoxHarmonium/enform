@@ -69,7 +69,7 @@ namespace ENFORM.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to CREATE TABLE [BLOBs] (
-        ///[index] INTEGER  NOT NULL PRIMARY KEY AUTOINCREMENT,
+        ///[BLOBIndex] INTEGER  NOT NULL PRIMARY KEY AUTOINCREMENT,
         ///[BLOBData] BLOB  NULL
         ///);
         ///
@@ -88,7 +88,7 @@ namespace ENFORM.Properties {
         ///[ResultID] INTEGER  PRIMARY KEY AUTOINCREMENT NOT NULL,
         ///[RunID] INTEGER  NULL,
         ///[Iteration] INTEGER  NULL,
-        ///[TimeElapsed] FLOAT  N [rest of string was truncated]&quot;;.
+        ///[TimeElapsed] FLOA [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string templateDatabaseSQL {
             get {

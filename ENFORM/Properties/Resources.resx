@@ -123,7 +123,7 @@
   </data>
   <data name="templateDatabaseSQL" xml:space="preserve">
     <value>CREATE TABLE [BLOBs] (
-[index] INTEGER  NOT NULL PRIMARY KEY AUTOINCREMENT,
+[BLOBIndex] INTEGER  NOT NULL PRIMARY KEY AUTOINCREMENT,
 [BLOBData] BLOB  NULL
 );
 
