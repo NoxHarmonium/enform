@@ -154,7 +154,7 @@ to translate into another language, and easier to modify.
  */
 namespace SPSO_2007
 {
-    class Program
+    public class Algorithm
     {
 
         //const int D_max = 114;		// Max number of dimensions of the search space
@@ -170,7 +170,7 @@ namespace SPSO_2007
         static FileStream f_synth;
 
         // =================================================
-        static void run()
+        public Algorithm()
         {
             Position bestBest = new Position(); // Best position over all runs
             // Current dimension

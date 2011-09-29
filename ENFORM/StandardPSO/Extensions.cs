@@ -7,9 +7,18 @@ namespace SPSO_2007
 {
     static class Extensions
     {
-        public static double NextDouble(this Random rand,double lowerBound,double upperBound)
+        [ThreadStatic]
+        private static NPack.MersenneTwister twister = new NPack.MersenneTwister();
+
+        public static double NextDouble()
         {
-            return lowerBound + rand.NextDouble() * (upperBound - lowerBound);
+            return (twister.NextDouble());
+        }
+
+        public static double NextDouble(this Random rand,double lowerBound,double upperBound)
+        {       
+            
+            return lowerBound + twister.NextDouble() * (upperBound - lowerBound);
         }
         public static Velocity NextVector(this Random rand,int dimensions, double coeff)
         {
@@ -32,12 +41,12 @@ namespace SPSO_2007
         }
         public static void Shuffle(this int[] index,int count,int max)
         {
-            Random rand = new Random();
+            
             for (int i = 0; i < count; i++) //Shuffle count times
             {
                 for (int j = 0; j < max; j++)
                 {
-                    int r = rand.Next(max);
+                    int r = twister.Next(max);
                     int temp = index[j];
                     index[j] = index[r];
                     index[r] = temp;
