@@ -108,6 +108,13 @@
     </Compile>
     <Compile Include="InputGroup.cs" />
     <Compile Include="Job.cs" />
+    <Compile Include="LogBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LogBox.Designer.cs">
+      <DependentUpon>LogBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MersenneTwister.cs" />
     <Compile Include="NameDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -206,6 +213,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ImageViewer.resx">
       <DependentUpon>ImageViewer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LogBox.resx">
+      <DependentUpon>LogBox.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="NameDialog.resx">
       <DependentUpon>NameDialog.cs</DependentUpon>

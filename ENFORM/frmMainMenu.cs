@@ -18,7 +18,8 @@ namespace ENFORM
 
         private void frmMainMenu_Load(object sender, EventArgs e)
         {
-
+            Utils.Log("ENFORM booting up....");
+            Utils.SetLogWindowLocation(this.Location.X, this.Location.Y + this.Size.Height + 10);
         }
 
         private void btnRunEditor_Click(object sender, EventArgs e)
@@ -26,6 +27,9 @@ namespace ENFORM
             using (frmRunEditor editor = new frmRunEditor())
             {
                 editor.ShowDialog(this);
+                
+                Utils.Log("Opening run editor....");
+                Utils.SetLogWindowLocation(editor.Location.X, editor.Location.Y + editor.Size.Height + 10);
             }
         }
 
@@ -33,7 +37,9 @@ namespace ENFORM
         {
             using (frmOptimiser optimisor = new frmOptimiser())
             {
-                optimisor.ShowDialog(this);
+                optimisor.Show(this);
+                Utils.Log("Opening optimsor....");
+                Utils.SetLogWindowLocation(optimisor.Location.X, optimisor.Location.Y + optimisor.Size.Height + 10);
             }
         }
 
@@ -41,7 +47,9 @@ namespace ENFORM
         {
             using (frmNetworkTester tester = new frmNetworkTester())
             {
-                tester.ShowDialog();
+                tester.Show(this);
+                Utils.Log("Opening network tester....");
+                Utils.SetLogWindowLocation(tester.Location.X, tester.Location.Y + tester.Size.Height + 10);
             }
         }
     }

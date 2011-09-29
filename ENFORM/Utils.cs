@@ -7,8 +7,16 @@ using System.Drawing.Imaging;
 
 namespace ENFORM
 {
-    public class Utils
+    public static class Utils
     {
+
+        private static frmLogBox logbox;
+
+        static Utils()
+        {
+            logbox = new frmLogBox();
+            logbox.Owner = null;
+        }
 
         public static double[] getImageWeights(Image image, InputGroup[] inputGroups)
         {
@@ -28,6 +36,24 @@ namespace ENFORM
                 }
             }
             return outputs;
+        }
+
+        public static void Log(string message)
+        {
+            if (logbox != null)
+            {
+                if (!logbox.Visible)
+                {
+                    logbox.Show();
+                }
+                logbox.AddLogEntry(message);
+            }
+         }
+
+        public static void SetLogWindowLocation(int x, int y)
+        {
+            logbox.Location = new Point(x, y);
+
         }
     }
 }
