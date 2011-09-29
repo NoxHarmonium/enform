@@ -35,7 +35,6 @@
             this.clmStatus = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.clmMinFitness = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.btnOpenTestImage = new System.Windows.Forms.Button();
-            this.cmbSampleType = new System.Windows.Forms.ComboBox();
             this.btnLoadRunFile = new System.Windows.Forms.Button();
             this.grpFilters = new System.Windows.Forms.GroupBox();
             this.chkBradley = new System.Windows.Forms.CheckBox();
@@ -54,6 +53,7 @@
             this.lstInputGroups = new System.Windows.Forms.ListBox();
             this.imgTestImage = new ENFORM.ImageViewer();
             this.lblFitness = new System.Windows.Forms.Label();
+            this.cmbSampleType = new System.Windows.Forms.ComboBox();
             this.grpFilters.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numThreshold)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numContrast)).BeginInit();
@@ -110,18 +110,6 @@
             this.btnOpenTestImage.Text = "Load Test Image";
             this.btnOpenTestImage.UseVisualStyleBackColor = true;
             this.btnOpenTestImage.Click += new System.EventHandler(this.btnOpenTestImage_Click);
-            // 
-            // cmbSampleType
-            // 
-            this.cmbSampleType.FormattingEnabled = true;
-            this.cmbSampleType.Items.AddRange(new object[] {
-            "Positive Sample",
-            "Negitive Sample"});
-            this.cmbSampleType.Location = new System.Drawing.Point(822, 353);
-            this.cmbSampleType.Name = "cmbSampleType";
-            this.cmbSampleType.Size = new System.Drawing.Size(141, 21);
-            this.cmbSampleType.TabIndex = 3;
-            this.cmbSampleType.SelectedIndexChanged += new System.EventHandler(this.cmbSampleType_SelectedIndexChanged);
             // 
             // btnLoadRunFile
             // 
@@ -356,11 +344,23 @@
             this.lblFitness.Text = "Fitness:";
             this.lblFitness.Click += new System.EventHandler(this.lblFitness_Click);
             // 
+            // cmbSampleType
+            // 
+            this.cmbSampleType.FormattingEnabled = true;
+            this.cmbSampleType.Items.AddRange(new object[] {
+            "Positive Sample",
+            "Negitive Sample"});
+            this.cmbSampleType.Location = new System.Drawing.Point(822, 353);
+            this.cmbSampleType.Name = "cmbSampleType";
+            this.cmbSampleType.Size = new System.Drawing.Size(141, 21);
+            this.cmbSampleType.TabIndex = 3;
+            this.cmbSampleType.SelectedIndexChanged += new System.EventHandler(this.cmbSampleType_SelectedIndexChanged);
+            // 
             // frmNetworkTester
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(970, 387);
+            this.ClientSize = new System.Drawing.Size(970, 381);
             this.Controls.Add(this.lblFitness);
             this.Controls.Add(this.lstInputGroups);
             this.Controls.Add(this.grpFilters);
@@ -386,7 +386,6 @@
         private ImageViewer imgTestImage;
         private System.Windows.Forms.ListView lstRuns;
         private System.Windows.Forms.Button btnOpenTestImage;
-        private System.Windows.Forms.ComboBox cmbSampleType;
         private System.Windows.Forms.Button btnLoadRunFile;
         private System.Windows.Forms.ColumnHeader clmRunID;
         private System.Windows.Forms.ColumnHeader clmStartTime;
@@ -409,5 +408,6 @@
         private System.Windows.Forms.CheckBox chkGreyscale;
         private System.Windows.Forms.ListBox lstInputGroups;
         private System.Windows.Forms.Label lblFitness;
+        private System.Windows.Forms.ComboBox cmbSampleType;
     }
 }

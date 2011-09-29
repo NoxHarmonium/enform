@@ -22,7 +22,7 @@ namespace ENFORM
         public frmNetworkTester()
         {
             InitializeComponent();
-            cmbSampleType.SelectedIndex = 0;
+            //cmbSampleType.SelectedIndex = 0;
         }
 
         private void btnOpenTestImage_Click(object sender, EventArgs e)
