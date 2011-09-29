@@ -17,6 +17,12 @@ namespace ENFORM
         private Preprocessor preprocessor;
         private BackpropagationNetwork network;
         private int maxIterations = int.MaxValue;
+
+        public int MaxIterations
+        {
+            get { return maxIterations; }
+            set { maxIterations = value; }
+        }
         private double minError = 0.0;
 
         public BackpropagationNetwork Network
@@ -143,8 +149,7 @@ namespace ENFORM
             {
                 
 
-                double[] weights = Utils.getImageWeights(item.InternalImage, inputGroups);
-                    
+                double[] weights = Utils.getImageWeights(item.InternalImage, inputGroups);              
                 set.Add(new TrainingSample(weights, new double[] { (double)item.SampleType }));
                 
 

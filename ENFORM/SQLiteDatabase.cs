@@ -38,14 +38,77 @@ namespace ENFORM
             connection.Close();
         }
 
+        
+        public int BatchInsert(string table,params string[][] parameters)
+        {
+            string query = "INSERT INTO " + table + " VALUES (NULL,";
+            for (int i = 0; i < parameters[0].Length; i++)
+            {
+                query += "@P" + i.ToString() + ",";
+
+            }
+            query = query.Substring(0, query.Length - 1) + ");";
+
+            using (var command = connection.CreateCommand())
+            {
+                command.CommandText = query;
+                connection.Open();
+                int retval = 0;
+                using (var tx = connection.BeginTransaction())
+                {
+                    for (int i = 0; i < parameters[0].Length; i++)
+                    {
+                        command.Parameters.Add("@P" + i.ToString(), DbType.String);
+                    }
+                    for (int i = 0; i < parameters.Length; i++)
+                    {
+                        for (int j = 0; j < parameters[i].Length; j++)
+                        {                           
+                            command.Parameters[j].Value = parameters[i][j];       
+                        }
+                        retval += command.ExecuteNonQuery();
+                        
+                    }
+                    tx.Commit();
+                    return retval;
+                }
+            }
+
+
+
+          
+        }
+         
+
         public int RunQueryNoResult(string query)
         {
+            using (var command = connection.CreateCommand())
+            {
+                connection.Open();
+                using (var tx = connection.BeginTransaction())
+                {
+                                 
+                    int retval = 0;
+                    // Ottieni il risultato e chiudi la connessione
+                    foreach (string cmd in query.Split(new char[] {';'}))
+                    {
+                        command.CommandText = query;    
+                        retval += command.ExecuteNonQuery();
+                    }
+                    
+                    tx.Commit();
+                    return retval;
+                }
+            }
             
+            
+            /*
             SQLiteCommand command = new SQLiteCommand(query, connection);
             Open();
             int result = command.ExecuteNonQuery();
             Close();
             return result;
+             * */
         }
 
         public DataSet RunQuery(string query)
@@ -123,8 +186,7 @@ namespace ENFORM
             BinaryFormatter formatter = new BinaryFormatter();
 
             formatter.Serialize(stream, network);
-            stream.Seek(0, SeekOrigin.Begin);
-            Network test = (Network)formatter.Deserialize(stream);
+       
 
 
            

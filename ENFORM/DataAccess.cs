@@ -119,19 +119,30 @@ namespace ENFORM
             DataSet result = database.RunQuery(query);
             runid = Convert.ToInt32(result.Tables[0].Rows[0][0]);
 
-            query = "BEGIN;\n";
+            /*
+            StringBuilder s = new StringBuilder();
+            //query = "BEGIN TRANSACTION;\n";
 
             for (int i = 0; i < iterations; i += 2)
             {
-                query += "INSERT INTO Results \n" +
-                    "VALUES(NULL,'" + runid.ToString() + "','" + i / 2 + "','" + results[i + 1].ToString() + "','" + results[i].ToString() + "');\n";
+                s.AppendLine("INSERT INTO Results \n" +
+                    "VALUES(NULL,'" + runid.ToString() + "','" + i / 2 + "','" + results[i + 1].ToString() + "','" + results[i].ToString() + "');");
 
             }
 
 
-            query += "COMMIT;\n";
+            //query += "COMMIT TRANSACTION;\n";
 
-            database.RunQueryNoResult(query);
+            database.RunQueryNoResult(s.ToString());
+            */
+            string[][] items = new string[iterations/2][];
+            
+            for (int i = 0; i < iterations; i += 2)
+            {                
+                items[i/2] = new string[] { runid.ToString(),Convert.ToString(i/2),results[i + 1].ToString(),results[i].ToString()};
+            }
+
+            database.BatchInsert("Results", items);
 
         }
 

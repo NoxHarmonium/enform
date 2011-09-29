@@ -49,6 +49,7 @@ namespace ENFORM
             if (currentSource != null)
             {
                 currentSource.SampleType = cmbSampleType.SelectedIndex;
+                calculateFitness();
             }
         }
 
@@ -139,11 +140,23 @@ namespace ENFORM
 
         private void lstRuns_SelectedIndexChanged(object sender, EventArgs e)
         {
-            DataAccess dataAccess = new DataAccess(currentRunFile);
 
-            Network network = dataAccess.GetNetwork(int.Parse(lstRuns.SelectedItems[0].SubItems[5].Text));
-            double[] result = network.Run(Utils.getImageWeights(currentSource.InternalImage, (InputGroup[])lstInputGroups.Items.Cast<InputGroup>()));
-            lblFitness.Text = "Fitness: " + result[0].ToString();
+            calculateFitness();
+            
+
+                
+            
+        }
+
+        private void calculateFitness()
+        {
+            DataAccess dataAccess = new DataAccess(currentRunFile);
+            if (currentRunFile != "" && currentSource != null && lstRuns.SelectedItems.Count > 0)
+            {
+                Network network = dataAccess.GetNetwork(int.Parse(lstRuns.SelectedItems[0].SubItems[5].Text));
+                double[] result = network.Run(Utils.getImageWeights(currentSource.InternalImage, (InputGroup[])lstInputGroups.Items.Cast<InputGroup>().ToArray<InputGroup>()));
+                lblFitness.Text = "Fitness: " + result[0].ToString();
+            }
         }
 
         private void lblFitness_Click(object sender, EventArgs e)

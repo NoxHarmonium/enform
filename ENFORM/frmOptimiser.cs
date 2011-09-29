@@ -18,8 +18,8 @@ namespace ENFORM
     public partial class frmOptimiser : Form
     {
         // event raised before the door opens
-        public delegate void ThreadProgressChangedHandler(int tabIndex,double meanErrorSquared, int currentEpoch);
-        private delegate void UpdateTabHandler ( int tabIndex, double meanErrorSquared, int currentEpoch );
+        public delegate void ThreadProgressChangedHandler(int tabIndex,double meanErrorSquared, int currentEpoch, string message);
+        private delegate void UpdateTabHandler ( int tabIndex, double meanErrorSquared, int currentEpoch, string message );
         public event ThreadProgressChangedHandler ThreadProgressChanged;
 
         //private Dictionary<
@@ -57,22 +57,24 @@ namespace ENFORM
             this.ThreadProgressChanged += new ThreadProgressChangedHandler(frmOptimiser_ThreadProgressChanged);
         }
 
-        private void updateTab(int tabIndex, double meanErrorSquared, int currentEpoch)
+        private void updateTab(int tabIndex, double meanErrorSquared, int currentEpoch, string message)
         {
             OptimisationStatus status = (OptimisationStatus)tabThreads.TabPages[tabIndex].Controls[0];
             status.MeanErrorSquared = meanErrorSquared;
             status.CurrentEpoch = currentEpoch;
+            status.Message = message;
 
 
         }
 
-        void frmOptimiser_ThreadProgressChanged(int tabIndex,double meanErrorSquared,int currentEpoch)
+        void frmOptimiser_ThreadProgressChanged(int tabIndex,double meanErrorSquared,int currentEpoch,string message)
         {
             OptimisationStatus status = (OptimisationStatus)tabThreads.TabPages[tabIndex].Controls[0];
-            object[] o = new object[3];
+            object[] o = new object[4];
             o[0] = tabIndex;
             o[1] = meanErrorSquared;
             o[2] = currentEpoch;
+            o[3] = message;
 
             if (status.InvokeRequired)
             {
@@ -181,6 +183,7 @@ namespace ENFORM
                 
 
             }
+          
            
             
                        
@@ -209,6 +212,7 @@ namespace ENFORM
                 }
                 if (job == null)
                 {
+                    changeThreadProgress(Int32.Parse(Thread.CurrentThread.Name), -1, -1, "No more jobs!");
                     return;
                 }
 
@@ -229,6 +233,8 @@ namespace ENFORM
                 stopWatch.Start();
                 DateTime startTime = DateTime.Now;
                 mes = optimiser.Optimise();
+
+                changeThreadProgress(Int32.Parse(Thread.CurrentThread.Name), optimiser.Network.MeanSquaredError, optimiser.MaxIterations,"Writing results...");
                 DateTime endTime = DateTime.Now;
                 
                 
@@ -254,7 +260,7 @@ namespace ENFORM
             //Updating the UI thread bottlenecks performance
             if (updateCount++ > 10)
             {
-                changeThreadProgress(Int32.Parse(Thread.CurrentThread.Name), network.MeanSquaredError, e.TrainingIteration);
+                changeThreadProgress(Int32.Parse(Thread.CurrentThread.Name), network.MeanSquaredError, e.TrainingIteration,"Optimising");
                 updateCount = 0;
             }
         }
@@ -277,11 +283,11 @@ namespace ENFORM
             
         }
 
-        private void changeThreadProgress(int tabIndex, double meanErrorSquared, int currentEpoch)
+        private void changeThreadProgress(int tabIndex, double meanErrorSquared, int currentEpoch, string message)
         {
             if (ThreadProgressChanged != null)
             {
-                ThreadProgressChanged(tabIndex,meanErrorSquared, currentEpoch);
+                ThreadProgressChanged(tabIndex,meanErrorSquared, currentEpoch, message);
             }
         }
 

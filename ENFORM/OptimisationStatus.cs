@@ -52,6 +52,19 @@ namespace ENFORM
             }
 
         }
+
+        public string Message
+        {
+            get
+            {
+                return lblMessageValue.Text;
+            }
+            set
+            {
+                lblMessageValue.Text = value;
+            }
+
+        }
         
         public OptimisationStatus()
         {
@@ -59,6 +72,11 @@ namespace ENFORM
         }
 
         private void OptimisationStatus_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label2_Click(object sender, EventArgs e)
         {
 
         }

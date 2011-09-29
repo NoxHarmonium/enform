@@ -243,9 +243,20 @@ namespace NeuronDotNet.Core
             targetLayer.SourceConnectors.Add(this);
             sourceLayer.TargetConnectors.Add(this);
 
+
+
+
             if (connectionMode == ConnectionMode.Complete)
             {
-                synapses = new TSynapse[sourceLayer.NeuronCount * targetLayer.NeuronCount];
+                if (targetLayer.InputGroups != -1)
+                {
+                    synapses = new TSynapse[sourceLayer.NeuronCount * targetLayer.InputGroups];
+                }
+                else
+                {
+                    synapses = new TSynapse[sourceLayer.NeuronCount * targetLayer.NeuronCount];
+                }               
+                
             }
             else
             {

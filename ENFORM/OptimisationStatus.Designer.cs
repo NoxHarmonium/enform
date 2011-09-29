@@ -34,6 +34,8 @@
             this.lblOptimisorValue = new System.Windows.Forms.Label();
             this.lblCurrentEpoch = new System.Windows.Forms.Label();
             this.lblCurrentEpochValue = new System.Windows.Forms.Label();
+            this.lblMessageValue = new System.Windows.Forms.Label();
+            this.lblMessage = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // lblMeanError
@@ -90,10 +92,31 @@
             this.lblCurrentEpochValue.TabIndex = 5;
             this.lblCurrentEpochValue.Text = "N/A";
             // 
+            // lblMessageValue
+            // 
+            this.lblMessageValue.AutoSize = true;
+            this.lblMessageValue.Location = new System.Drawing.Point(114, 84);
+            this.lblMessageValue.Name = "lblMessageValue";
+            this.lblMessageValue.Size = new System.Drawing.Size(27, 13);
+            this.lblMessageValue.TabIndex = 7;
+            this.lblMessageValue.Text = "N/A";
+            // 
+            // lblMessage
+            // 
+            this.lblMessage.AutoSize = true;
+            this.lblMessage.Location = new System.Drawing.Point(55, 84);
+            this.lblMessage.Name = "lblMessage";
+            this.lblMessage.Size = new System.Drawing.Size(53, 13);
+            this.lblMessage.TabIndex = 6;
+            this.lblMessage.Text = "Message:";
+            this.lblMessage.Click += new System.EventHandler(this.label2_Click);
+            // 
             // OptimisationStatus
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.lblMessageValue);
+            this.Controls.Add(this.lblMessage);
             this.Controls.Add(this.lblCurrentEpochValue);
             this.Controls.Add(this.lblCurrentEpoch);
             this.Controls.Add(this.lblOptimisorValue);
@@ -116,5 +139,7 @@
         private System.Windows.Forms.Label lblOptimisorValue;
         private System.Windows.Forms.Label lblCurrentEpoch;
         private System.Windows.Forms.Label lblCurrentEpochValue;
+        private System.Windows.Forms.Label lblMessageValue;
+        private System.Windows.Forms.Label lblMessage;
     }
 }
