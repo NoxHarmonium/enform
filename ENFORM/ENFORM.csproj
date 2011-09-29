@@ -179,6 +179,18 @@
     <Compile Include="Settings.cs" />
     <Compile Include="SourceItem.cs" />
     <Compile Include="SQLiteDatabase.cs" />
+    <Compile Include="StandardPSO\Extensions.cs" />
+    <Compile Include="StandardPSO\Fitness.cs" />
+    <Compile Include="StandardPSO\Matrix.cs" />
+    <Compile Include="StandardPSO\Parameters.cs" />
+    <Compile Include="StandardPSO\Position.cs" />
+    <Compile Include="StandardPSO\Problem.cs" />
+    <Compile Include="StandardPSO\Program.cs" />
+    <Compile Include="StandardPSO\Quantum.cs" />
+    <Compile Include="StandardPSO\Result.cs" />
+    <Compile Include="StandardPSO\Swarm.cs" />
+    <Compile Include="StandardPSO\SwarmSize.cs" />
+    <Compile Include="StandardPSO\Velocity.cs" />
     <Compile Include="Utils.cs" />
     <EmbeddedResource Include="ColourPicker.resx">
       <DependentUpon>ColourPicker.cs</DependentUpon>
@@ -253,6 +265,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="db\LatestTemplate.sql" />
+    <Content Include="Licences.txt" />
     <None Include="Resources\TextFile1.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
