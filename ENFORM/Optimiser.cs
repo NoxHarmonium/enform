@@ -141,13 +141,12 @@ namespace ENFORM
             set = new TrainingSet(preprocessor.ImageSize.Width * preprocessor.ImageSize.Height, 1);
             foreach (SourceItem item in sourceItems)
             {
-                foreach (InputGroup group in inputGroups)
-                {
-                   
-                    double[] weights = getImageWeights(item.InternalImage, group);
+                
+
+                double[] weights = Utils.getImageWeights(item.InternalImage, inputGroups);
                     
-                    set.Add(new TrainingSample(weights, new double[] { (double)item.SampleType }));
-                }
+                set.Add(new TrainingSample(weights, new double[] { (double)item.SampleType }));
+                
 
 
             }
@@ -166,9 +165,8 @@ namespace ENFORM
         }
 
         public double Optimise()
-        {
-            Network.Learn(set, maxIterations);
-            return Network.MeanSquaredError;
+        {            
+            return Optimise(maxIterations);
         }
 
         public double Optimise(int iterations)
@@ -178,27 +176,7 @@ namespace ENFORM
                 return Network.MeanSquaredError;   
         }
 
-        private double[] getImageWeights(Image image, InputGroup inputGroup)
-        {
-            Bitmap bitmap = (Bitmap)image;
-            double[] outputs = new double[image.Width * image.Height];
-            int outputIndex = 0;
-            for (int i = 0; i < inputGroup.Segments; i++)
-            {
-                for (int j = 0; j < inputGroup.Segments; j++)
-                {
-                    outputs[outputIndex++] = ((double)bitmap.GetPixel(j, i).R) / 255.0;               
-                }
-
-            }
-
-            
-
-
-
-
-            return outputs;
-        }
+        
 
         private double getAverageValue(Bitmap image, Rectangle area)
         {
