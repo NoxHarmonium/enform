@@ -123,8 +123,13 @@ namespace ENFORM
             BinaryFormatter formatter = new BinaryFormatter();
 
             formatter.Serialize(stream, network);
+            stream.Seek(0, SeekOrigin.Begin);
+            Network test = (Network)formatter.Deserialize(stream);
 
 
+           
+            
+            stream.Seek(0, SeekOrigin.Begin);
             byte[] data = new byte[stream.Length];
             int i = 0;
             int b;
@@ -176,7 +181,9 @@ namespace ENFORM
         public Network RetrieveBLOBNetwork(int index)
         {
             byte[] buffer = retrieveBLOB(index);
-            MemoryStream stream = new MemoryStream(buffer, false);
+            MemoryStream stream = new MemoryStream(buffer, false);            
+
+
             BinaryFormatter formatter = new BinaryFormatter();
             return (Network) formatter.Deserialize(stream);
 

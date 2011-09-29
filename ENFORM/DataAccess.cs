@@ -79,9 +79,13 @@ namespace ENFORM
             
         }
 
-       
-      
 
+
+        public Network GetNetwork(int BlobIndex)
+        {
+            return database.RetrieveBLOBNetwork(BlobIndex);
+
+        }
 
         public void SaveResult(string jobUUID, Network finalNetwork, int iterations, float[] results, DateTime startTime, DateTime endTime)
         {
@@ -128,6 +132,48 @@ namespace ENFORM
             query += "COMMIT;\n";
 
             database.RunQueryNoResult(query);
+
+        }
+
+        public Run[] GetRuns()
+        {
+            string query = "SELECT ru.RunId," +
+                           "ru.StartTime," +
+                            "ru.EndTime," +
+                            "ru.Status," +
+                            "ru.BLOBIndex," +
+                            "ru.JobUUID," +
+                            "re.Fitness " +
+                            "FROM (" +
+                            "SELECT *, MAX(Iteration) FROM " +
+                            "Results " +
+                            "GROUP BY RunID " +
+                            ") as re inner join Runs as ru " +
+                            "ON re.RunID = ru.RunID;";
+            DataSet result = database.RunQuery(query);
+            List<Run> list = new List<Run>();
+            if (result.Tables.Count > 0)
+            {
+                
+                foreach (DataRow row in result.Tables[0].Rows)
+                {
+                    list.Add(new Run(
+                        Convert.ToInt32(row[0]),
+                        DateTime.Parse(row[1].ToString()),
+                        DateTime.Parse(row[2].ToString()),
+                        Convert.ToInt32(row[3]),
+                        Convert.ToInt32(row[4]),
+                        row[5].ToString(),
+                        Convert.ToSingle(row[6])));
+
+                }
+                return list.ToArray();
+            }
+            else
+            {
+                return new Run[0];
+            }
+
 
         }
 

@@ -108,6 +108,7 @@ namespace ENFORM
                 dlgLoad.DefaultExt = "erun";
                 dlgLoad.Filter = "ENFORM run file(*.erun)|*.erun";
                 dlgLoad.Title = "Open run file...";
+                dlgLoad.Multiselect = true;
                
                 if (dlgLoad.ShowDialog() == DialogResult.OK)
                 {
@@ -219,6 +220,7 @@ namespace ENFORM
                 stopWatch.Reset();
 
                 Optimiser optimiser = new Optimiser(job.Filename);
+           
                 optimiser.Network.EndEpochEvent += new NeuronDotNet.Core.TrainingEpochEventHandler(Network_EndEpochEvent);
                 
                 //BackgroundWorker worker = (BackgroundWorker)sender;
@@ -226,7 +228,7 @@ namespace ENFORM
                 
                 stopWatch.Start();
                 DateTime startTime = DateTime.Now;
-                mes = optimiser.Optimise(Int32.MaxValue);
+                mes = optimiser.Optimise();
                 DateTime endTime = DateTime.Now;
                 
                 

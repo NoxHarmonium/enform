@@ -231,6 +231,7 @@ namespace NeuronDotNet.Core
             Helper.ValidateNotNull(info, "info");
 
             // Deserialize
+            this.inputGroups = info.GetInt32("inputGroups");
             int neuronCount = info.GetInt32("neuronCount");
             this.neurons = new TNeuron[neuronCount];
 
@@ -256,6 +257,7 @@ namespace NeuronDotNet.Core
             Helper.ValidateNotNull(info, "info");
 
             // Populate
+            info.AddValue("inputGroups", inputGroups);
             info.AddValue("neuronCount", neurons.Length);
             info.AddValue("initializer", initializer, typeof(IInitializer));
             info.AddValue("learningRateFunction", learningRateFunction, typeof(ILearningRateFunction));

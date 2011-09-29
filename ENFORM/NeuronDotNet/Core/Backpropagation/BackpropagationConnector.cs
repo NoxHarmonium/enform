@@ -33,6 +33,9 @@ namespace NeuronDotNet.Core.Backpropagation
         : Connector<ActivationLayer, ActivationLayer,BackpropagationSynapse>
     {
         internal double momentum = 0.07d;
+        private ENFORM.InputGroup[] inputGroups = null;
+        private int width;
+        private int height;
 
         /// <summary>
         /// Gets or sets the momentum (the tendency of synapses to retain their previous deltas)
@@ -80,7 +83,10 @@ namespace NeuronDotNet.Core.Backpropagation
         public BackpropagationConnector(ActivationLayer sourceLayer, ActivationLayer targetLayer, ENFORM.InputGroup[] inputGroups,int width, int height)
             : base(sourceLayer, targetLayer, ConnectionMode.Complete)            
         {
-            ConstructENFORMSynapses(inputGroups,width,height);
+            this.inputGroups = inputGroups;
+            this.width = width;
+            this.height = height;
+            ConstructENFORMSynapses();
         }
 
         /// <summary>
@@ -120,7 +126,19 @@ namespace NeuronDotNet.Core.Backpropagation
         public BackpropagationConnector(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
-            ConstructSynapses();
+            this.inputGroups = (ENFORM.InputGroup[]) info.GetValue("inputGroups",typeof(ENFORM.InputGroup[]));
+            this.width = info.GetInt32("width");
+            this.height = info.GetInt32("height");
+    
+
+            if (this.inputGroups == null)
+            {
+                ConstructSynapses();
+            }
+            else
+            {
+                ConstructENFORMSynapses();
+            }
 
             this.momentum = info.GetDouble("momentum");
             double[] weights = (double[])info.GetValue("weights", typeof(double[]));
@@ -148,7 +166,7 @@ namespace NeuronDotNet.Core.Backpropagation
             base.GetObjectData(info, context);
 
             info.AddValue("momentum", momentum);
-
+            
             double[] weights = new double[synapses.Length];
             for (int i = 0; i < synapses.Length; i++)
             {
@@ -156,6 +174,9 @@ namespace NeuronDotNet.Core.Backpropagation
             }
 
             info.AddValue("weights", weights, typeof(double[]));
+            info.AddValue("inputGroups", inputGroups, typeof(ENFORM.InputGroup[]));
+            info.AddValue("width", width, typeof(int));
+            info.AddValue("height", height, typeof(int));
         }
 
         /// <summary>
@@ -170,7 +191,7 @@ namespace NeuronDotNet.Core.Backpropagation
             }
         }
 
-        private void ConstructENFORMSynapses(ENFORM.InputGroup[] inputGroups, int width, int height)
+        private void ConstructENFORMSynapses()
         {
             int synapseCount = 0;
             int totalTargetNeuron = 0;

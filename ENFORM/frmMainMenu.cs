@@ -23,14 +23,26 @@ namespace ENFORM
 
         private void btnRunEditor_Click(object sender, EventArgs e)
         {
-            frmRunEditor editor = new frmRunEditor();
-            editor.ShowDialog(this);
+            using (frmRunEditor editor = new frmRunEditor())
+            {
+                editor.ShowDialog(this);
+            }
         }
 
         private void btnLaunchOptimiser_Click(object sender, EventArgs e)
         {
-            frmOptimiser optimisor = new frmOptimiser();
-            optimisor.ShowDialog(this);
+            using (frmOptimiser optimisor = new frmOptimiser())
+            {
+                optimisor.ShowDialog(this);
+            }
+        }
+
+        private void btnLaunchTester_Click(object sender, EventArgs e)
+        {
+            using (frmNetworkTester tester = new frmNetworkTester())
+            {
+                tester.ShowDialog();
+            }
         }
     }
 }
