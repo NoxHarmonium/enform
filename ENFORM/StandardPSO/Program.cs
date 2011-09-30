@@ -170,6 +170,31 @@ namespace SPSO_2007
         static FileStream f_run;
         static FileStream f_synth;
 
+        private int d;
+        private int g;
+        private int[] index = new int[S_max];
+        private int[] indexTemp = new int[S_max];
+        // Iteration number (time step)
+        //int iterBegin;
+        private int[,] LINKS = new int[S_max, S_max];	// Information links
+        private int m;
+        //int noEval;
+        private double normPX = 0.0, normGX = 0.0;
+        private int noStop;
+        private int outside;
+        private double p;
+        private Velocity PX = new Velocity();
+        private Result R = new Result();
+        private Matrix RotatePX = new Matrix();
+        private Matrix RotateGX = new Matrix();
+        private int s0, s, s1;
+        private double zz;
+        private Velocity aleaV = new Velocity();
+        private double error;
+        private double errorPrev;
+        private int initLinks;
+        private int iter;
+
         // =================================================
         public Algorithm()
         {
@@ -334,26 +359,8 @@ namespace SPSO_2007
         // PSO
         public Result PSO(Parameters param, Problem pb)
         {
-            Velocity aleaV = new Velocity();
-            int d;
-            int g;
-            int[] index = new int[S_max];
-            int[] indexTemp = new int[S_max];
-            // Iteration number (time step)
-            //int iterBegin;
-            int[,] LINKS = new int[S_max, S_max];	// Information links
-            int m;
-            //int noEval;
-            double normPX = 0.0, normGX = 0.0;
-            int noStop;
-            int outside;
-            double p;
-            Velocity PX = new Velocity();
-            Result R = new Result();
-            Matrix RotatePX = new Matrix();
-            Matrix RotateGX = new Matrix();
-            int s0, s, s1;
-            double zz;
+            
+           
 
             aleaV.size = pb.SS.D;
             RotatePX.size = pb.SS.D;
@@ -392,7 +399,7 @@ namespace SPSO_2007
 
             // Find the best
             R.SW.best = 0;
-            double errorPrev;
+            
             switch (param.stop)
             {
                 default:
@@ -432,15 +439,26 @@ namespace SPSO_2007
             //	Utils.Log( "\n Position :\n" );
             //	for ( d = 0; d < SS.D; d++ ) Utils.Log( " %f", R.SW.P[R.SW.best].x[d] );
 
-            int initLinks = 1;		// So that information links will beinitialized
+            initLinks = 1;		// So that information links will beinitialized
             // Note: It is also a flag saying "No improvement"
             noStop = 0;
-            double error = errorPrev;
+            error = errorPrev;
             // ---------------------------------------------- ITERATIONS
-            int iter = 0;
+            iter = 0;
             while (noStop == 0)
             {
-                iter++;
+                NextIteration(param,pb);
+
+            } // End of "while nostop ...
+
+            R.error = error;
+            return R;
+        }
+
+
+        public void NextIteration(Parameters param, Problem pb)
+        {
+             iter++;
 
                 if (initLinks == 1)	// Random topology
                 {
@@ -671,11 +689,6 @@ namespace SPSO_2007
                             noStop = 1;	// Will stop
                         break;
                 }
-
-            } // End of "while nostop ...
-
-            R.error = error;
-            return R;
         }
     }
 }
