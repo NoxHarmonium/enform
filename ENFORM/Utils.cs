@@ -47,6 +47,7 @@ namespace ENFORM
         private static void setPos(int x, int y)
         {
             logbox.Location = new Point(x, y);
+            logbox.BringToFront();
 
         }
 
