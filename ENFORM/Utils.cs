@@ -4,18 +4,24 @@ using System.Linq;
 using System.Text;
 using System.Drawing;
 using System.Drawing.Imaging;
-
+using System.Threading;
 namespace ENFORM
 {
     public static class Utils
     {
 
         private static frmLogBox logbox;
+        public delegate void logDelegate(string message);
+        public delegate void setPosDelegate(int x, int y);
+        public delegate void closeLogDelegate();
+        
 
         static Utils()
         {
-            logbox = new frmLogBox();
-            logbox.Owner = null;
+            (new System.Threading.Thread(() =>
+            {
+                (logbox = new frmLogBox()).ShowDialog();
+            })).Start();         
         }
 
         public static double[] getImageWeights(Image image, InputGroup[] inputGroups)
@@ -38,21 +44,65 @@ namespace ENFORM
             return outputs;
         }
 
+        private static void setPos(int x, int y)
+        {
+            logbox.Location = new Point(x, y);
+
+        }
+
+        private static void closeLogBox()
+        {
+            logbox.Close();
+        }
+
+        private static void log(string message)
+        {
+            logbox.AddLogEntry(message);
+        }
+
+
+        public static void CloseLogBox()
+        {
+            if (logbox.InvokeRequired)
+            {
+                logbox.Invoke(new closeLogDelegate(closeLogBox));
+            }
+            else
+            {
+                closeLogBox();
+            }
+        }
+
         public static void Log(string message)
         {
             if (logbox != null)
             {
-                if (!logbox.Visible)
+                //if (!logbox.Visible)
+                //{
+                    
+               //     logbox.Show();
+               // }
+                if (logbox.InvokeRequired)
                 {
-                    logbox.Show();
+                    logbox.Invoke(new logDelegate(log), new object[] { message });
                 }
-                logbox.AddLogEntry(message);
+                else
+                {
+                    log(message);
+                }
             }
          }
 
         public static void SetLogWindowLocation(int x, int y)
         {
-            logbox.Location = new Point(x, y);
+            if (logbox.InvokeRequired)
+            {
+                logbox.Invoke(new setPosDelegate(setPos), new object[] { x, y });
+            }
+            else
+            {
+                setPos(x, y);
+            }
 
         }
     }
