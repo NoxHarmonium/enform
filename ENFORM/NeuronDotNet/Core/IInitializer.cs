@@ -38,7 +38,18 @@ namespace NeuronDotNet.Core
         /// <exception cref="System.ArgumentNullException">
         /// If <c>activationLayer</c> is <c>null</c>
         /// </exception>
-        void Initialize(ActivationLayer activationLayer);
+        void Initialize(Backpropagation.ActivationLayer activationLayer);
+
+        /// <summary>
+        /// Initializes bias values of activation neurons in an activation layer.
+        /// </summary>
+        /// <param name="activationLayer">
+        /// The activation layer to initialize
+        /// </param>
+        /// <exception cref="System.ArgumentNullException">
+        /// If <c>activationLayer</c> is <c>null</c>
+        /// </exception>
+        void Initialize(PSO.ActivationLayer activationLayer);
 
         /// <summary>
         /// Initializes weights of all backpropagation synapses in a backpropagation connector.
@@ -50,6 +61,19 @@ namespace NeuronDotNet.Core
         /// If <c>connector</c> is <c>null</c>
         /// </exception>
         void Initialize(BackpropagationConnector connector);
+
+        /// <summary>
+        /// Initializes weights of all backpropagation synapses in a backpropagation connector.
+        /// </summary>
+        /// <param name="connector">
+        /// The backpropagation connector to initialize.
+        /// </param>
+        /// <exception cref="System.ArgumentNullException">
+        /// If <c>connector</c> is <c>null</c>
+        /// </exception>
+        void Initialize(PSO.PSOConnector connector);
+
+
 
         /// <summary>
         /// Initializes weights of all spatial synapses in a Kohonen connector.

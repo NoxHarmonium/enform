@@ -158,6 +158,16 @@
     <Compile Include="NeuronDotNet\Core\LearningRateFunctions\HyperbolicFunction.cs" />
     <Compile Include="NeuronDotNet\Core\LearningRateFunctions\LinearFunction.cs" />
     <Compile Include="NeuronDotNet\Core\Network.cs" />
+    <Compile Include="NeuronDotNet\Core\PSO\ActivationLayer.cs" />
+    <Compile Include="NeuronDotNet\Core\PSO\ActivationNeuron.cs" />
+    <Compile Include="NeuronDotNet\Core\PSO\BackpropagationNetwork.cs" />
+    <Compile Include="NeuronDotNet\Core\PSO\LinearLayer.cs" />
+    <Compile Include="NeuronDotNet\Core\PSO\LogarithmLayer.cs" />
+    <Compile Include="NeuronDotNet\Core\PSO\PSOConnector.cs" />
+    <Compile Include="NeuronDotNet\Core\PSO\PSOSynapse.cs" />
+    <Compile Include="NeuronDotNet\Core\PSO\SigmoidLayer.cs" />
+    <Compile Include="NeuronDotNet\Core\PSO\SineLayer.cs" />
+    <Compile Include="NeuronDotNet\Core\PSO\TanhLayer.cs" />
     <Compile Include="NeuronDotNet\Core\SOM\INeighborhoodFunction.cs" />
     <Compile Include="NeuronDotNet\Core\SOM\KohonenConnector.cs" />
     <Compile Include="NeuronDotNet\Core\SOM\KohonenLayer.cs" />
@@ -279,6 +289,7 @@
     <Content Include="Licences.txt" />
     <None Include="Resources\TextFile1.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
