@@ -24,6 +24,9 @@ namespace ENFORM
         public void AddLogEntry(string message)
         {
             txtLogBox.Text += "[" + DateTime.Now.ToLongTimeString() + "] - " + message + Environment.NewLine;
+            txtLogBox.SelectionStart = txtLogBox.Text.Length;
+            txtLogBox.ScrollToCaret();
+            txtLogBox.Refresh();
 
         }
     }
