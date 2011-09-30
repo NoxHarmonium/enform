@@ -186,6 +186,7 @@
     <Compile Include="Settings.cs" />
     <Compile Include="SourceItem.cs" />
     <Compile Include="SQLiteDatabase.cs" />
+    <Compile Include="StandardPSO\Enums.cs" />
     <Compile Include="StandardPSO\Extensions.cs" />
     <Compile Include="StandardPSO\Fitness.cs" />
     <Compile Include="StandardPSO\Matrix.cs" />

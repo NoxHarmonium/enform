@@ -1,5 +1,5 @@
 ﻿using System;
-using NeuronDotNet.Backpropogation;
+using NeuronDotNet.Core;
 
 namespace SPSO_2007
 {
