@@ -1,4 +1,5 @@
 ﻿using System;
+using NeuronDotNet.Backpropogation;
 
 namespace SPSO_2007
 {
@@ -18,6 +19,8 @@ namespace SPSO_2007
         private static int btsNb;
         //Constants
         const int zero = 0;			// 1.0e-30 // To avoid numerical instabilities    
+
+      
 
         public Problem(OptimisationProblem problem)
         {

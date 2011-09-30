@@ -186,8 +186,8 @@ namespace SPSO_2007
             f_synth = File.OpenWrite("f_synth.txt");
 
             // ----------------------------------------------- PROBLEM
-            OptimisationProblem function = OptimisationProblem.Parabola_Sphere;
-          
+            OptimisationProblem function = OptimisationProblem.F1;
+
 
             int runMax = 100;
             if (runMax > R_max) runMax = R_max;
@@ -263,7 +263,7 @@ namespace SPSO_2007
             {
                 //srand (clock () / 100);	// May improve pseudo-randomness            
                 Result result = PSO(param, pb);
-                
+
                 if (result.error > pb.epsilon) // Failure
                 {
                     nFailure = nFailure + 1;
@@ -305,7 +305,9 @@ namespace SPSO_2007
             // Variance
             double variance = 0;
             for (run = 0; run < runMax; run++)
-            {    variance += Math.Pow(errorMeanBest[run] - errorMean, 2);}
+            { 
+                variance += Math.Pow(errorMeanBest[run] - errorMean, 2);
+            }
             variance = Math.Sqrt(variance / runMax);
             Utils.Log("\n Std. dev. {0}", variance);
             Utils.Log("\n Log_progress (mean) = {0}", logProgressMean);
@@ -315,8 +317,8 @@ namespace SPSO_2007
 
             Utils.Log("\n Best min value = {0}", errorMin);
             Utils.Log("\nPosition of the optimum: ");
-            for (int d = 0; d < pb.SS.D; d++) 
-            {Utils.Log(" {0}", bestBest.x[d]);}
+            for (int d = 0; d < pb.SS.D; d++)
+            { Utils.Log(" {0}", bestBest.x[d]); }
 
             // Save	
             //TODO: Fix up writing out to files
@@ -325,7 +327,7 @@ namespace SPSO_2007
             for (d = 0; d < pb.SS.D; d++) fUtils.Log(f_synth, " %f", bestBest.x[d]);
             fUtils.Log(f_synth, "\n");
              * */
-            Console.ReadLine();
+            
             return; // End of main program
         }
         // ===============================================================
@@ -494,7 +496,7 @@ namespace SPSO_2007
                     }
                     PX.size = pb.SS.D;
                     GX.size = pb.SS.D;
-                    
+
 
                     // Option "non sentivity to rotation"				
                     if (param.rotation > 0)
@@ -519,7 +521,7 @@ namespace SPSO_2007
                             for (d = 0; d < pb.SS.D; d++)
                             {
                                 R.SW.V[s].v[d] = R.SW.V[s].v[d] + rand.NextDouble(0.0, param.c) * PX.v[d];
-                                if(g!=s)
+                                if (g != s)
                                     R.SW.V[s].v[d] = R.SW.V[s].v[d] + rand.NextDouble(0.0, param.c) * GX.v[d];
                             }
                             break;
@@ -672,8 +674,6 @@ namespace SPSO_2007
 
             } // End of "while nostop ...
 
-            // Utils.Log( "\n and the winner is ... %i", R.SW.best );			
-            // fUtils.Log( f_stag, "\nEND" );
             R.error = error;
             return R;
         }
