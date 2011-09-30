@@ -185,28 +185,57 @@ namespace SPSO_2007
         private double p;
         private Velocity PX = new Velocity();
         private Result R = new Result();
+
+        public Result PSOResult
+        {
+            get { return R; }
+            set { R = value; }
+        }
         private Matrix RotatePX = new Matrix();
         private Matrix RotateGX = new Matrix();
         private int s0, s, s1;
         private double zz;
         private Velocity aleaV = new Velocity();
         private double error;
+
+        public double Error
+        {
+            get { return error; }
+            set { error = value; }
+        }
         private double errorPrev;
         private int initLinks;
         private int iter;
+        private int nFailure = 0;		// Number of unsuccessful runs
+        private int run = 0;
+
+        private Position bestBest = new Position(); // Best position over all runs
+        // Current dimension
+        private double errorMean = 0;// Average error
+        private double errorMin = double.MaxValue;		// Best result over all runs
+        private double[] errorMeanBest = new double[R_max];
+        private double evalMean = 0;		// Mean number of evaluations
+
+        private double logProgressMean = 0.0;
+
+        private Problem pb;
+        private Parameters param;
+        private Result result;
+
+        private int runMax;
+
+        public Result Result
+        {
+            get { return result; }
+            set { result = value; }
+        }
+
 
         // =================================================
         public Algorithm()
         {
-            Position bestBest = new Position(); // Best position over all runs
-            // Current dimension
-            double errorMean = 0;// Average error
-            double errorMin = double.MaxValue;		// Best result over all runs
-            double[] errorMeanBest = new double[R_max];
-            double evalMean = 0;		// Mean number of evaluations
-            int nFailure = 0;		// Number of unsuccessful runs
-            double logProgressMean = 0.0;
-            int run;
+       
+            
             f_run = File.OpenWrite("f_run.txt");
             f_synth = File.OpenWrite("f_synth.txt");
 
@@ -214,7 +243,7 @@ namespace SPSO_2007
             OptimisationProblem function = OptimisationProblem.F1;
 
 
-            int runMax = 100;
+            runMax = 100;
             if (runMax > R_max) runMax = R_max;
 
 
@@ -222,7 +251,7 @@ namespace SPSO_2007
             // PARAMETERS
             // * means "suggested value"		
 
-            Parameters param = new Parameters();
+            param = new Parameters();
             param.clamping = 1;
             // 0 => no clamping AND no evaluation. WARNING: the program
             // 				may NEVER stop (in particular with option move 20 (jumps)) 1
@@ -261,7 +290,7 @@ namespace SPSO_2007
             // RUNs
 
             // Initialize some objects
-            Problem pb = new Problem(function);
+            pb = new Problem(function);
 
             // You may "manipulate" S, p, w and c
             // but here are the suggested values
@@ -284,42 +313,72 @@ namespace SPSO_2007
             sqrtD = Math.Sqrt(pb.SS.D);
 
             //------------------------------------- RUNS	
+            /*
             for (run = 0; run < runMax; run++)
             {
-                //srand (clock () / 100);	// May improve pseudo-randomness            
-                Result result = PSO(param, pb);
-
-                if (result.error > pb.epsilon) // Failure
-                {
-                    nFailure = nFailure + 1;
-                }
-
-                // Memorize the best (useful if more than one run)
-                if (result.error < bestBest.f)
-                    bestBest = result.SW.P[result.SW.best].Clone();
-
-                // Result display
-                Utils.Log("\nRun {0}. Eval {1}. Error {2} \n", run + 1, result.nEval, result.error);
-                //for (d=0;d<pb.SS.D;d++) Utils.Log(" %f",result.SW.P[result.SW.best].x[d]);
-
-                // Save result
-                //TODO: Fix up writing out to files
-                /*fUtils.Log(f_run, "\n%i %.0f %e ", run + 1, result.nEval, error);
-                    for (d = 0; d < pb.SS.D; d++) fUtils.Log(f_run, " %f", result.SW.P[result.SW.best].x[d]);
-                 */
-
-                // Compute/store some statistical information
-                if (run == 0)
-                    errorMin = result.error;
-                else if (result.error < errorMin)
-                    errorMin = result.error;
-                evalMean = evalMean + result.nEval;
-                errorMean = errorMean + result.error;
-                errorMeanBest[run] = result.error;
-                logProgressMean = logProgressMean - Math.Log(result.error);
+               
             }		// End loop on "run"
-
+            */
             // ---------------------END 
+            
+
+            // Save	
+            //TODO: Fix up writing out to files
+            /*fUtils.Log(f_synth, "%f %f %.0f%% %f   ",
+                     errorMean, variance, successRate, evalMean);
+            for (d = 0; d < pb.SS.D; d++) fUtils.Log(f_synth, " %f", bestBest.x[d]);
+            fUtils.Log(f_synth, "\n");
+             * */
+            
+            return; // End of main program
+        }
+
+        public void StartRun()
+        {
+            //srand (clock () / 100);	// May improve pseudo-randomness   
+            InitPSO();
+            Result = PSOResult;          
+
+            
+        }
+
+        public void EndRun()
+        {
+            if (Result.error > pb.epsilon) // Failure
+            {
+                nFailure = nFailure + 1;
+            }
+
+            // Memorize the best (useful if more than one run)
+            if (Result.error < bestBest.f)
+                bestBest = Result.SW.P[Result.SW.best].Clone();
+
+            // Result display
+            Utils.Log("\nRun {0}. Eval {1}. Error {2} \n", run, Result.nEval, Result.error);
+            //for (d=0;d<pb.SS.D;d++) Utils.Log(" %f",result.SW.P[result.SW.best].x[d]);
+
+            // Save result
+            //TODO: Fix up writing out to files
+            /*fUtils.Log(f_run, "\n%i %.0f %e ", run + 1, result.nEval, error);
+                for (d = 0; d < pb.SS.D; d++) fUtils.Log(f_run, " %f", result.SW.P[result.SW.best].x[d]);
+             */
+            // Compute/store some statistical information
+            if (run == 0)
+                errorMin = Result.error;
+            else if (Result.error < errorMin)
+                errorMin = Result.error;
+            evalMean = evalMean + Result.nEval;
+            errorMean = errorMean + Result.error;
+            errorMeanBest[run] = Result.error;
+            logProgressMean = logProgressMean - Math.Log(Result.error);
+            run++;
+
+        }
+
+        public void Finish()
+        {
+            
+
             // Display some statistical information
             evalMean /= runMax;
             errorMean /= runMax;
@@ -330,7 +389,7 @@ namespace SPSO_2007
             // Variance
             double variance = 0;
             for (run = 0; run < runMax; run++)
-            { 
+            {
                 variance += Math.Pow(errorMeanBest[run] - errorMean, 2);
             }
             variance = Math.Sqrt(variance / runMax);
@@ -344,20 +403,11 @@ namespace SPSO_2007
             Utils.Log("\nPosition of the optimum: ");
             for (int d = 0; d < pb.SS.D; d++)
             { Utils.Log(" {0}", bestBest.x[d]); }
-
-            // Save	
-            //TODO: Fix up writing out to files
-            /*fUtils.Log(f_synth, "%f %f %.0f%% %f   ",
-                     errorMean, variance, successRate, evalMean);
-            for (d = 0; d < pb.SS.D; d++) fUtils.Log(f_synth, " %f", bestBest.x[d]);
-            fUtils.Log(f_synth, "\n");
-             * */
-            
-            return; // End of main program
         }
+
         // ===============================================================
         // PSO
-        public Result PSO(Parameters param, Problem pb)
+        private void InitPSO()
         {
             
            
@@ -368,67 +418,67 @@ namespace SPSO_2007
             // -----------------------------------------------------
             // INITIALISATION
             p = param.p; // Probability threshold for random topology
-            R.SW.S = param.S; // Size of the current swarm
+            PSOResult.SW.S = param.S; // Size of the current swarm
 
             // Position and velocity
-            for (s = 0; s < R.SW.S; s++)
+            for (s = 0; s < PSOResult.SW.S; s++)
             {
-                R.SW.X[s].size = pb.SS.D;
-                R.SW.V[s].size = pb.SS.D;
+                PSOResult.SW.X[s].size = pb.SS.D;
+                PSOResult.SW.V[s].size = pb.SS.D;
 
                 for (d = 0; d < pb.SS.D; d++)
                 {
-                    R.SW.X[s].x[d] = rand.NextDouble(pb.SS.minInit[d], pb.SS.maxInit[d]);
-                    R.SW.V[s].v[d] = (rand.NextDouble(pb.SS.min[d], pb.SS.max[d]) - R.SW.X[s].x[d]) / 2;
+                    PSOResult.SW.X[s].x[d] = rand.NextDouble(pb.SS.minInit[d], pb.SS.maxInit[d]);
+                    PSOResult.SW.V[s].v[d] = (rand.NextDouble(pb.SS.min[d], pb.SS.max[d]) - PSOResult.SW.X[s].x[d]) / 2;
                 }
                 // Take quantisation into account
-                Position.quantis(R.SW.X[s], pb.SS);
+                Position.quantis(PSOResult.SW.X[s], pb.SS);
 
                 // First evaluations
-                R.SW.X[s].f =
-                    pb.perf(R.SW.X[s], pb.function, pb.objective);
+                PSOResult.SW.X[s].f =
+                    pb.perf(PSOResult.SW.X[s], pb.function, pb.objective);
 
-                R.SW.P[s] = R.SW.X[s].Clone();	// Best position = current one
-                R.SW.P[s].improved = 0;	// No improvement
+                PSOResult.SW.P[s] = PSOResult.SW.X[s].Clone();	// Best position = current one
+                PSOResult.SW.P[s].improved = 0;	// No improvement
             }
 
             // If the number max of evaluations is smaller than 
             // the swarm size, just keep evalMax particles, and finish
-            if (R.SW.S > pb.evalMax) R.SW.S = pb.evalMax;
-            R.nEval = R.SW.S;
+            if (PSOResult.SW.S > pb.evalMax) PSOResult.SW.S = pb.evalMax;
+            PSOResult.nEval = PSOResult.SW.S;
 
             // Find the best
-            R.SW.best = 0;
+            PSOResult.SW.best = 0;
             
             switch (param.stop)
             {
                 default:
-                    errorPrev = R.SW.P[R.SW.best].f; // "distance" to the wanted f value (objective)
+                    errorPrev = PSOResult.SW.P[PSOResult.SW.best].f; // "distance" to the wanted f value (objective)
                     break;
 
                 case 2:
-                    errorPrev = Position.distanceL(R.SW.P[R.SW.best], pb.solution, 2); // Distance to the wanted solution
+                    errorPrev = Position.distanceL(PSOResult.SW.P[PSOResult.SW.best], pb.solution, 2); // Distance to the wanted solution
                     break;
             }
 
-            for (s = 1; s < R.SW.S; s++)
+            for (s = 1; s < PSOResult.SW.S; s++)
             {
                 switch (param.stop)
                 {
                     default:
-                        zz = R.SW.P[s].f;
+                        zz = PSOResult.SW.P[s].f;
                         if (zz < errorPrev)
                         {
-                            R.SW.best = s;
+                            PSOResult.SW.best = s;
                             errorPrev = zz;
                         }
                         break;
 
                     case 2:
-                        zz = Position.distanceL(R.SW.P[R.SW.best], pb.solution, 2);
+                        zz = Position.distanceL(PSOResult.SW.P[PSOResult.SW.best], pb.solution, 2);
                         if (zz < errorPrev)
                         {
-                            R.SW.best = s;
+                            PSOResult.SW.best = s;
                             errorPrev = zz;
                         }
                         break;
@@ -442,30 +492,23 @@ namespace SPSO_2007
             initLinks = 1;		// So that information links will beinitialized
             // Note: It is also a flag saying "No improvement"
             noStop = 0;
-            error = errorPrev;
+            Error = errorPrev;
             // ---------------------------------------------- ITERATIONS
             iter = 0;
-            while (noStop == 0)
-            {
-                NextIteration(param,pb);
-
-            } // End of "while nostop ...
-
-            R.error = error;
-            return R;
+           
         }
 
 
-        public void NextIteration(Parameters param, Problem pb)
+        public void NextIteration()
         {
              iter++;
 
                 if (initLinks == 1)	// Random topology
                 {
                     // Who informs who, at random
-                    for (s = 0; s < R.SW.S; s++)
+                    for (s = 0; s < PSOResult.SW.S; s++)
                     {
-                        for (m = 0; m < R.SW.S; m++)
+                        for (m = 0; m < PSOResult.SW.S; m++)
                         {
                             if (rand.NextDouble() < p) LINKS[m, s] = 1;	// Probabilistic method
                             else LINKS[m, s] = 0;
@@ -476,28 +519,28 @@ namespace SPSO_2007
 
                 // The swarm MOVES
                 //Utils.Log("\nIteration %i",iter);
-                for (int i = 0; i < R.SW.S; i++)
+                for (int i = 0; i < PSOResult.SW.S; i++)
                     index[i] = i;
                 //Permutate the index order
                 if (param.randOrder == 1)
                 {
-                    index.Shuffle(7, R.SW.S);
+                    index.Shuffle(7, PSOResult.SW.S);
                 }
 
                 Velocity GX = new Velocity();
-                for (s0 = 0; s0 < R.SW.S; s0++)	// For each particle ...
+                for (s0 = 0; s0 < PSOResult.SW.S; s0++)	// For each particle ...
                 {
                     s = index[s0];
                     // ... find the first informant
                     s1 = 0;
                     while (LINKS[s1, s] == 0) s1++;
-                    if (s1 >= R.SW.S) s1 = s;
+                    if (s1 >= PSOResult.SW.S) s1 = s;
 
                     // Find the best informant			
                     g = s1;
-                    for (m = s1; m < R.SW.S; m++)
+                    for (m = s1; m < PSOResult.SW.S; m++)
                     {
-                        if (LINKS[m, s] == 1 && R.SW.P[m].f < R.SW.P[g].f)
+                        if (LINKS[m, s] == 1 && PSOResult.SW.P[m].f < PSOResult.SW.P[g].f)
                             g = m;
                     }
 
@@ -506,11 +549,11 @@ namespace SPSO_2007
                     // Exploration tendency
                     for (d = 0; d < pb.SS.D; d++)
                     {
-                        R.SW.V[s].v[d] = param.w * R.SW.V[s].v[d];
+                        PSOResult.SW.V[s].v[d] = param.w * PSOResult.SW.V[s].v[d];
                         // Prepare Exploitation tendency  p-x
-                        PX.v[d] = R.SW.P[s].x[d] - R.SW.X[s].x[d];
+                        PX.v[d] = PSOResult.SW.P[s].x[d] - PSOResult.SW.X[s].x[d];
                         if (g != s)
-                            GX.v[d] = R.SW.P[g].x[d] - R.SW.X[s].x[d];// g-x
+                            GX.v[d] = PSOResult.SW.P[g].x[d] - PSOResult.SW.X[s].x[d];// g-x
                     }
                     PX.size = pb.SS.D;
                     GX.size = pb.SS.D;
@@ -538,9 +581,9 @@ namespace SPSO_2007
                         default:
                             for (d = 0; d < pb.SS.D; d++)
                             {
-                                R.SW.V[s].v[d] = R.SW.V[s].v[d] + rand.NextDouble(0.0, param.c) * PX.v[d];
+                                PSOResult.SW.V[s].v[d] = PSOResult.SW.V[s].v[d] + rand.NextDouble(0.0, param.c) * PX.v[d];
                                 if (g != s)
-                                    R.SW.V[s].v[d] = R.SW.V[s].v[d] + rand.NextDouble(0.0, param.c) * GX.v[d];
+                                    PSOResult.SW.V[s].v[d] = PSOResult.SW.V[s].v[d] + rand.NextDouble(0.0, param.c) * GX.v[d];
                             }
                             break;
 
@@ -554,7 +597,7 @@ namespace SPSO_2007
 
                                 for (d = 0; d < pb.SS.D; d++)
                                 {
-                                    R.SW.V[s].v[d] = R.SW.V[s].v[d] + expt1.v[d];
+                                    PSOResult.SW.V[s].v[d] = PSOResult.SW.V[s].v[d] + expt1.v[d];
                                 }
                             }
 
@@ -566,7 +609,7 @@ namespace SPSO_2007
                                 Velocity expt2 = RotateGX.VectorProduct(aleaV);
                                 for (d = 0; d < pb.SS.D; d++)
                                 {
-                                    R.SW.V[s].v[d] = R.SW.V[s].v[d] + expt2.v[d];
+                                    PSOResult.SW.V[s].v[d] = PSOResult.SW.V[s].v[d] + expt2.v[d];
                                 }
                             }
                             break;
@@ -575,10 +618,10 @@ namespace SPSO_2007
                     // Update the position
                     for (d = 0; d < pb.SS.D; d++)
                     {
-                        R.SW.X[s].x[d] = R.SW.X[s].x[d] + R.SW.V[s].v[d];
+                        PSOResult.SW.X[s].x[d] = PSOResult.SW.X[s].x[d] + PSOResult.SW.V[s].v[d];
                     }
 
-                    if (R.nEval >= pb.evalMax)
+                    if (PSOResult.nEval >= pb.evalMax)
                     {
                         //error= fabs(error - pb.objective);
                         goto end;
@@ -587,7 +630,7 @@ namespace SPSO_2007
                     //noEval = 1;
 
                     // Quantisation
-                    Position.quantis(R.SW.X[s], pb.SS);
+                    Position.quantis(PSOResult.SW.X[s], pb.SS);
 
                     switch (param.clamping)
                     {
@@ -596,48 +639,48 @@ namespace SPSO_2007
 
                             for (d = 0; d < pb.SS.D; d++)
                             {
-                                if (R.SW.X[s].x[d] < pb.SS.min[d] || R.SW.X[s].x[d] > pb.SS.max[d])
+                                if (PSOResult.SW.X[s].x[d] < pb.SS.min[d] || PSOResult.SW.X[s].x[d] > pb.SS.max[d])
                                     outside++;
                             }
 
                             if (outside == 0)	// If inside, the position is evaluated
                             {
-                                R.SW.X[s].f =
-                                    pb.perf(R.SW.X[s], pb.function, pb.objective);
-                                R.nEval = R.nEval + 1;
+                                PSOResult.SW.X[s].f =
+                                    pb.perf(PSOResult.SW.X[s], pb.function, pb.objective);
+                                PSOResult.nEval = PSOResult.nEval + 1;
                             }
                             break;
 
                         case 1:	// Set to the bounds, and v to zero
                             for (d = 0; d < pb.SS.D; d++)
                             {
-                                if (R.SW.X[s].x[d] < pb.SS.min[d])
+                                if (PSOResult.SW.X[s].x[d] < pb.SS.min[d])
                                 {
-                                    R.SW.X[s].x[d] = pb.SS.min[d];
-                                    R.SW.V[s].v[d] = 0;
+                                    PSOResult.SW.X[s].x[d] = pb.SS.min[d];
+                                    PSOResult.SW.V[s].v[d] = 0;
                                 }
 
-                                if (R.SW.X[s].x[d] > pb.SS.max[d])
+                                if (PSOResult.SW.X[s].x[d] > pb.SS.max[d])
                                 {
-                                    R.SW.X[s].x[d] = pb.SS.max[d];
-                                    R.SW.V[s].v[d] = 0;
+                                    PSOResult.SW.X[s].x[d] = pb.SS.max[d];
+                                    PSOResult.SW.V[s].v[d] = 0;
                                 }
                             }
 
-                            R.SW.X[s].f = pb.perf(R.SW.X[s], pb.function, pb.objective);
-                            R.nEval = R.nEval + 1;
+                            PSOResult.SW.X[s].f = pb.perf(PSOResult.SW.X[s], pb.function, pb.objective);
+                            PSOResult.nEval = PSOResult.nEval + 1;
                             break;
                     }
 
                     // ... update the best previous position
-                    if (R.SW.X[s].f < R.SW.P[s].f)	// Improvement
+                    if (PSOResult.SW.X[s].f < PSOResult.SW.P[s].f)	// Improvement
                     {
-                        R.SW.P[s] = R.SW.X[s].Clone();
+                        PSOResult.SW.P[s] = PSOResult.SW.X[s].Clone();
 
                         // ... update the best of the bests
-                        if (R.SW.P[s].f < R.SW.P[R.SW.best].f)
+                        if (PSOResult.SW.P[s].f < PSOResult.SW.P[PSOResult.SW.best].f)
                         {
-                            R.SW.best = s;
+                            PSOResult.SW.best = s;
                         }
                     }
                 }			// End of "for (s0=0 ...  "	
@@ -645,16 +688,16 @@ namespace SPSO_2007
                 switch (param.stop)
                 {
                     default:
-                        error = R.SW.P[R.SW.best].f;
+                        Error = PSOResult.SW.P[PSOResult.SW.best].f;
                         break;
 
                     case 2:
-                        error = Position.distanceL(R.SW.P[R.SW.best], pb.solution, 2);
+                        Error = Position.distanceL(PSOResult.SW.P[PSOResult.SW.best], pb.solution, 2);
                         break;
                 }
                 //error= fabs(error - pb.epsilon);
 
-                if (error < errorPrev)	// Improvement
+                if (Error < errorPrev)	// Improvement
                 {
                     initLinks = 0;
                 }
@@ -665,14 +708,14 @@ namespace SPSO_2007
 
                 if (param.initLink == 1) initLinks = 1 - initLinks;
 
-                errorPrev = error;
+                errorPrev = Error;
             end:
 
                 switch (param.stop)
                 {
                     case 0:
                     case 2:
-                        if (error > pb.epsilon && R.nEval < pb.evalMax)
+                        if (Error > pb.epsilon && PSOResult.nEval < pb.evalMax)
                         {
                             noStop = 0;	// Won't stop
                         }
@@ -683,7 +726,7 @@ namespace SPSO_2007
                         break;
 
                     case 1:
-                        if (R.nEval < pb.evalMax)
+                        if (PSOResult.nEval < pb.evalMax)
                             noStop = 0;	// Won't stop
                         else
                             noStop = 1;	// Will stop

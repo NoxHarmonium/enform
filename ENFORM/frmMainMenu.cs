@@ -70,6 +70,13 @@ namespace ENFORM
         private void btnTestPSO_Click(object sender, EventArgs e)
         {
             SPSO_2007.Algorithm a = new SPSO_2007.Algorithm();
+            a.StartRun();           
+            while (a.Error > 0.01)
+            {
+                a.NextIteration();
+            }
+            a.EndRun();
+            a.Finish();
             
         }
 
