@@ -67,6 +67,12 @@ namespace ENFORM
             Utils.SetLogWindowLocation(this.Location.X, this.Location.Y + this.Size.Height + 10);
         }
 
+        private void btnTestPSO_Click(object sender, EventArgs e)
+        {
+            SPSO_2007.Algorithm a = new SPSO_2007.Algorithm();
+            
+        }
+
        
 
         
