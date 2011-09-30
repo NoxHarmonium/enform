@@ -340,10 +340,10 @@ namespace SPSO_2007
             int[] index = new int[S_max];
             int[] indexTemp = new int[S_max];
             // Iteration number (time step)
-            int iterBegin;
+            //int iterBegin;
             int[,] LINKS = new int[S_max, S_max];	// Information links
             int m;
-            int noEval;
+            //int noEval;
             double normPX = 0.0, normGX = 0.0;
             int noStop;
             int outside;
@@ -566,7 +566,7 @@ namespace SPSO_2007
                         goto end;
                     }
                     // --------------------------
-                    noEval = 1;
+                    //noEval = 1;
 
                     // Quantisation
                     Position.quantis(R.SW.X[s], pb.SS);

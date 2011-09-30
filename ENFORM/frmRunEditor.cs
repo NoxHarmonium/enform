@@ -167,7 +167,7 @@ namespace ENFORM
             {
                 redrawPipeline();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 imageViewer1.LoadImage(ENFORM.Properties.Resources.Error);
             }
@@ -179,7 +179,7 @@ namespace ENFORM
             {
                 redrawPipeline();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 imageViewer1.LoadImage(ENFORM.Properties.Resources.Error);
             }
