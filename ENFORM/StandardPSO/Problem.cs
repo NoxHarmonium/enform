@@ -4,11 +4,7 @@ namespace SPSO_2007
 {
     public class Problem
     {
-        public Problem()
-        {
-            solution = new Position();
-            SS = new SwarmSize();
-        }
+        
         public int constraint;			// Number of constraints
         public double epsilon; 	// Admissible error
         public int evalMax; 		// Maximum number of fitness evaluations
@@ -21,399 +17,404 @@ namespace SPSO_2007
         private static int bcsNb;
         private static int btsNb;
         //Constants
-        const int zero = 0;			// 1.0e-30 // To avoid numerical instabilities
-        public static Problem problemDef(int functionCode)
+        const int zero = 0;			// 1.0e-30 // To avoid numerical instabilities    
+
+        public Problem(OptimisationProblem problem)
         {
+            solution = new Position();
+
+            SS = new SwarmSize();
+
             int d;
-            Problem pb = new Problem();
+
 
             int nAtoms; // For Lennard-Jones problem
             double[] lennard_jones = new[] { -1, -3, -6, -9.103852, -12.71, -16.505384, -19.821489, -24.113360, -28.422532, -32.77, -37.97, -44.33, -47.84, -52.32 };
 
 
-            pb.function = functionCode;
-            pb.epsilon = 0.00000;	// Acceptable error (default). May be modified below
-            pb.objective = 0;       // Objective value (default). May be modified below
+            this.function = (int)problem;
+            this.epsilon = 0.00000;	// Acceptable error (default). May be modified below
+            this.objective = 0;       // Objective value (default). May be modified below
 
             // Define the solution point, for test
             // NEEDED when param.stop = 2 
             // i.e. when stop criterion is distance_to_solution < epsilon
             for (d = 0; d < 30; d++)
             {
-                pb.solution.x[d] = 0;
+                this.solution.x[d] = 0;
             }
 
 
             // ------------------ Search space
-            switch (pb.function)
+            switch (this.function)
             {
                 case 0:			// Parabola
-                    pb.SS.D = 30;//  Dimension							
+                    this.SS.D = 30;//  Dimension							
 
-                    for (d = 0; d < pb.SS.D; d++)
+                    for (d = 0; d < this.SS.D; d++)
                     {
-                        pb.SS.min[d] = -100; // -100
-                        pb.SS.max[d] = 100;	// 100
-                        pb.SS.q.q[d] = 0;	// Relative quantisation, in [0,1].   
+                        this.SS.min[d] = -100; // -100
+                        this.SS.max[d] = 100;	// 100
+                        this.SS.q.q[d] = 0;	// Relative quantisation, in [0,1].   
                     }
 
-                    pb.evalMax = 100000;// Max number of evaluations for each run
-                    pb.epsilon = 0.0; // 1e-3;	
-                    pb.objective = 0;
+                    this.evalMax = 100000;// Max number of evaluations for each run
+                    this.epsilon = 0.0; // 1e-3;	
+                    this.objective = 0;
 
                     // For test purpose, the initialisation space may be different from
                     // the search space. If so, just modify the code below
 
-                    for (d = 0; d < pb.SS.D; d++)
+                    for (d = 0; d < this.SS.D; d++)
                     {
-                        pb.SS.maxInit[d] = pb.SS.max[d]; // May be a different value
-                        pb.SS.minInit[d] = pb.SS.min[d]; // May be a different value
+                        this.SS.maxInit[d] = this.SS.max[d]; // May be a different value
+                        this.SS.minInit[d] = this.SS.min[d]; // May be a different value
                     }
 
 
                     break;
                 case 100: // CEC 2005 F1
-                    pb.SS.D = 30;//30; 
-                    for (d = 0; d < pb.SS.D; d++)
+                    this.SS.D = 30;//30; 
+                    for (d = 0; d < this.SS.D; d++)
                     {
-                        pb.SS.min[d] = -100;
-                        pb.SS.max[d] = 100;
-                        pb.SS.q.q[d] = 0;
+                        this.SS.min[d] = -100;
+                        this.SS.max[d] = 100;
+                        this.SS.q.q[d] = 0;
 
                     }
-                    pb.evalMax = pb.SS.D * 10000;
-                    pb.epsilon = 0.000001;	//Acceptable error
-                    pb.objective = -450;       // Objective value
+                    this.evalMax = this.SS.D * 10000;
+                    this.epsilon = 0.000001;	//Acceptable error
+                    this.objective = -450;       // Objective value
 
-                    for (d = 0; d < pb.SS.D; d++)
+                    for (d = 0; d < this.SS.D; d++)
                     {
-                        pb.SS.maxInit[d] = pb.SS.max[d];
-                        pb.SS.minInit[d] = pb.SS.min[d];
+                        this.SS.maxInit[d] = this.SS.max[d];
+                        this.SS.minInit[d] = this.SS.min[d];
                     }
                     break;
 
                 case 102:		// Rosenbrock. CEC 2005 F6
-                    pb.SS.D = 10;	// 10
+                    this.SS.D = 10;	// 10
 
                     // Boundaries
-                    for (d = 0; d < pb.SS.D; d++)
+                    for (d = 0; d < this.SS.D; d++)
                     {
-                        pb.SS.min[d] = -100; pb.SS.max[d] = 100;
-                        pb.SS.q.q[d] = 0;
+                        this.SS.min[d] = -100; this.SS.max[d] = 100;
+                        this.SS.q.q[d] = 0;
 
                     }
 
-                    pb.evalMax = pb.SS.D * 10000;
-                    pb.epsilon = 0.01;	//0.01 Acceptable error
-                    pb.objective = 390;
+                    this.evalMax = this.SS.D * 10000;
+                    this.epsilon = 0.01;	//0.01 Acceptable error
+                    this.objective = 390;
 
-                    for (d = 0; d < pb.SS.D; d++)
+                    for (d = 0; d < this.SS.D; d++)
                     {
-                        pb.SS.maxInit[d] = pb.SS.max[d];
-                        pb.SS.minInit[d] = pb.SS.min[d];
+                        this.SS.maxInit[d] = this.SS.max[d];
+                        this.SS.minInit[d] = this.SS.min[d];
                     }
                     break;
 
                 case 103:// CEC 2005 F9, Rastrigin
-                    pb.SS.D = 30;
-                    for (d = 0; d < pb.SS.D; d++)
+                    this.SS.D = 30;
+                    for (d = 0; d < this.SS.D; d++)
                     {
-                        pb.SS.min[d] = -5;
-                        pb.SS.max[d] = 5;
-                        pb.SS.q.q[d] = 0;
+                        this.SS.min[d] = -5;
+                        this.SS.max[d] = 5;
+                        this.SS.q.q[d] = 0;
 
                     }
-                    pb.epsilon = 0.01; // 0.01;	// Acceptable error
-                    pb.objective = -330;       // Objective value
-                    pb.evalMax = pb.SS.D * 10000;
+                    this.epsilon = 0.01; // 0.01;	// Acceptable error
+                    this.objective = -330;       // Objective value
+                    this.evalMax = this.SS.D * 10000;
 
-                    for (d = 0; d < pb.SS.D; d++)
+                    for (d = 0; d < this.SS.D; d++)
                     {
-                        pb.SS.maxInit[d] = pb.SS.max[d];
-                        pb.SS.minInit[d] = pb.SS.min[d];
+                        this.SS.maxInit[d] = this.SS.max[d];
+                        this.SS.minInit[d] = this.SS.min[d];
                     }
                     break;
 
                 case 104:// CEC 2005 F2  Schwefel
-                    pb.SS.D = 10;
-                    for (d = 0; d < pb.SS.D; d++)
+                    this.SS.D = 10;
+                    for (d = 0; d < this.SS.D; d++)
                     {
-                        pb.SS.min[d] = -100;
-                        pb.SS.max[d] = 100;
-                        pb.SS.q.q[d] = 0;
+                        this.SS.min[d] = -100;
+                        this.SS.max[d] = 100;
+                        this.SS.q.q[d] = 0;
 
                     }
-                    pb.epsilon = 0.00001;	// Acceptable error
-                    pb.objective = -450;       // Objective value
-                    pb.evalMax = pb.SS.D * 10000;
+                    this.epsilon = 0.00001;	// Acceptable error
+                    this.objective = -450;       // Objective value
+                    this.evalMax = this.SS.D * 10000;
 
 
-                    for (d = 0; d < pb.SS.D; d++)
+                    for (d = 0; d < this.SS.D; d++)
                     {
-                        pb.SS.maxInit[d] = pb.SS.max[d];
-                        pb.SS.minInit[d] = pb.SS.min[d];
+                        this.SS.maxInit[d] = this.SS.max[d];
+                        this.SS.minInit[d] = this.SS.min[d];
                     }
                     break;
 
 
                 case 105:// CEC 2005 F7  Griewank (NON rotated)
-                    pb.SS.D = 10;	 // 10 
-                    for (d = 0; d < pb.SS.D; d++)
+                    this.SS.D = 10;	 // 10 
+                    for (d = 0; d < this.SS.D; d++)
                     {
-                        pb.SS.min[d] = -600;
-                        pb.SS.max[d] = 600;
-                        pb.SS.q.q[d] = 0;
+                        this.SS.min[d] = -600;
+                        this.SS.max[d] = 600;
+                        this.SS.q.q[d] = 0;
 
                     }
-                    pb.epsilon = 0.01;	//Acceptable error
-                    pb.objective = -180;       // Objective value
-                    pb.evalMax = pb.SS.D * 10000;
+                    this.epsilon = 0.01;	//Acceptable error
+                    this.objective = -180;       // Objective value
+                    this.evalMax = this.SS.D * 10000;
 
-                    for (d = 0; d < pb.SS.D; d++)
+                    for (d = 0; d < this.SS.D; d++)
                     {
-                        pb.SS.maxInit[d] = pb.SS.max[d];
-                        pb.SS.minInit[d] = pb.SS.min[d];
+                        this.SS.maxInit[d] = this.SS.max[d];
+                        this.SS.minInit[d] = this.SS.min[d];
                     }
                     break;
 
 
                 case 106:// CEC 2005 F8 Ackley (NON rotated)
-                    pb.SS.D = 10;
-                    for (d = 0; d < pb.SS.D; d++)
+                    this.SS.D = 10;
+                    for (d = 0; d < this.SS.D; d++)
                     {
-                        pb.SS.min[d] = -32;
-                        pb.SS.max[d] = 32;
-                        pb.SS.q.q[d] = 0;
+                        this.SS.min[d] = -32;
+                        this.SS.max[d] = 32;
+                        this.SS.q.q[d] = 0;
                     }
-                    pb.epsilon = 0.0001;	// Acceptable error
-                    pb.objective = -140;       // Objective value
-                    pb.evalMax = pb.SS.D * 10000;
-                    for (d = 0; d < pb.SS.D; d++)
+                    this.epsilon = 0.0001;	// Acceptable error
+                    this.objective = -140;       // Objective value
+                    this.evalMax = this.SS.D * 10000;
+                    for (d = 0; d < this.SS.D; d++)
                     {
-                        pb.SS.maxInit[d] = pb.SS.max[d];
-                        pb.SS.minInit[d] = pb.SS.min[d];
+                        this.SS.maxInit[d] = this.SS.max[d];
+                        this.SS.minInit[d] = this.SS.min[d];
                     }
                     break;
-                    /*
-                        case 100:			// Parabola
-                            pb.SS.D =10;//  Dimension							
+                /*
+                    case 100:			// Parabola
+                        this.SS.D =10;//  Dimension							
 
-                        for (d = 0; d < pb.SS.D; d++)
-                        {   
-                            pb.SS.min[d] = -100; // -100
-                            pb.SS.max[d] = 100;	// 100
-                            pb.SS.q.q[d] = 0;	// Relative quantisation, in [0,1].   
-                        }
-
-                        pb.evalMax = 100000;// Max number of evaluations for each run
-                        pb.epsilon=0.00000;
-
-                        for (d = 0; d < pb.SS.D; d++)
-                        {  
-                            pb.SS.maxInit[d]=pb.SS.max[d];
-                            pb.SS.minInit[d]=pb.SS.min[d];
-                        }
-                        break;
-                */
-                case 1:		// Griewank
-                    pb.SS.D = 10;
-
-                    // Boundaries
-                    for (d = 0; d < pb.SS.D; d++)
-                    {
-                        pb.SS.min[d] = -100;
-                        pb.SS.max[d] = 100;
-                        pb.SS.q.q[d] = 0;
+                    for (d = 0; d < this.SS.D; d++)
+                    {   
+                        this.SS.min[d] = -100; // -100
+                        this.SS.max[d] = 100;	// 100
+                        this.SS.q.q[d] = 0;	// Relative quantisation, in [0,1].   
                     }
 
-                    pb.evalMax = 400000;
-                    pb.epsilon = 0.05;
-                    pb.objective = 0;
+                    this.evalMax = 100000;// Max number of evaluations for each run
+                    this.epsilon=0.00000;
 
-                    for (d = 0; d < pb.SS.D; d++)
+                    for (d = 0; d < this.SS.D; d++)
+                    {  
+                        this.SS.maxInit[d]=this.SS.max[d];
+                        this.SS.minInit[d]=this.SS.min[d];
+                    }
+                    break;
+            */
+                case 1:		// Griewank
+                    this.SS.D = 10;
+
+                    // Boundaries
+                    for (d = 0; d < this.SS.D; d++)
                     {
-                        pb.SS.maxInit[d] = pb.SS.max[d];
-                        pb.SS.minInit[d] = pb.SS.min[d];
+                        this.SS.min[d] = -100;
+                        this.SS.max[d] = 100;
+                        this.SS.q.q[d] = 0;
+                    }
+
+                    this.evalMax = 400000;
+                    this.epsilon = 0.05;
+                    this.objective = 0;
+
+                    for (d = 0; d < this.SS.D; d++)
+                    {
+                        this.SS.maxInit[d] = this.SS.max[d];
+                        this.SS.minInit[d] = this.SS.min[d];
                     }
                     break;
 
                 case 2:		// Rosenbrock
-                    pb.SS.D = 30;	// 30
+                    this.SS.D = 30;	// 30
 
                     // Boundaries
-                    for (d = 0; d < pb.SS.D; d++)
+                    for (d = 0; d < this.SS.D; d++)
                     {
-                        pb.SS.min[d] = -30; // -30; 
-                        pb.SS.max[d] = 30; // 30;			
-                        pb.SS.q.q[d] = 0;
+                        this.SS.min[d] = -30; // -30; 
+                        this.SS.max[d] = 30; // 30;			
+                        this.SS.q.q[d] = 0;
                     }
-                    pb.epsilon = 0;
-                    pb.evalMax = 300000; //2.e6;  // 40000 
-                    pb.objective = 0;
+                    this.epsilon = 0;
+                    this.evalMax = 300000; //2.e6;  // 40000 
+                    this.objective = 0;
 
-                    for (d = 0; d < pb.SS.D; d++)
+                    for (d = 0; d < this.SS.D; d++)
                     {
-                        pb.SS.maxInit[d] = 30; //pb.SS.max[d];
-                        pb.SS.minInit[d] = 15; //pb.SS.min[d];
+                        this.SS.maxInit[d] = 30; //this.SS.max[d];
+                        this.SS.minInit[d] = 15; //this.SS.min[d];
                     }
                     break;
 
 
                 case 3:		// Rastrigin
-                    pb.SS.D = 10;
+                    this.SS.D = 10;
 
                     // Boundaries
-                    for (d = 0; d < pb.SS.D; d++)
+                    for (d = 0; d < this.SS.D; d++)
                     {
-                        pb.SS.min[d] = -5.12;
-                        pb.SS.max[d] = 5.12;
-                        pb.SS.q.q[d] = 0;
+                        this.SS.min[d] = -5.12;
+                        this.SS.max[d] = 5.12;
+                        this.SS.q.q[d] = 0;
                     }
 
-                    pb.evalMax = 3200;
-                    pb.epsilon = 0.0;
-                    pb.objective = 0;
+                    this.evalMax = 3200;
+                    this.epsilon = 0.0;
+                    this.objective = 0;
 
-                    for (d = 0; d < pb.SS.D; d++)
+                    for (d = 0; d < this.SS.D; d++)
                     {
-                        pb.SS.minInit[d] = pb.SS.min[d];
-                        pb.SS.maxInit[d] = pb.SS.max[d];
+                        this.SS.minInit[d] = this.SS.min[d];
+                        this.SS.maxInit[d] = this.SS.max[d];
                     }
                     break;
 
                 case 4:		// Tripod
-                    pb.SS.D = 2;	// Dimension
+                    this.SS.D = 2;	// Dimension
 
                     // Boundaries
-                    for (d = 0; d < pb.SS.D; d++)
+                    for (d = 0; d < this.SS.D; d++)
                     {
-                        pb.SS.min[d] = -100;
-                        pb.SS.max[d] = 100;
-                        pb.SS.q.q[d] = 0;
+                        this.SS.min[d] = -100;
+                        this.SS.max[d] = 100;
+                        this.SS.q.q[d] = 0;
                     }
 
-                    pb.evalMax = 10000;
-                    pb.epsilon = 0.0001;
+                    this.evalMax = 10000;
+                    this.epsilon = 0.0001;
 
-                    for (d = 0; d < pb.SS.D; d++)
+                    for (d = 0; d < this.SS.D; d++)
                     {
-                        pb.SS.maxInit[d] = pb.SS.max[d];
-                        pb.SS.minInit[d] = pb.SS.min[d];
+                        this.SS.maxInit[d] = this.SS.max[d];
+                        this.SS.minInit[d] = this.SS.min[d];
                     }
                     break;
 
                 case 5: // Ackley
-                    pb.SS.D = 10;
+                    this.SS.D = 10;
                     // Boundaries
-                    for (d = 0; d < pb.SS.D; d++)
+                    for (d = 0; d < this.SS.D; d++)
                     {
-                        pb.SS.min[d] = -32; // 32
-                        pb.SS.max[d] = 32;
-                        pb.SS.q.q[d] = 0;
+                        this.SS.min[d] = -32; // 32
+                        this.SS.max[d] = 32;
+                        this.SS.q.q[d] = 0;
                     }
-                    pb.evalMax = 3200;
-                    pb.epsilon = 0.0;
-                    pb.objective = 0;
+                    this.evalMax = 3200;
+                    this.epsilon = 0.0;
+                    this.objective = 0;
 
-                    for (d = 0; d < pb.SS.D; d++)
+                    for (d = 0; d < this.SS.D; d++)
                     {
-                        pb.SS.maxInit[d] = pb.SS.max[d];
-                        pb.SS.minInit[d] = pb.SS.min[d];
+                        this.SS.maxInit[d] = this.SS.max[d];
+                        this.SS.minInit[d] = this.SS.min[d];
                     }
                     break;
 
                 case 6: // Schwefel. Min on (A=420.8687, ..., A)
-                    pb.SS.D = 30;
-                    //pb.objective=-pb.SS.D*420.8687*sin(Math.Sqrt(420.8687));
-                    pb.objective = -12569.5;
-                    pb.epsilon = 2569.5;
+                    this.SS.D = 30;
+                    //this.objective=-this.SS.D*420.8687*sin(Math.Sqrt(420.8687));
+                    this.objective = -12569.5;
+                    this.epsilon = 2569.5;
 
-                    for (d = 0; d < pb.SS.D; d++)
+                    for (d = 0; d < this.SS.D; d++)
                     {
-                        pb.SS.min[d] = -500;
-                        pb.SS.max[d] = 500;
-                        pb.SS.q.q[d] = 0;
+                        this.SS.min[d] = -500;
+                        this.SS.max[d] = 500;
+                        this.SS.q.q[d] = 0;
                     }
-                    pb.evalMax = 300000;
+                    this.evalMax = 300000;
 
-                    for (d = 0; d < pb.SS.D; d++)
+                    for (d = 0; d < this.SS.D; d++)
                     {
-                        pb.SS.maxInit[d] = pb.SS.max[d];
-                        pb.SS.minInit[d] = pb.SS.min[d];
+                        this.SS.maxInit[d] = this.SS.max[d];
+                        this.SS.minInit[d] = this.SS.min[d];
                     }
                     break;
 
                 case 7: // Schwefel 1.2
-                    pb.SS.D = 40;
-                    pb.objective = 0;
-                    for (d = 0; d < pb.SS.D; d++)
+                    this.SS.D = 40;
+                    this.objective = 0;
+                    for (d = 0; d < this.SS.D; d++)
                     {
-                        pb.SS.min[d] = -100;
-                        pb.SS.max[d] = 100;
-                        pb.SS.q.q[d] = 0;
+                        this.SS.min[d] = -100;
+                        this.SS.max[d] = 100;
+                        this.SS.q.q[d] = 0;
                     }
-                    pb.evalMax = 40000;
+                    this.evalMax = 40000;
 
-                    for (d = 0; d < pb.SS.D; d++)
+                    for (d = 0; d < this.SS.D; d++)
                     {
-                        pb.SS.maxInit[d] = pb.SS.max[d];
-                        pb.SS.minInit[d] = pb.SS.min[d];
+                        this.SS.maxInit[d] = this.SS.max[d];
+                        this.SS.minInit[d] = this.SS.min[d];
                     }
                     break;
 
                 case 8: // Schwefel 2.22
-                    pb.SS.D = 30;
-                    pb.objective = 0;
-                    for (d = 0; d < pb.SS.D; d++)
+                    this.SS.D = 30;
+                    this.objective = 0;
+                    for (d = 0; d < this.SS.D; d++)
                     {
-                        pb.SS.min[d] = -10;
-                        pb.SS.max[d] = 10;
-                        pb.SS.q.q[d] = 0;
+                        this.SS.min[d] = -10;
+                        this.SS.max[d] = 10;
+                        this.SS.q.q[d] = 0;
                     }
-                    pb.evalMax = 100000;
+                    this.evalMax = 100000;
 
-                    for (d = 0; d < pb.SS.D; d++)
+                    for (d = 0; d < this.SS.D; d++)
                     {
-                        pb.SS.maxInit[d] = pb.SS.max[d];
-                        pb.SS.minInit[d] = pb.SS.min[d];
+                        this.SS.maxInit[d] = this.SS.max[d];
+                        this.SS.minInit[d] = this.SS.min[d];
                     }
                     break;
 
                 case 9: // Neumaier 3
-                    pb.SS.D = 40;
-                    pb.objective = 0;
-                    for (d = 0; d < pb.SS.D; d++)
+                    this.SS.D = 40;
+                    this.objective = 0;
+                    for (d = 0; d < this.SS.D; d++)
                     {
-                        pb.SS.min[d] = -pb.SS.D * pb.SS.D;
-                        pb.SS.max[d] = -pb.SS.min[d];
-                        pb.SS.q.q[d] = 0;
+                        this.SS.min[d] = -this.SS.D * this.SS.D;
+                        this.SS.max[d] = -this.SS.min[d];
+                        this.SS.q.q[d] = 0;
                     }
-                    pb.evalMax = 40000;
+                    this.evalMax = 40000;
 
-                    for (d = 0; d < pb.SS.D; d++)
+                    for (d = 0; d < this.SS.D; d++)
                     {
-                        pb.SS.maxInit[d] = pb.SS.max[d];
-                        pb.SS.minInit[d] = pb.SS.min[d];
+                        this.SS.maxInit[d] = this.SS.max[d];
+                        this.SS.minInit[d] = this.SS.min[d];
                     }
                     break;
 
                 case 10: // G3 (constrained)
-                    pb.SS.D = 10;
+                    this.SS.D = 10;
 
-                    for (d = 0; d < pb.SS.D; d++)
+                    for (d = 0; d < this.SS.D; d++)
                     {
-                        pb.SS.min[d] = 0;
-                        pb.SS.max[d] = 1;
-                        pb.SS.q.q[d] = 0;
+                        this.SS.min[d] = 0;
+                        this.SS.max[d] = 1;
+                        this.SS.q.q[d] = 0;
                     }
-                    pb.evalMax = 340000;
-                    pb.objective = 0;
-                    pb.epsilon = 1e-6;
+                    this.evalMax = 340000;
+                    this.objective = 0;
+                    this.epsilon = 1e-6;
 
-                    for (d = 0; d < pb.SS.D; d++)
+                    for (d = 0; d < this.SS.D; d++)
                     {
-                        pb.SS.maxInit[d] = pb.SS.max[d];
-                        pb.SS.minInit[d] = pb.SS.min[d];
+                        this.SS.maxInit[d] = this.SS.max[d];
+                        this.SS.minInit[d] = this.SS.min[d];
                     }
 
                     break;
@@ -421,289 +422,289 @@ namespace SPSO_2007
                 case 11: // Network
                     // btsNb=5; bcsNb=2;
                     btsNb = 19; bcsNb = 4;
-                    pb.SS.D = bcsNb * btsNb + 2 * bcsNb;
-                    pb.objective = 0;
+                    this.SS.D = bcsNb * btsNb + 2 * bcsNb;
+                    this.objective = 0;
                     for (d = 0; d < bcsNb * btsNb; d++) // Binary representation. 1 means: there is a link
                     {
-                        pb.SS.min[d] = 0;
-                        pb.SS.max[d] = 1;
-                        pb.SS.q.q[d] = 1;
+                        this.SS.min[d] = 0;
+                        this.SS.max[d] = 1;
+                        this.SS.q.q[d] = 1;
                     }
 
-                    for (d = bcsNb * btsNb; d < pb.SS.D; d++) // 2D space for the BSC positions
+                    for (d = bcsNb * btsNb; d < this.SS.D; d++) // 2D space for the BSC positions
                     {
-                        pb.SS.min[d] = 0;
-                        pb.SS.max[d] = 20; //15;
-                        pb.SS.q.q[d] = 0;
+                        this.SS.min[d] = 0;
+                        this.SS.max[d] = 20; //15;
+                        this.SS.q.q[d] = 0;
                     }
 
-                    pb.evalMax = 50;
-                    pb.objective = 0;
-                    pb.epsilon = 0;
+                    this.evalMax = 50;
+                    this.objective = 0;
+                    this.epsilon = 0;
 
                     break;
 
                 case 12: // Schwefel
-                    pb.SS.D = 30;
-                    pb.objective = 0;
-                    for (d = 0; d < pb.SS.D; d++)
+                    this.SS.D = 30;
+                    this.objective = 0;
+                    for (d = 0; d < this.SS.D; d++)
                     {
-                        pb.SS.min[d] = -500;
-                        pb.SS.max[d] = 500;
-                        pb.SS.q.q[d] = 0;
+                        this.SS.min[d] = -500;
+                        this.SS.max[d] = 500;
+                        this.SS.q.q[d] = 0;
                     }
-                    pb.evalMax = 200000;
+                    this.evalMax = 200000;
 
-                    for (d = 0; d < pb.SS.D; d++)
+                    for (d = 0; d < this.SS.D; d++)
                     {
-                        pb.SS.maxInit[d] = pb.SS.max[d];
-                        pb.SS.minInit[d] = pb.SS.min[d];
+                        this.SS.maxInit[d] = this.SS.max[d];
+                        this.SS.minInit[d] = this.SS.min[d];
                     }
                     break;
 
                 case 13:		  // 2D Goldstein-Price function (f_min=3, on (0,-1))
-                    pb.SS.D = 2;	// Dimension
-                    pb.objective = 0;
+                    this.SS.D = 2;	// Dimension
+                    this.objective = 0;
 
-                    pb.SS.min[0] = -100;
-                    pb.SS.max[0] = 100;
-                    pb.SS.q.q[0] = 0;
-                    pb.SS.min[1] = -100;
-                    pb.SS.max[1] = 100;
-                    pb.SS.q.q[1] = 0;
-                    pb.evalMax = 720;
+                    this.SS.min[0] = -100;
+                    this.SS.max[0] = 100;
+                    this.SS.q.q[0] = 0;
+                    this.SS.min[1] = -100;
+                    this.SS.max[1] = 100;
+                    this.SS.q.q[1] = 0;
+                    this.evalMax = 720;
 
-                    for (d = 0; d < pb.SS.D; d++)
+                    for (d = 0; d < this.SS.D; d++)
                     {
-                        pb.SS.maxInit[d] = pb.SS.max[d];
-                        pb.SS.minInit[d] = pb.SS.min[d];
+                        this.SS.maxInit[d] = this.SS.max[d];
+                        this.SS.minInit[d] = this.SS.min[d];
                     }
                     break;
                 case 14: // Schaffer f6	 
-                    pb.SS.D = 2;	// Dimension
-                    pb.objective = 0;
+                    this.SS.D = 2;	// Dimension
+                    this.objective = 0;
 
-                    pb.SS.min[0] = -100;
-                    pb.SS.max[0] = 100;
-                    pb.SS.q.q[0] = 0;
-                    pb.SS.min[1] = -100;
-                    pb.SS.max[1] = 100;
-                    pb.SS.q.q[1] = 0;
+                    this.SS.min[0] = -100;
+                    this.SS.max[0] = 100;
+                    this.SS.q.q[0] = 0;
+                    this.SS.min[1] = -100;
+                    this.SS.max[1] = 100;
+                    this.SS.q.q[1] = 0;
 
-                    pb.evalMax = 4000;
+                    this.evalMax = 4000;
 
-                    for (d = 0; d < pb.SS.D; d++)
+                    for (d = 0; d < this.SS.D; d++)
                     {
-                        pb.SS.maxInit[d] = pb.SS.max[d];
-                        pb.SS.minInit[d] = pb.SS.min[d];
+                        this.SS.maxInit[d] = this.SS.max[d];
+                        this.SS.minInit[d] = this.SS.min[d];
                     }
 
                     break;
 
                 case 15: // Step
-                    pb.SS.D = 20;
-                    pb.objective = 0;
-                    for (d = 0; d < pb.SS.D; d++)
+                    this.SS.D = 20;
+                    this.objective = 0;
+                    for (d = 0; d < this.SS.D; d++)
                     {
-                        pb.SS.min[d] = -100;
-                        pb.SS.max[d] = 100;
-                        pb.SS.q.q[d] = 0;
+                        this.SS.min[d] = -100;
+                        this.SS.max[d] = 100;
+                        this.SS.q.q[d] = 0;
                     }
-                    pb.evalMax = 2500;
+                    this.evalMax = 2500;
 
-                    for (d = 0; d < pb.SS.D; d++)
+                    for (d = 0; d < this.SS.D; d++)
                     {
-                        pb.SS.maxInit[d] = pb.SS.max[d];
-                        pb.SS.minInit[d] = pb.SS.min[d];
+                        this.SS.maxInit[d] = this.SS.max[d];
+                        this.SS.minInit[d] = this.SS.min[d];
                     }
                     break;
 
                 case 16: // Schwefel 2.21
-                    pb.SS.D = 30;
-                    pb.objective = 0;
-                    for (d = 0; d < pb.SS.D; d++)
+                    this.SS.D = 30;
+                    this.objective = 0;
+                    for (d = 0; d < this.SS.D; d++)
                     {
-                        pb.SS.min[d] = -100;
-                        pb.SS.max[d] = 100;
-                        pb.SS.q.q[d] = 0;
+                        this.SS.min[d] = -100;
+                        this.SS.max[d] = 100;
+                        this.SS.q.q[d] = 0;
                     }
-                    pb.evalMax = 100000;
+                    this.evalMax = 100000;
 
-                    for (d = 0; d < pb.SS.D; d++)
+                    for (d = 0; d < this.SS.D; d++)
                     {
-                        pb.SS.maxInit[d] = pb.SS.max[d];
-                        pb.SS.minInit[d] = pb.SS.min[d];
+                        this.SS.maxInit[d] = this.SS.max[d];
+                        this.SS.minInit[d] = this.SS.min[d];
                     }
                     break;
 
                 case 17: // Lennard-Jones
                     nAtoms = 2; // in {2, ..., 15}
-                    pb.SS.D = 3 * nAtoms; pb.objective = lennard_jones[nAtoms - 2];
-                    pb.evalMax = 5000 + 3000 * nAtoms * (nAtoms - 1); // Empirical rule
-                    pb.epsilon = 1e-6;
+                    this.SS.D = 3 * nAtoms; this.objective = lennard_jones[nAtoms - 2];
+                    this.evalMax = 5000 + 3000 * nAtoms * (nAtoms - 1); // Empirical rule
+                    this.epsilon = 1e-6;
                     // Note: with this acceptable error, nAtoms=10 seems to be the maximum
                     //       possible value for a non-null success rate  (5%)
 
-                    //pb.SS.D=3*21; pb.objective=-81.684;	
-                    //pb.SS.D=3*27; pb.objective=-112.87358;
-                    //pb.SS.D=3*38; pb.objective=-173.928427;
+                    //this.SS.D=3*21; this.objective=-81.684;	
+                    //this.SS.D=3*27; this.objective=-112.87358;
+                    //this.SS.D=3*38; this.objective=-173.928427;
 
-                    for (d = 0; d < pb.SS.D; d++)
+                    for (d = 0; d < this.SS.D; d++)
                     {
-                        pb.SS.min[d] = -2;
-                        pb.SS.max[d] = 2;
-                        pb.SS.q.q[d] = 0;
+                        this.SS.min[d] = -2;
+                        this.SS.max[d] = 2;
+                        this.SS.q.q[d] = 0;
                     }
 
-                    for (d = 0; d < pb.SS.D; d++)
+                    for (d = 0; d < this.SS.D; d++)
                     {
-                        pb.SS.maxInit[d] = pb.SS.max[d];
-                        pb.SS.minInit[d] = pb.SS.min[d];
+                        this.SS.maxInit[d] = this.SS.max[d];
+                        this.SS.minInit[d] = this.SS.min[d];
                     }
                     break;
                 case 18: //Gear Train
-                    pb.SS.D=4;
+                    this.SS.D = 4;
 
-		            for (d = 0; d < pb.SS.D; d++)                  
-		            {
-			            pb.SS.min[d]=12;
-			            pb.SS.max[d]=60;
-			            pb.SS.q.q[d] = 1;
-                        pb.SS.maxInit[d] = pb.SS.max[d];
-                        pb.SS.minInit[d] = pb.SS.min[d];
-		            }
+                    for (d = 0; d < this.SS.D; d++)
+                    {
+                        this.SS.min[d] = 12;
+                        this.SS.max[d] = 60;
+                        this.SS.q.q[d] = 1;
+                        this.SS.maxInit[d] = this.SS.max[d];
+                        this.SS.minInit[d] = this.SS.min[d];
+                    }
 
-		            pb.evalMax = 20000 ; 
-		            pb.epsilon = 1e-13;	
-		            pb.objective =2.7e-12 ; 
-		            break;
+                    this.evalMax = 20000;
+                    this.epsilon = 1e-13;
+                    this.objective = 2.7e-12;
+                    break;
                 case 19: // Compression spring
-                    pb.constraint = 4;
-                    pb.SS.D = 3;
+                    this.constraint = 4;
+                    this.SS.D = 3;
 
-                    pb.SS.min[0] = 1; pb.SS.max[0] = 70; pb.SS.q.q[0] = 1;
-                    pb.SS.min[1] = 0.6; pb.SS.max[1] = 3; pb.SS.q.q[1] = 0;
-                    pb.SS.min[2] = 0.207; pb.SS.max[2] = 0.5; pb.SS.q.q[2] = 0.001;
+                    this.SS.min[0] = 1; this.SS.max[0] = 70; this.SS.q.q[0] = 1;
+                    this.SS.min[1] = 0.6; this.SS.max[1] = 3; this.SS.q.q[1] = 0;
+                    this.SS.min[2] = 0.207; this.SS.max[2] = 0.5; this.SS.q.q[2] = 0.001;
 
-                    //for (d = 0; d < pb.SS.D; d++)
+                    //for (d = 0; d < this.SS.D; d++)
                     //{
-                    //    pb.SS.maxS[d] = pb.SS.max[d];
-                    //    pb.SS.minS[d] = pb.SS.min[d];
+                    //    this.SS.maxS[d] = this.SS.max[d];
+                    //    this.SS.minS[d] = this.SS.min[d];
                     //}
-                    pb.evalMax = 20000;
-                    pb.epsilon = 1e-10;
-                    pb.objective = 2.6254214578;
+                    this.evalMax = 20000;
+                    this.epsilon = 1e-10;
+                    this.objective = 2.6254214578;
                     break;
 
                 case 99: // Test
 
-                    pb.SS.D = 2;
+                    this.SS.D = 2;
 
-                    for (d = 0; d < pb.SS.D; d++)
+                    for (d = 0; d < this.SS.D; d++)
                     {
-                        pb.SS.min[d] = -100;
-                        pb.SS.max[d] = 100;
-                        pb.SS.q.q[d] = 0;
+                        this.SS.min[d] = -100;
+                        this.SS.max[d] = 100;
+                        this.SS.q.q[d] = 0;
                     }
 
-                    pb.evalMax = 40000;
-                    pb.objective = 0.0;
-                    pb.epsilon = 0.00;
+                    this.evalMax = 40000;
+                    this.objective = 0.0;
+                    this.epsilon = 0.00;
 
-                    for (d = 0; d < pb.SS.D; d++)
+                    for (d = 0; d < this.SS.D; d++)
                     {
-                        pb.SS.maxInit[d] = pb.SS.max[d];
-                        pb.SS.minInit[d] = pb.SS.min[d];
-                    }
-                    break;
-
-                    //TODO: Figure out why the following is unreachable
-                    /*
-                    // 2D Peaks function
-                    pb.SS.D = 2;
-
-                    for (d = 0; d < pb.SS.D; d++)
-                    {
-                        pb.SS.min[d] = -3;
-                        pb.SS.max[d] = 3;
-                        pb.SS.q.q[d] = 0;
-                    }
-
-                    pb.evalMax = 50000;
-                    pb.objective = -6.551133;
-                    pb.epsilon = 0.001;
-
-                    for (d = 0; d < pb.SS.D; d++)
-                    {
-                        pb.SS.maxInit[d] = pb.SS.max[d];
-                        pb.SS.minInit[d] = pb.SS.min[d];
+                        this.SS.maxInit[d] = this.SS.max[d];
+                        this.SS.minInit[d] = this.SS.min[d];
                     }
                     break;
-                    // Quartic
-                    pb.SS.D = 50;
-                    pb.objective = 0;
-                    for (d = 0; d < pb.SS.D; d++)
-                    {
-                        pb.SS.min[d] = -10;
-                        pb.SS.max[d] = 10;
-                        pb.SS.q.q[d] = 0;
-                    }
-                    pb.evalMax = 25000;
 
-                    for (d = 0; d < pb.SS.D; d++)
-                    {
-                        pb.SS.maxInit[d] = pb.SS.max[d];
-                        pb.SS.minInit[d] = pb.SS.min[d];
-                    }
+                //TODO: Figure out why the following is unreachable
+                /*
+                // 2D Peaks function
+                this.SS.D = 2;
 
-                    break;
+                for (d = 0; d < this.SS.D; d++)
+                {
+                    this.SS.min[d] = -3;
+                    this.SS.max[d] = 3;
+                    this.SS.q.q[d] = 0;
+                }
+
+                this.evalMax = 50000;
+                this.objective = -6.551133;
+                this.epsilon = 0.001;
+
+                for (d = 0; d < this.SS.D; d++)
+                {
+                    this.SS.maxInit[d] = this.SS.max[d];
+                    this.SS.minInit[d] = this.SS.min[d];
+                }
+                break;
+                // Quartic
+                this.SS.D = 50;
+                this.objective = 0;
+                for (d = 0; d < this.SS.D; d++)
+                {
+                    this.SS.min[d] = -10;
+                    this.SS.max[d] = 10;
+                    this.SS.q.q[d] = 0;
+                }
+                this.evalMax = 25000;
+
+                for (d = 0; d < this.SS.D; d++)
+                {
+                    this.SS.maxInit[d] = this.SS.max[d];
+                    this.SS.minInit[d] = this.SS.min[d];
+                }
+
+                break;
 
 
-                    pb.SS.D = 2;	// Dimension
-                    pb.objective = -2;
+                this.SS.D = 2;	// Dimension
+                this.objective = -2;
 
-                    pb.SS.min[0] = -2;
-                    pb.SS.max[0] = 2;
-                    pb.SS.q.q[0] = 0;
-                    pb.SS.min[1] = -3;
-                    pb.SS.max[1] = 3;
-                    pb.SS.q.q[1] = 0;
+                this.SS.min[0] = -2;
+                this.SS.max[0] = 2;
+                this.SS.q.q[0] = 0;
+                this.SS.min[1] = -3;
+                this.SS.max[1] = 3;
+                this.SS.q.q[1] = 0;
 
-                    pb.evalMax = 10000;
+                this.evalMax = 10000;
 
-                    for (d = 0; d < pb.SS.D; d++)
-                    {
-                        pb.SS.maxInit[d] = pb.SS.max[d];
-                        pb.SS.minInit[d] = pb.SS.min[d];
-                    }
+                for (d = 0; d < this.SS.D; d++)
+                {
+                    this.SS.maxInit[d] = this.SS.max[d];
+                    this.SS.minInit[d] = this.SS.min[d];
+                }
 
-                    break;
-                    pb.SS.D = 1;	// Dimension
-                    // Boundaries
-                    for (d = 0; d < pb.SS.D; d++)
-                    {
-                        pb.SS.min[d] = -10;
-                        pb.SS.max[d] = 10;
-                        pb.SS.q.q[d] = 0;
-                    }
-                    pb.objective = -1000; // Just a sure too small value for the above search space
-                    pb.evalMax = 1000;
+                break;
+                this.SS.D = 1;	// Dimension
+                // Boundaries
+                for (d = 0; d < this.SS.D; d++)
+                {
+                    this.SS.min[d] = -10;
+                    this.SS.max[d] = 10;
+                    this.SS.q.q[d] = 0;
+                }
+                this.objective = -1000; // Just a sure too small value for the above search space
+                this.evalMax = 1000;
 
-                    for (d = 0; d < pb.SS.D; d++)
-                    {
-                        pb.SS.maxInit[d] = pb.SS.max[d];
-                        pb.SS.minInit[d] = pb.SS.min[d];
-                    }
-                    break;
-                     */
+                for (d = 0; d < this.SS.D; d++)
+                {
+                    this.SS.maxInit[d] = this.SS.max[d];
+                    this.SS.minInit[d] = this.SS.min[d];
+                }
+                break;
+                 */
 
             }
 
-            pb.SS.q.size = pb.SS.D;
-            return pb;
+            this.SS.q.size = this.SS.D;
+
         }
 
-        public static double perf(Position x, int function, double objective)
+        public double perf(Position x, int function, double objective)
         {				// Evaluate the fitness value for the particle of rank s   
             int d;
             double DD;
@@ -1157,8 +1158,8 @@ namespace SPSO_2007
 		            f=Math.PI*Math.PI*x2*x3*x3*(x1+2)*0.25;
 		            // Constraints
                     //TODO: Merge in Constraints
-                    //ff=constraint(xs,pb.function,pb.epsConstr);
-                    //if(pb.constraint==0)
+                    //ff=constraint(xs,this.function,this.epsConstr);
+                    //if(this.constraint==0)
                     //{
                     //    if (ff.f[1]>0) {c=1+ff.f[1]; f=f*c*c*c;}
                     //    if (ff.f[2]>0) {c=1+ff.f[1]; f=f*c*c*c;}
@@ -1235,7 +1236,7 @@ namespace SPSO_2007
 
             return Math.Abs(f - objective);
         }
-        static double lennard_jones(Position x)
+        private double lennard_jones(Position x)
         {
             /*
                 This is for black-box optimisation. Therefore, we are not supposed to know

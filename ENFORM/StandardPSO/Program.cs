@@ -186,37 +186,8 @@ namespace SPSO_2007
             f_synth = File.OpenWrite("f_synth.txt");
 
             // ----------------------------------------------- PROBLEM
-            int functionCode = (int) OptimisationProblem.Parabola_Sphere;
-            /* (see problemDef( ) for precise definitions)
-             0 Parabola (Sphere)
-             1 Griewank
-             2 Rosenbrock (Banana)
-             3 Rastrigin
-             4 Tripod (dimension 2)
-             5 Ackley
-             6 Schwefel
-             7 Schwefel 1.2
-             8 Schwefel 2.22
-             9 Neumaier 3
-             10 G3
-             11 Network optimisation (Warning: see problemDef() and also perf() for
-                                      problem elements (number of BTS and BSC)
-             12 Schwefel
-             13 2D Goldstein-Price
-             14 Schaffer f6
-             15 Step	
-             16 Schwefel 2.21
-             17 Lennard-Jones
-             18 Gear Train
-              CEC 2005 benchmark  (no more than 30D. See cec2005data.c)
-             100 F1 (shifted Parabola/Sphere) 
-             102 F6 (shifted Rosenbrock) 
-             103 F9 (shifted Rastrigin) 
-             104 F2 Schwefel 
-             105 F7 Griewank  (NOT rotated)
-             106 F8 Ackley  (NOT rotated) 
-     
-             99 Test*/
+            OptimisationProblem function = OptimisationProblem.Parabola_Sphere;
+          
 
             int runMax = 100;
             if (runMax > R_max) runMax = R_max;
@@ -256,7 +227,7 @@ namespace SPSO_2007
 
             // -------------------------------------------------------
             // Some information
-            Utils.Log(String.Format("\n Function {0} ", functionCode));
+            Utils.Log(String.Format("\n Function {0} ", function.ToString()));
             Utils.Log("\n (clamping, randOrder, rotation, stop_criterion) = ({0}, {1}, {2}, {3})",
                    param.clamping, param.randOrder, param.rotation, param.stop);
             //if (param.rand == 0) Utils.Log("\n WARNING, I am using the RNG KISS"); //Now just System.Random
@@ -265,7 +236,7 @@ namespace SPSO_2007
             // RUNs
 
             // Initialize some objects
-            Problem pb = Problem.problemDef(functionCode);
+            Problem pb = new Problem(function);
 
             // You may "manipulate" S, p, w and c
             // but here are the suggested values
@@ -406,7 +377,7 @@ namespace SPSO_2007
 
                 // First evaluations
                 R.SW.X[s].f =
-                    Problem.perf(R.SW.X[s], pb.function, pb.objective);
+                    pb.perf(R.SW.X[s], pb.function, pb.objective);
 
                 R.SW.P[s] = R.SW.X[s].Clone();	// Best position = current one
                 R.SW.P[s].improved = 0;	// No improvement
@@ -612,7 +583,7 @@ namespace SPSO_2007
                             if (outside == 0)	// If inside, the position is evaluated
                             {
                                 R.SW.X[s].f =
-                                    Problem.perf(R.SW.X[s], pb.function, pb.objective);
+                                    pb.perf(R.SW.X[s], pb.function, pb.objective);
                                 R.nEval = R.nEval + 1;
                             }
                             break;
@@ -633,7 +604,7 @@ namespace SPSO_2007
                                 }
                             }
 
-                            R.SW.X[s].f = Problem.perf(R.SW.X[s], pb.function, pb.objective);
+                            R.SW.X[s].f = pb.perf(R.SW.X[s], pb.function, pb.objective);
                             R.nEval = R.nEval + 1;
                             break;
                     }
