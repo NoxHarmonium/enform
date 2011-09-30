@@ -163,5 +163,11 @@ namespace ENFORM
         {
 
         }
+
+        private void frmNetworkTester_Shown(object sender, EventArgs e)
+        {
+            Utils.SetLogWindowLocation(this.Location.X, this.Location.Y + this.Size.Height + 10);
+
+        }
     }
 }

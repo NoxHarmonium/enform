@@ -371,6 +371,7 @@
             this.Controls.Add(this.imgTestImage);
             this.Name = "frmNetworkTester";
             this.Text = "Network Tester";
+            this.Shown += new System.EventHandler(this.frmNetworkTester_Shown);
             this.grpFilters.ResumeLayout(false);
             this.grpFilters.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numThreshold)).EndInit();

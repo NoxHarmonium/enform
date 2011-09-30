@@ -1048,6 +1048,7 @@
             this.Name = "frmRunEditor";
             this.Text = "Run Editor - ENFORM";
             this.Load += new System.EventHandler(this.frmRunEditor_Load);
+            this.Shown += new System.EventHandler(this.frmRunEditor_Shown);
             this.tabMain.ResumeLayout(false);
             this.tabTestData.ResumeLayout(false);
             this.tabInnerTestData.ResumeLayout(false);

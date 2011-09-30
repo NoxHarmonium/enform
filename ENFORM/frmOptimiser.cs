@@ -301,6 +301,11 @@ namespace ENFORM
            
         
         }
+
+        private void frmOptimiser_Shown(object sender, EventArgs e)
+        {
+            Utils.SetLogWindowLocation(this.Location.X, this.Location.Y + this.Size.Height + 10);
+        }
        
     }
 }

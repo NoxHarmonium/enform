@@ -269,6 +269,7 @@
             this.Text = "Optimiser - ENFORM";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmOptimiser_FormClosing);
             this.Load += new System.EventHandler(this.frmOptimisor_Load);
+            this.Shown += new System.EventHandler(this.frmOptimiser_Shown);
             this.grpProperties.ResumeLayout(false);
             this.grpProperties.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numThreads)).EndInit();

@@ -34,6 +34,7 @@
             this.btnRunEditor = new System.Windows.Forms.Button();
             this.btnLaunchOptimiser = new System.Windows.Forms.Button();
             this.btnLaunchTester = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lblTitle
@@ -92,11 +93,21 @@
             this.btnLaunchTester.UseVisualStyleBackColor = true;
             this.btnLaunchTester.Click += new System.EventHandler(this.btnLaunchTester_Click);
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(236, 322);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 5;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
             // frmMainMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(566, 429);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.btnLaunchTester);
             this.Controls.Add(this.btnLaunchOptimiser);
             this.Controls.Add(this.btnRunEditor);
@@ -104,7 +115,9 @@
             this.Controls.Add(this.lblTitle);
             this.Name = "frmMainMenu";
             this.Text = "Main Menu - ENFORM";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.frmMainMenu_FormClosed);
             this.Load += new System.EventHandler(this.frmMainMenu_Load);
+            this.Shown += new System.EventHandler(this.frmMainMenu_Shown);  
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -117,5 +130,6 @@
         private System.Windows.Forms.Button btnRunEditor;
         private System.Windows.Forms.Button btnLaunchOptimiser;
         private System.Windows.Forms.Button btnLaunchTester;
+        private System.Windows.Forms.Button button1;
     }
 }

@@ -13,23 +13,25 @@ namespace ENFORM
     {
         public frmMainMenu()
         {
-            InitializeComponent();
+            InitializeComponent();  
+            Utils.Log("ENFORM booting up....");
         }
 
         private void frmMainMenu_Load(object sender, EventArgs e)
         {
-            Utils.Log("ENFORM booting up....");
-            Utils.SetLogWindowLocation(this.Location.X, this.Location.Y + this.Size.Height + 10);
+           
+            
         }
 
         private void btnRunEditor_Click(object sender, EventArgs e)
         {
             using (frmRunEditor editor = new frmRunEditor())
             {
+                Utils.Log("Opening run editor....");
+                
                 editor.ShowDialog(this);
                 
-                Utils.Log("Opening run editor....");
-                Utils.SetLogWindowLocation(editor.Location.X, editor.Location.Y + editor.Size.Height + 10);
+                
             }
         }
 
@@ -37,9 +39,9 @@ namespace ENFORM
         {
             using (frmOptimiser optimisor = new frmOptimiser())
             {
-                optimisor.Show(this);
                 Utils.Log("Opening optimsor....");
                 Utils.SetLogWindowLocation(optimisor.Location.X, optimisor.Location.Y + optimisor.Size.Height + 10);
+                optimisor.ShowDialog(this);                
             }
         }
 
@@ -47,10 +49,26 @@ namespace ENFORM
         {
             using (frmNetworkTester tester = new frmNetworkTester())
             {
-                tester.Show(this);
                 Utils.Log("Opening network tester....");
                 Utils.SetLogWindowLocation(tester.Location.X, tester.Location.Y + tester.Size.Height + 10);
+                tester.ShowDialog(this);                
             }
         }
+
+        private void frmMainMenu_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Utils.CloseLogBox();
+        }
+
+      
+
+        private void frmMainMenu_Shown(object sender, EventArgs e)
+        {
+            Utils.SetLogWindowLocation(this.Location.X, this.Location.Y + this.Size.Height + 10);
+        }
+
+       
+
+        
     }
 }
