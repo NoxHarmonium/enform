@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using ENFORM;
 
 /*
 Standard PSO 2007
@@ -255,10 +256,10 @@ namespace SPSO_2007
 
             // -------------------------------------------------------
             // Some information
-            Console.Write(String.Format("\n Function {0} ", functionCode));
-            Console.Write("\n (clamping, randOrder, rotation, stop_criterion) = ({0}, {1}, {2}, {3})",
+            Utils.Log(String.Format("\n Function {0} ", functionCode));
+            Utils.Log("\n (clamping, randOrder, rotation, stop_criterion) = ({0}, {1}, {2}, {3})",
                    param.clamping, param.randOrder, param.rotation, param.stop);
-            //if (param.rand == 0) Console.Write("\n WARNING, I am using the RNG KISS"); //Now just System.Random
+            //if (param.rand == 0) Utils.Log("\n WARNING, I am using the RNG KISS"); //Now just System.Random
 
             // =========================================================== 
             // RUNs
@@ -271,7 +272,7 @@ namespace SPSO_2007
             param.S = (int)(10 + 2 * Math.Sqrt(pb.SS.D));	// Swarm size
             if (param.S > S_max) param.S = S_max;
             //param.S=100;
-            Console.Write("\n Swarm size {0}", param.S);
+            Utils.Log("\n Swarm size {0}", param.S);
 
             param.K = 3;
             param.p = 1.0 - Math.Pow(1.0 - (1.0 / (param.S)), param.K);
@@ -282,7 +283,7 @@ namespace SPSO_2007
             param.w = 1.0 / (2.0 * Math.Log(2.0)); // 0.721
             param.c = 0.5 + Math.Log(2.0); // 1.193
 
-            Console.Write("\n c = {0},  w = {1}", param.c, param.w);
+            Utils.Log("\n c = {0},  w = {1}", param.c, param.w);
             //---------------
             sqrtD = Math.Sqrt(pb.SS.D);
 
@@ -302,13 +303,13 @@ namespace SPSO_2007
                     bestBest = result.SW.P[result.SW.best].Clone();
 
                 // Result display
-                Console.Write("\nRun {0}. Eval {1}. Error {2} \n", run + 1, result.nEval, result.error);
-                //for (d=0;d<pb.SS.D;d++) Console.Write(" %f",result.SW.P[result.SW.best].x[d]);
+                Utils.Log("\nRun {0}. Eval {1}. Error {2} \n", run + 1, result.nEval, result.error);
+                //for (d=0;d<pb.SS.D;d++) Utils.Log(" %f",result.SW.P[result.SW.best].x[d]);
 
                 // Save result
                 //TODO: Fix up writing out to files
-                /*fConsole.Write(f_run, "\n%i %.0f %e ", run + 1, result.nEval, error);
-                    for (d = 0; d < pb.SS.D; d++) fConsole.Write(f_run, " %f", result.SW.P[result.SW.best].x[d]);
+                /*fUtils.Log(f_run, "\n%i %.0f %e ", run + 1, result.nEval, error);
+                    for (d = 0; d < pb.SS.D; d++) fUtils.Log(f_run, " %f", result.SW.P[result.SW.best].x[d]);
                  */
 
                 // Compute/store some statistical information
@@ -328,30 +329,30 @@ namespace SPSO_2007
             errorMean /= runMax;
             logProgressMean /= runMax;
 
-            Console.Write("\n Eval. (mean)= {0}", evalMean);
-            Console.Write("\n Error (mean) = {0}", errorMean);
+            Utils.Log("\n Eval. (mean)= {0}", evalMean);
+            Utils.Log("\n Error (mean) = {0}", errorMean);
             // Variance
             double variance = 0;
             for (run = 0; run < runMax; run++)
             {    variance += Math.Pow(errorMeanBest[run] - errorMean, 2);}
             variance = Math.Sqrt(variance / runMax);
-            Console.Write("\n Std. dev. {0}", variance);
-            Console.Write("\n Log_progress (mean) = {0}", logProgressMean);
+            Utils.Log("\n Std. dev. {0}", variance);
+            Utils.Log("\n Log_progress (mean) = {0}", logProgressMean);
             // Success rate and minimum value
-            Console.Write("\n Failure(s) {0}", nFailure);
-            Console.Write("\n Success rate = {0}%", 100 * (1 - nFailure / (double)runMax));
+            Utils.Log("\n Failure(s) {0}", nFailure);
+            Utils.Log("\n Success rate = {0}%", 100 * (1 - nFailure / (double)runMax));
 
-            Console.Write("\n Best min value = {0}", errorMin);
-            Console.Write("\nPosition of the optimum: ");
+            Utils.Log("\n Best min value = {0}", errorMin);
+            Utils.Log("\nPosition of the optimum: ");
             for (int d = 0; d < pb.SS.D; d++) 
-            {Console.Write(" {0}", bestBest.x[d]);}
+            {Utils.Log(" {0}", bestBest.x[d]);}
 
             // Save	
             //TODO: Fix up writing out to files
-            /*fConsole.Write(f_synth, "%f %f %.0f%% %f   ",
+            /*fUtils.Log(f_synth, "%f %f %.0f%% %f   ",
                      errorMean, variance, successRate, evalMean);
-            for (d = 0; d < pb.SS.D; d++) fConsole.Write(f_synth, " %f", bestBest.x[d]);
-            fConsole.Write(f_synth, "\n");
+            for (d = 0; d < pb.SS.D; d++) fUtils.Log(f_synth, " %f", bestBest.x[d]);
+            fUtils.Log(f_synth, "\n");
              * */
             Console.ReadLine();
             return; // End of main program
@@ -454,9 +455,9 @@ namespace SPSO_2007
                 }
             }
             // Display the best
-            Console.Write(" Best value after init. {0} ", errorPrev);
-            //	Console.Write( "\n Position :\n" );
-            //	for ( d = 0; d < SS.D; d++ ) Console.Write( " %f", R.SW.P[R.SW.best].x[d] );
+            Utils.Log(" Best value after init. {0} ", errorPrev);
+            //	Utils.Log( "\n Position :\n" );
+            //	for ( d = 0; d < SS.D; d++ ) Utils.Log( " %f", R.SW.P[R.SW.best].x[d] );
 
             int initLinks = 1;		// So that information links will beinitialized
             // Note: It is also a flag saying "No improvement"
@@ -483,7 +484,7 @@ namespace SPSO_2007
                 }
 
                 // The swarm MOVES
-                //Console.Write("\nIteration %i",iter);
+                //Utils.Log("\nIteration %i",iter);
                 for (int i = 0; i < R.SW.S; i++)
                     index[i] = i;
                 //Permutate the index order
@@ -700,8 +701,8 @@ namespace SPSO_2007
 
             } // End of "while nostop ...
 
-            // Console.Write( "\n and the winner is ... %i", R.SW.best );			
-            // fConsole.Write( f_stag, "\nEND" );
+            // Utils.Log( "\n and the winner is ... %i", R.SW.best );			
+            // fUtils.Log( f_stag, "\nEND" );
             R.error = error;
             return R;
         }
