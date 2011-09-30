@@ -23,7 +23,7 @@ namespace ENFORM
 
         public void AddLogEntry(string message)
         {
-            txtLogBox.Text += "[" + DateTime.Now.ToLongTimeString() + "] - " + message + "\n";
+            txtLogBox.Text += "[" + DateTime.Now.ToLongTimeString() + "] - " + message + Environment.NewLine;
 
         }
     }
