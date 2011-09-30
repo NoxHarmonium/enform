@@ -94,6 +94,12 @@ namespace ENFORM
             }
          }
 
+        public static void Log(string format, params object[] args)
+        {
+            Log(String.Format(format, args));
+
+        }
+
         public static void SetLogWindowLocation(int x, int y)
         {
             if (logbox.InvokeRequired)
