@@ -186,7 +186,7 @@ namespace SPSO_2007
             f_synth = File.OpenWrite("f_synth.txt");
 
             // ----------------------------------------------- PROBLEM
-            int functionCode = 18;
+            int functionCode = (int) OptimisationProblem.Parabola_Sphere;
             /* (see problemDef( ) for precise definitions)
              0 Parabola (Sphere)
              1 Griewank
@@ -359,7 +359,7 @@ namespace SPSO_2007
         }
         // ===============================================================
         // PSO
-        static Result PSO(Parameters param, Problem pb)
+        public Result PSO(Parameters param, Problem pb)
         {
             Velocity aleaV = new Velocity();
             int d;
