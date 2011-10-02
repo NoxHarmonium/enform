@@ -30,6 +30,7 @@ namespace ENFORM
                 Utils.Log("Opening run editor....");
                 
                 editor.ShowDialog(this);
+                Utils.SetLogWindowLocation(this.Location.X, this.Location.Y + this.Size.Height + 10);
                 
                 
             }
@@ -39,9 +40,10 @@ namespace ENFORM
         {
             using (frmOptimiser optimisor = new frmOptimiser())
             {
-                Utils.Log("Opening optimsor....");
-                Utils.SetLogWindowLocation(optimisor.Location.X, optimisor.Location.Y + optimisor.Size.Height + 10);
-                optimisor.ShowDialog(this);                
+                Utils.Log("Opening optimser....");
+                
+                optimisor.ShowDialog(this);
+                Utils.SetLogWindowLocation(this.Location.X, this.Location.Y + this.Size.Height + 10);
             }
         }
 
@@ -49,9 +51,9 @@ namespace ENFORM
         {
             using (frmNetworkTester tester = new frmNetworkTester())
             {
-                Utils.Log("Opening network tester....");
-                Utils.SetLogWindowLocation(tester.Location.X, tester.Location.Y + tester.Size.Height + 10);
-                tester.ShowDialog(this);                
+                Utils.Log("Opening network tester....");               
+                tester.ShowDialog(this);
+                Utils.SetLogWindowLocation(this.Location.X, this.Location.Y + this.Size.Height + 10);
             }
         }
 

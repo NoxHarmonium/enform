@@ -102,6 +102,12 @@ namespace ENFORM
 
         public static void SetLogWindowLocation(int x, int y)
         {
+            //Wait until logbox thread creates form
+            while (logbox == null)
+            {
+                Thread.Sleep(10);
+            }
+            
             if (logbox.InvokeRequired)
             {
                 logbox.Invoke(new setPosDelegate(setPos), new object[] { x, y });
