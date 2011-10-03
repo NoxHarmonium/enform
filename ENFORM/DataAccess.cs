@@ -41,7 +41,8 @@ namespace ENFORM
             database.RunQueryNoResult("DELETE FROM InputGroups;");
             database.RunQueryNoResult("DELETE FROM Parameters;");
             database.RunQueryNoResult("DELETE FROM Sources;");
-            database.RunQueryNoResult("DELETE FROM BLOBs;");
+            database.RunQueryNoResult("DELETE FROM InputGroups;");
+            database.RunQueryNoResult("DELETE FROM BLOBS WHERE EXISTS (SELECT ImageBLOBref FROM Sources)");
         }
 
         public void NewFile()
@@ -72,7 +73,7 @@ namespace ENFORM
         public void SetParameter(string key, string value)
         {
             string query =
-                "INSERT INTO Parameters " +
+                "REPLACE INTO Parameters " +
                 "VALUES ('" + key + "','" + value + "');";
 
             database.RunQueryNoResult(query);
@@ -296,7 +297,7 @@ namespace ENFORM
         public void AddInputGroup(int index, InputGroup inputGroup)
         {
             string query =
-               "INSERT INTO InputGroups " +
+               "REPLACE INTO InputGroups " +
                "VALUES ('" + 
                index + "','" +
                (int)inputGroup.InputGroupType + "','" + 
@@ -315,7 +316,7 @@ namespace ENFORM
             }
             
             string query =
-               "INSERT INTO Sources " +
+               "REPLACE INTO Sources " +
                "VALUES ('" +
                index + "','" +
                sourceItem.Name + "','" +

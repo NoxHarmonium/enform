@@ -472,7 +472,10 @@ namespace ENFORM
         {
             foreach (SourceItem item in sourceItems.Values)
             {
-                item.Cache();
+                if (!item.Cached)
+                {
+                    item.Cache();
+                }
             }
 
 

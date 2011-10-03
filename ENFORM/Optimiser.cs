@@ -114,7 +114,7 @@ namespace ENFORM
 
             new PSOConnector(hiddenLayer, outputLayer);
 
-            network = new BackpropagationNetwork(inputLayer, outputLayer);
+            network = new PSONetwork(inputLayer, outputLayer);
             
             switch (learningRateFunction)
             {

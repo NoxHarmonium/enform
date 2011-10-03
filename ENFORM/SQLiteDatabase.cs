@@ -97,6 +97,7 @@ namespace ENFORM
                     }
                     
                     tx.Commit();
+                    connection.Close();
                     return retval;
                 }
             }
@@ -255,6 +256,10 @@ namespace ENFORM
         {
 
             byte[] buffer = retrieveBLOB(index);
+            if (buffer == null)
+            {
+                throw new Exception("BLOB missing from database!");
+            }
             
             MemoryStream stream = new MemoryStream(buffer, false);
             Image image = Bitmap.FromStream(stream);    

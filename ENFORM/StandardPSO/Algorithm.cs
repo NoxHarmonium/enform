@@ -519,7 +519,7 @@ namespace SPSO_2007
         }
 
 
-        public void NextIteration()
+        public int NextIteration()
         {
              iter++;
 
@@ -737,7 +737,7 @@ namespace SPSO_2007
                 {
                     case 0:
                     case 2:
-                        if (Error > pb.epsilon && PSOResult.nEval < pb.evalMax)
+                        if (Error > pb.epsilon)// && PSOResult.nEval < pb.evalMax)
                         {
                             noStop = 0;	// Won't stop
                         }
@@ -754,6 +754,8 @@ namespace SPSO_2007
                             noStop = 1;	// Will stop
                         break;
                 }
+
+            return (int)PSOResult.nEval;
         }
     }
 }

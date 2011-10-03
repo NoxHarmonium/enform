@@ -196,19 +196,16 @@ namespace NeuronDotNet.Core.PSO
 
         private double getFitness(double[] weights)
         {
-            this.setAllWeights(weights);
-
-            double mse = 0;
-            int[] randomOrder = Helper.GetRandomOrder(trainingSet.TrainingSampleCount);
+            this.setAllWeights(weights);          
             
             
 
             for (int index = 0; index < trainingSet.TrainingSampleCount; index++)
             {
-                TrainingSample randomSample = trainingSet[randomOrder[index]];
+                TrainingSample randomSample = trainingSet[index];
                 // Learn a random training sample
 
-                LearnSample(trainingSet[randomOrder[index]], currentIteration, trainingEpochs);
+                LearnSample(trainingSet[index], currentIteration, trainingEpochs);
 
                 
 
@@ -315,7 +312,7 @@ namespace NeuronDotNet.Core.PSO
             SPSO_2007.Algorithm pso = new SPSO_2007.Algorithm(pb);
             pso.StartRun();
 
-            for (currentIteration = 0; currentIteration < trainingEpochs; currentIteration++)
+            for (currentIteration = 0; currentIteration < trainingEpochs;)
             {
                 int[] randomOrder = Helper.GetRandomOrder(trainingSet.TrainingSampleCount);
                 // Beginning a new training epoch
@@ -333,7 +330,7 @@ namespace NeuronDotNet.Core.PSO
                 */
 
 
-                pso.NextIteration();
+                currentIteration = pso.NextIteration();
 
                 meanSquaredError = pso.BestFitness * trainingSet.TrainingSampleCount;
                 
