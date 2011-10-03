@@ -47,6 +47,9 @@ namespace NeuronDotNet.Core
     /// </summary>
     public interface INetwork : ISerializable
     {
+
+        double MeanSquaredError { get; }
+        
         /// <summary>
         /// Gets the input layer of the network
         /// </summary>

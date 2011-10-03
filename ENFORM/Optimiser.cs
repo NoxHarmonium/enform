@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NeuronDotNet.Core;
-using NeuronDotNet.Core.Backpropagation;
+//using NeuronDotNet.Core.Backpropagation;
+using NeuronDotNet.Core.PSO;
 using NeuronDotNet.Core.Initializers;
 using System.Drawing;
 using System.Windows.Forms;
@@ -15,7 +16,7 @@ namespace ENFORM
         private string filename;
         private DataAccess dataAccess;
         private Preprocessor preprocessor;
-        private BackpropagationNetwork network;
+        private INetwork network;
         private int maxIterations = int.MaxValue;
 
         public int MaxIterations
@@ -25,7 +26,7 @@ namespace ENFORM
         }
         private double minError = 0.0;
 
-        public BackpropagationNetwork Network
+        public INetwork Network
         {
             get { return network; }
             set { network = value; }
@@ -94,7 +95,7 @@ namespace ENFORM
 
             }
 
-
+           
             LinearLayer inputLayer = new LinearLayer(preprocessor.ImageSize.Width * preprocessor.ImageSize.Height);
             SigmoidLayer hiddenLayer = new SigmoidLayer(total);
             hiddenLayer.InputGroups = inputGroups.Length;
@@ -103,7 +104,7 @@ namespace ENFORM
             hiddenLayer.Initializer = new NormalizedRandomFunction();
 
 
-            new BackpropagationConnector(
+            new PSOConnector(
                 inputLayer, 
                 hiddenLayer, 
                 inputGroups, 
@@ -111,9 +112,9 @@ namespace ENFORM
                 preprocessor.ImageSize.Height
                 );
 
-            new BackpropagationConnector(hiddenLayer, outputLayer);
+            new PSOConnector(hiddenLayer, outputLayer);
 
-            network = new BackpropagationNetwork(inputLayer, outputLayer);
+            network = new PSONetwork(inputLayer, outputLayer);
             
             switch (learningRateFunction)
             {
@@ -160,8 +161,7 @@ namespace ENFORM
         }
 
         void network_EndEpochEvent(object sender, TrainingEpochEventArgs e)
-        {
-            
+        {           
             
             if (network.MeanSquaredError <= minError)
             {

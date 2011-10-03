@@ -177,7 +177,7 @@ namespace ENFORM
 
         }
 
-        public int InsertBLOBNetwork(Network network)
+        public int InsertBLOBNetwork(INetwork network)
         {
 
             MemoryStream stream = new MemoryStream();

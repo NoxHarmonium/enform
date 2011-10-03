@@ -758,7 +758,7 @@ namespace ENFORM
 
         private void frmRunEditor_Shown(object sender, EventArgs e)
         {
-            Utils.SetLogWindowLocation(this.Location.X, this.Location.Y + this.Size.Height + 10);
+            //Utils.SetLogWindowLocation(this.Location.X, this.Location.Y + this.Size.Height + 10);
         }
 
         

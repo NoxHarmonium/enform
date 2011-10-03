@@ -87,7 +87,7 @@ namespace ENFORM
 
         }
 
-        public void SaveResult(string jobUUID, Network finalNetwork, int iterations, float[] results, DateTime startTime, DateTime endTime)
+        public void SaveResult(string jobUUID, INetwork finalNetwork, int iterations, float[] results, DateTime startTime, DateTime endTime)
         {
 
             /*

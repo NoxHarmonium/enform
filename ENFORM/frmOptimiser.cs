@@ -251,7 +251,7 @@ namespace ENFORM
 
         void Network_EndEpochEvent(object sender, NeuronDotNet.Core.TrainingEpochEventArgs e)
         {
-            BackpropagationNetwork network = (BackpropagationNetwork) sender;
+            INetwork network = (INetwork) sender;
             
             results[iteration] = (float)network.MeanSquaredError;
             results[iteration + 1] = (float) stopWatch.Elapsed.TotalMilliseconds;
@@ -304,7 +304,7 @@ namespace ENFORM
 
         private void frmOptimiser_Shown(object sender, EventArgs e)
         {
-            Utils.SetLogWindowLocation(this.Location.X, this.Location.Y + this.Size.Height + 10);
+            //Utils.SetLogWindowLocation(this.Location.X, this.Location.Y + this.Size.Height + 10);
         }
        
     }

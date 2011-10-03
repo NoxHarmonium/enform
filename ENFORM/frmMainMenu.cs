@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using SPSO_2007;
 
 namespace ENFORM
 {
@@ -30,7 +31,7 @@ namespace ENFORM
                 Utils.Log("Opening run editor....");
                 
                 editor.ShowDialog(this);
-                Utils.SetLogWindowLocation(this.Location.X, this.Location.Y + this.Size.Height + 10);
+                //Utils.SetLogWindowLocation(this.Location.X, this.Location.Y + this.Size.Height + 10);
                 
                 
             }
@@ -43,7 +44,7 @@ namespace ENFORM
                 Utils.Log("Opening optimser....");
                 
                 optimisor.ShowDialog(this);
-                Utils.SetLogWindowLocation(this.Location.X, this.Location.Y + this.Size.Height + 10);
+                //Utils.SetLogWindowLocation(this.Location.X, this.Location.Y + this.Size.Height + 10);
             }
         }
 
@@ -53,7 +54,7 @@ namespace ENFORM
             {
                 Utils.Log("Opening network tester....");               
                 tester.ShowDialog(this);
-                Utils.SetLogWindowLocation(this.Location.X, this.Location.Y + this.Size.Height + 10);
+                //Utils.SetLogWindowLocation(this.Location.X, this.Location.Y + this.Size.Height + 10);
             }
         }
 
@@ -66,12 +67,13 @@ namespace ENFORM
 
         private void frmMainMenu_Shown(object sender, EventArgs e)
         {
-            Utils.SetLogWindowLocation(this.Location.X, this.Location.Y + this.Size.Height + 10);
+            Utils.SetLogWindowLocation(this.Location.X, this.Location.Y + this.Size.Height + 50);
         }
 
         private void btnTestPSO_Click(object sender, EventArgs e)
         {
-            SPSO_2007.Algorithm a = new SPSO_2007.Algorithm();
+
+            Algorithm a = new Algorithm(new Problem(OptimisationProblem.Parabola_Sphere));
             a.StartRun();           
             while (a.Error > 0.01)
             {
@@ -79,6 +81,7 @@ namespace ENFORM
             }
             a.EndRun();
             a.Finish();
+             
             
         }
 

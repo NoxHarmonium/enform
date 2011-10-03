@@ -561,7 +561,8 @@ namespace NeuronDotNet.Core
             isStopping = false;
 
             // Re-Initialize the network
-            Initialize();
+            Initialize();             
+
             for (int currentIteration = 0; currentIteration < trainingEpochs; currentIteration++)
             {
                 int[] randomOrder = Helper.GetRandomOrder(trainingSet.TrainingSampleCount);
@@ -588,6 +589,8 @@ namespace NeuronDotNet.Core
                     // Check if we need to stop
                     if (isStopping) { isStopping = false; return; }
                 }
+
+              
 
                 // Training Epoch successfully complete
                 OnEndEpoch(currentIteration, trainingSet);
@@ -652,5 +655,10 @@ namespace NeuronDotNet.Core
         /// Number of training epochs (Assumed to be positive)
         /// </param>
         protected abstract void LearnSample(TrainingSample trainingSample, int currentIteration, int trainingEpochs);
+
+        public virtual double MeanSquaredError
+        {
+            get { throw new NotImplementedException(); }
+        }
     }
 }

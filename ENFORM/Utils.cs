@@ -11,6 +11,7 @@ namespace ENFORM
     {
 
         private static frmLogBox logbox;
+        private static bool ready = false;
         public delegate void logDelegate(string message);
         public delegate void setPosDelegate(int x, int y);
         public delegate void closeLogDelegate();
@@ -18,11 +19,20 @@ namespace ENFORM
 
         static Utils()
         {
-            (new System.Threading.Thread(() =>
+            Thread t = (new System.Threading.Thread(() =>
             {
-                (logbox = new frmLogBox()).ShowDialog();
-            })).Start();         
+                logbox = new frmLogBox();
+                ready = true;
+                logbox.ShowDialog();
+                
+                
+            }));
+            t.Start();
+
+           
         }
+
+        
 
         public static double[] getImageWeights(Image image, InputGroup[] inputGroups)
         {
@@ -61,9 +71,17 @@ namespace ENFORM
             logbox.AddLogEntry(message);
         }
 
+        private static void checkIfReady()
+        {
+            while (!ready)
+            {
+                Thread.Sleep(10);
+            }
+        }
 
         public static void CloseLogBox()
         {
+            checkIfReady();
             if (logbox.InvokeRequired)
             {
                 logbox.Invoke(new closeLogDelegate(closeLogBox));
@@ -76,22 +94,17 @@ namespace ENFORM
 
         public static void Log(string message)
         {
-            if (logbox != null)
+            
+            checkIfReady();
+            if (logbox.InvokeRequired)
             {
-                //if (!logbox.Visible)
-                //{
-                    
-               //     logbox.Show();
-               // }
-                if (logbox.InvokeRequired)
-                {
-                    logbox.Invoke(new logDelegate(log), new object[] { message });
-                }
-                else
-                {
-                    log(message);
-                }
+                logbox.Invoke(new logDelegate(log), new object[] { message });
             }
+            else
+            {
+                log(message);
+            }
+            
          }
 
         public static void Log(string format, params object[] args)
@@ -102,12 +115,8 @@ namespace ENFORM
 
         public static void SetLogWindowLocation(int x, int y)
         {
-            //Wait until logbox thread creates form
-            while (logbox == null)
-            {
-                Thread.Sleep(10);
-            }
             
+            checkIfReady();
             if (logbox.InvokeRequired)
             {
                 logbox.Invoke(new setPosDelegate(setPos), new object[] { x, y });

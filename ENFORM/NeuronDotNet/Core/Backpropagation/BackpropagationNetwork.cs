@@ -37,7 +37,7 @@ namespace NeuronDotNet.Core.Backpropagation
         /// <value>
         /// Mean squared value of error in current training epoch
         /// </value>
-        public double MeanSquaredError
+        public override double MeanSquaredError
         {
             get { return isValidMSE ? meanSquaredError : 0d; }
         }

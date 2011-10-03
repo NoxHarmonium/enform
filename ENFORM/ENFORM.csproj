@@ -160,8 +160,8 @@
     <Compile Include="NeuronDotNet\Core\Network.cs" />
     <Compile Include="NeuronDotNet\Core\PSO\ActivationLayer.cs" />
     <Compile Include="NeuronDotNet\Core\PSO\ActivationNeuron.cs" />
-    <Compile Include="NeuronDotNet\Core\PSO\BackpropagationNetwork.cs" />
     <Compile Include="NeuronDotNet\Core\PSO\LinearLayer.cs" />
+    <Compile Include="NeuronDotNet\Core\PSO\PSONetwork.cs" />
     <Compile Include="NeuronDotNet\Core\PSO\LogarithmLayer.cs" />
     <Compile Include="NeuronDotNet\Core\PSO\PSOConnector.cs" />
     <Compile Include="NeuronDotNet\Core\PSO\PSOSynapse.cs" />
@@ -203,7 +203,7 @@
     <Compile Include="StandardPSO\Parameters.cs" />
     <Compile Include="StandardPSO\Position.cs" />
     <Compile Include="StandardPSO\Problem.cs" />
-    <Compile Include="StandardPSO\Program.cs" />
+    <Compile Include="StandardPSO\Algorithm.cs" />
     <Compile Include="StandardPSO\Quantum.cs" />
     <Compile Include="StandardPSO\Result.cs" />
     <Compile Include="StandardPSO\Swarm.cs" />
