@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NeuronDotNet.Core;
-//using NeuronDotNet.Core.Backpropagation;
-using NeuronDotNet.Core.PSO;
+using NeuronDotNet.Core.Backpropagation;
+//using NeuronDotNet.Core.PSO;
 using NeuronDotNet.Core.Initializers;
 using System.Drawing;
 using System.Windows.Forms;
@@ -104,7 +104,7 @@ namespace ENFORM
             hiddenLayer.Initializer = new NormalizedRandomFunction();
 
 
-            new PSOConnector(
+            new BackpropagationConnector(
                 inputLayer, 
                 hiddenLayer, 
                 inputGroups, 
@@ -112,9 +112,9 @@ namespace ENFORM
                 preprocessor.ImageSize.Height
                 );
 
-            new PSOConnector(hiddenLayer, outputLayer);
+            new BackpropagationConnector(hiddenLayer, outputLayer);
 
-            network = new PSONetwork(inputLayer, outputLayer);
+            network = new BackpropagationNetwork(inputLayer, outputLayer);
             
             switch (learningRateFunction)
             {

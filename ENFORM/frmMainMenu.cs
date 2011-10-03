@@ -7,11 +7,16 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using SPSO_2007;
+using NeuronDotNet.Core;
+using NeuronDotNet.Core.Initializers;
+using NeuronDotNet.Core.PSO;
 
 namespace ENFORM
 {
     public partial class frmMainMenu : Form
     {
+        PSONetwork network;
+        
         public frmMainMenu()
         {
             InitializeComponent();  
@@ -70,14 +75,46 @@ namespace ENFORM
             Utils.SetLogWindowLocation(this.Location.X, this.Location.Y + this.Size.Height + 50);
         }
 
+
+        private double getFitness(double[] weights)
+        {
+            network.AllWeights = weights;          
+            network.Run(new double[] { 0.2, 0.4, 0.222, 0.75, 0.9 });
+            double[] output = network.OutputLayer.GetOutput();
+
+            return Math.Abs(output[0] - 0.9) + Math.Abs(output[1] - 0.2);
+
+
+        }
+
+
+
         private void btnTestPSO_Click(object sender, EventArgs e)
         {
 
-            Algorithm a = new Algorithm(new Problem(OptimisationProblem.Parabola_Sphere));
-            a.StartRun();           
-            while (a.Error > 0.01)
+           
+
+            LinearLayer inputLayer = new LinearLayer(5);
+            SigmoidLayer hiddenLayer = new SigmoidLayer(2);        
+            SigmoidLayer outputLayer = new SigmoidLayer(2);
+
+            hiddenLayer.Initializer = new NormalizedRandomFunction();
+
+
+            new PSOConnector(inputLayer, hiddenLayer);
+            new PSOConnector(hiddenLayer, outputLayer);
+            network = new PSONetwork(inputLayer, outputLayer);            
+            
+            Algorithm a = new Algorithm(new Problem(OptimisationProblem.Neural_Network,new Problem.FitnessHandler(getFitness),network.AllWeights));
+            a.StartRun();
+            int z  = 0;
+            while (a.Error > 0 && z++ < 2000)
             {
                 a.NextIteration();
+                if (z % 500 == 0)
+                {
+                    //Utils.Log(getFitness(a.BestResult).ToString());
+                }
             }
             a.EndRun();
             a.Finish();

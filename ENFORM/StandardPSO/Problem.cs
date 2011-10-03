@@ -42,10 +42,12 @@ namespace SPSO_2007
             // Define the solution point, for test
             // NEEDED when param.stop = 2 
             // i.e. when stop criterion is distance_to_solution < epsilon
+            /*
             for (d = 0; d < 30; d++)
             {
                 this.solution.x[d] = 0;
             }
+             */
 
             this.SS.q.size = this.SS.D;
 

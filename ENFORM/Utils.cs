@@ -22,14 +22,20 @@ namespace ENFORM
             Thread t = (new System.Threading.Thread(() =>
             {
                 logbox = new frmLogBox();
-                ready = true;
+                logbox.Shown += new EventHandler(logbox_Shown);
                 logbox.ShowDialog();
+                
                 
                 
             }));
             t.Start();
 
            
+        }
+
+        static void logbox_Shown(object sender, EventArgs e)
+        {
+            ready = true;
         }
 
         
@@ -96,7 +102,7 @@ namespace ENFORM
         {
             
             checkIfReady();
-            if (logbox.InvokeRequired)
+            if (true || logbox.InvokeRequired)
             {
                 logbox.Invoke(new logDelegate(log), new object[] { message });
             }
