@@ -60,7 +60,7 @@ namespace SPSO_2007
                 this.SS.q.q[d] = 0;	// Relative quantisation, in [0,1].   
             }
 
-            this.evalMax = 100000;// Max number of evaluations for each run
+            this.evalMax = int.MaxValue;// Max number of evaluations for each run
             this.epsilon = 0.0; // 1e-3;	
             this.objective = 0;
 
