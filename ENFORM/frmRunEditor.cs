@@ -166,11 +166,14 @@ namespace ENFORM
             try
             {
                 redrawPipeline();
+                txtDimensions.Text = calculateTotalWeights().ToString();
             }
             catch (Exception)
             {
                 imageViewer1.LoadImage(ENFORM.Properties.Resources.Error);
+                txtDimensions.Text = "Error";
             }
+
         }
 
         private void txtHeight_TextChanged(object sender, EventArgs e)
@@ -178,10 +181,12 @@ namespace ENFORM
             try
             {
                 redrawPipeline();
+                txtDimensions.Text = calculateTotalWeights().ToString();
             }
             catch (Exception)
             {
                 imageViewer1.LoadImage(ENFORM.Properties.Resources.Error);
+                txtDimensions.Text = "Error";
             }
         }
 
@@ -354,7 +359,8 @@ namespace ENFORM
                sourceItems.Remove(item.GetHashCode());
                lstInputs.Items.Remove(item);
            }
-            
+           calculateHiddenNodeCount();
+           txtDimensions.Text = calculateTotalWeights().ToString();
             
         }
 
@@ -383,6 +389,8 @@ namespace ENFORM
                 numSegments.Enabled = false;
                 btnRemoveInputGroup.Enabled = false;
             }
+            calculateHiddenNodeCount();
+            txtDimensions.Text = calculateTotalWeights().ToString();
         }
 
         private void btnAddInputGroup_Click(object sender, EventArgs e)
@@ -403,6 +411,7 @@ namespace ENFORM
 
             }
             calculateHiddenNodeCount();
+            txtDimensions.Text = calculateTotalWeights().ToString();
 
             
         }
@@ -422,6 +431,7 @@ namespace ENFORM
                 }
                 redrawPipeline();
                 calculateHiddenNodeCount();
+                txtDimensions.Text = calculateTotalWeights().ToString();
             }
         }
 
@@ -441,6 +451,24 @@ namespace ENFORM
             }
             redrawPipeline();
         }
+
+        private int calculateTotalWeights()
+        {
+            int inputNodes = Convert.ToInt32(txtWidth.Text) * Convert.ToInt32(txtHeight.Text);
+            int hiddenNodes = calculateHiddenNodeCount();
+            int outputNodes = 1;
+            int total = inputNodes;
+            total += hiddenNodes;
+            total += outputNodes;
+            total += lstInputGroups.Items.Count * inputNodes;
+            total += hiddenNodes * outputNodes;
+
+
+
+            return total;
+
+        }
+
 
         private int calculateHiddenNodeCount()
         {
@@ -709,6 +737,16 @@ namespace ENFORM
         {
             cmbLearningRateType.SelectedIndex = 0;
             txtMaxIterations.Text = int.MaxValue.ToString();
+            cmbClamping.SelectedIndex = 1;
+            cmbInitLinks.SelectedIndex = 0;
+            cmbPSORandom.SelectedIndex = 1;
+            cmbRandOrder.SelectedIndex = 0;
+            cmbRotation.SelectedIndex = 0;
+            txtW.Text = Convert.ToString(1.0 / (2.0 * Math.Log(2)));
+            txtC.Text = Convert.ToString(0.5 + Math.Log(2));
+            txtP.Text = Convert.ToString(1.0-Math.Pow(1.0-(1.0/Convert.ToDouble(txtSwarmSize.Text)),Convert.ToDouble(txtK.Text)));
+
+            
             
         }
 
@@ -762,6 +800,70 @@ namespace ENFORM
         private void frmRunEditor_Shown(object sender, EventArgs e)
         {
             //Utils.SetLogWindowLocation(this.Location.X, this.Location.Y + this.Size.Height + 10);
+        }
+
+        private void cmbRotation_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmbRotation.SelectedIndex == 1)
+            {
+                MessageBox.Show("Experimental code, completely valid only for 2 dimensions.\n" +
+                    "Uses a rotated hypercube for the probability distribution.\n " +
+                    "Can be really slow!", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+           
+            }
+        }
+
+        private void PSOScrollbar_Scroll(object sender, ScrollEventArgs e)
+        {
+            pnlPSO.AutoScroll = true;
+        }
+
+        private void lblc_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtDimensions_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                txtSwarmSize.Text = Convert.ToString(Math.Ceiling(10 + (2 * Math.Sqrt(Convert.ToDouble(txtDimensions.Text)))));
+            }
+            catch (Exception)
+            {
+                txtSwarmSize.Text = "Error";
+            }
+            
+            
+            
+        }
+
+        private void txtK_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                txtP.Text = Convert.ToString(1.0 - Math.Pow(1.0 - (1.0 / Convert.ToDouble(txtSwarmSize.Text)), Convert.ToDouble(txtK.Text)));
+            }
+            catch (Exception)
+            {
+                txtP.Text = "Error";
+            }
+            
+            
+        }
+
+        private void txtSwarmSize_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                txtP.Text = Convert.ToString(1.0 - Math.Pow(1.0 - (1.0 / Convert.ToDouble(txtSwarmSize.Text)), Convert.ToDouble(txtK.Text)));
+            }
+            catch (Exception)
+            {
+                txtP.Text = "Error";
+            }
+            
+           
         }
 
         

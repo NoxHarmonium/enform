@@ -106,8 +106,45 @@
             this.radOptimiseBatch = new System.Windows.Forms.RadioButton();
             this.radCurrentRun = new System.Windows.Forms.RadioButton();
             this.btnRunOptimiser = new System.Windows.Forms.Button();
+            this.lblMaxTime = new System.Windows.Forms.Label();
+            this.txtMaxTime = new System.Windows.Forms.TextBox();
+            this.pnlPSO = new System.Windows.Forms.Panel();
+            this.grpSwarm = new System.Windows.Forms.GroupBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.lblMaxI = new System.Windows.Forms.Label();
+            this.txtMaxI = new System.Windows.Forms.TextBox();
+            this.txtMinI = new System.Windows.Forms.TextBox();
+            this.txtMaxP = new System.Windows.Forms.TextBox();
+            this.txtMinP = new System.Windows.Forms.TextBox();
+            this.lblMinI = new System.Windows.Forms.Label();
+            this.lblMaxP = new System.Windows.Forms.Label();
+            this.lblMinP = new System.Windows.Forms.Label();
             this.colourPicker1 = new ENFORM.ColourPicker();
             this.imageViewer1 = new ENFORM.ImageViewer();
+            this.grpPSOParams = new System.Windows.Forms.GroupBox();
+            this.lblc = new System.Windows.Forms.Label();
+            this.txtC = new System.Windows.Forms.TextBox();
+            this.txtW = new System.Windows.Forms.TextBox();
+            this.txtP = new System.Windows.Forms.TextBox();
+            this.txtK = new System.Windows.Forms.TextBox();
+            this.lblW = new System.Windows.Forms.Label();
+            this.lblP = new System.Windows.Forms.Label();
+            this.lblK = new System.Windows.Forms.Label();
+            this.txtDimensions = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.txtSwarmSize = new System.Windows.Forms.TextBox();
+            this.lblSwarmSize = new System.Windows.Forms.Label();
+            this.cmbRotation = new System.Windows.Forms.ComboBox();
+            this.lblRotation = new System.Windows.Forms.Label();
+            this.cmbPSORandom = new System.Windows.Forms.ComboBox();
+            this.lblRandOrder = new System.Windows.Forms.Label();
+            this.cmbRandOrder = new System.Windows.Forms.ComboBox();
+            this.lblPSORandom = new System.Windows.Forms.Label();
+            this.cmbInitLinks = new System.Windows.Forms.ComboBox();
+            this.lblInitLinks = new System.Windows.Forms.Label();
+            this.lblClamping = new System.Windows.Forms.Label();
+            this.cmbClamping = new System.Windows.Forms.ComboBox();
             this.tabMain.SuspendLayout();
             this.tabTestData.SuspendLayout();
             this.tabInnerTestData.SuspendLayout();
@@ -121,12 +158,16 @@
             this.tabGroups.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numSegments)).BeginInit();
             this.tabOptimisation.SuspendLayout();
+            this.grpPSO.SuspendLayout();
             this.grpBackPropogation.SuspendLayout();
             this.grpEndCond.SuspendLayout();
             this.grpJitter.SuspendLayout();
             this.grpLearningRate.SuspendLayout();
             this.tabSaveLoad.SuspendLayout();
             this.tabTesting.SuspendLayout();
+            this.pnlPSO.SuspendLayout();
+            this.grpSwarm.SuspendLayout();
+            this.grpPSOParams.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabMain
@@ -703,7 +744,6 @@
             // chkPSO
             // 
             this.chkPSO.AutoSize = true;
-            this.chkPSO.Enabled = false;
             this.chkPSO.Location = new System.Drawing.Point(248, 5);
             this.chkPSO.Name = "chkPSO";
             this.chkPSO.Size = new System.Drawing.Size(178, 17);
@@ -714,6 +754,7 @@
             // 
             // grpPSO
             // 
+            this.grpPSO.Controls.Add(this.pnlPSO);
             this.grpPSO.Enabled = false;
             this.grpPSO.Location = new System.Drawing.Point(248, 28);
             this.grpPSO.Name = "grpPSO";
@@ -748,13 +789,15 @@
             // 
             // grpEndCond
             // 
+            this.grpEndCond.Controls.Add(this.txtMaxTime);
+            this.grpEndCond.Controls.Add(this.lblMaxTime);
             this.grpEndCond.Controls.Add(this.lblMinError);
             this.grpEndCond.Controls.Add(this.label2);
             this.grpEndCond.Controls.Add(this.txtMinimumError);
             this.grpEndCond.Controls.Add(this.txtMaxIterations);
             this.grpEndCond.Location = new System.Drawing.Point(10, 206);
             this.grpEndCond.Name = "grpEndCond";
-            this.grpEndCond.Size = new System.Drawing.Size(222, 77);
+            this.grpEndCond.Size = new System.Drawing.Size(222, 101);
             this.grpEndCond.TabIndex = 4;
             this.grpEndCond.TabStop = false;
             this.grpEndCond.Text = "End Conditions";
@@ -1015,6 +1058,137 @@
             this.btnRunOptimiser.UseVisualStyleBackColor = true;
             this.btnRunOptimiser.Click += new System.EventHandler(this.btnExecuteRun_Click);
             // 
+            // lblMaxTime
+            // 
+            this.lblMaxTime.AutoSize = true;
+            this.lblMaxTime.Location = new System.Drawing.Point(55, 73);
+            this.lblMaxTime.Name = "lblMaxTime";
+            this.lblMaxTime.Size = new System.Drawing.Size(56, 13);
+            this.lblMaxTime.TabIndex = 9;
+            this.lblMaxTime.Text = "Max Time:";
+            // 
+            // txtMaxTime
+            // 
+            this.txtMaxTime.Location = new System.Drawing.Point(116, 71);
+            this.txtMaxTime.Name = "txtMaxTime";
+            this.txtMaxTime.Size = new System.Drawing.Size(100, 20);
+            this.txtMaxTime.TabIndex = 10;
+            this.txtMaxTime.Text = "0";
+            // 
+            // pnlPSO
+            // 
+            this.pnlPSO.AutoScroll = true;
+            this.pnlPSO.Controls.Add(this.grpPSOParams);
+            this.pnlPSO.Controls.Add(this.grpSwarm);
+            this.pnlPSO.Location = new System.Drawing.Point(0, 13);
+            this.pnlPSO.Name = "pnlPSO";
+            this.pnlPSO.Size = new System.Drawing.Size(242, 336);
+            this.pnlPSO.TabIndex = 3;
+            // 
+            // grpSwarm
+            // 
+            this.grpSwarm.Controls.Add(this.textBox1);
+            this.grpSwarm.Controls.Add(this.label1);
+            this.grpSwarm.Controls.Add(this.lblMaxI);
+            this.grpSwarm.Controls.Add(this.txtMaxI);
+            this.grpSwarm.Controls.Add(this.txtMinI);
+            this.grpSwarm.Controls.Add(this.txtMaxP);
+            this.grpSwarm.Controls.Add(this.txtMinP);
+            this.grpSwarm.Controls.Add(this.lblMinI);
+            this.grpSwarm.Controls.Add(this.lblMaxP);
+            this.grpSwarm.Controls.Add(this.lblMinP);
+            this.grpSwarm.Location = new System.Drawing.Point(3, 6);
+            this.grpSwarm.Name = "grpSwarm";
+            this.grpSwarm.Size = new System.Drawing.Size(217, 97);
+            this.grpSwarm.TabIndex = 2;
+            this.grpSwarm.TabStop = false;
+            this.grpSwarm.Text = "Swarm Parameters";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(49, 64);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(46, 20);
+            this.textBox1.TabIndex = 9;
+            this.textBox1.Text = "0.0";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(4, 67);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(39, 13);
+            this.label1.TabIndex = 8;
+            this.label1.Text = "Quant:";
+            // 
+            // lblMaxI
+            // 
+            this.lblMaxI.AutoSize = true;
+            this.lblMaxI.Location = new System.Drawing.Point(108, 42);
+            this.lblMaxI.Name = "lblMaxI";
+            this.lblMaxI.Size = new System.Drawing.Size(36, 13);
+            this.lblMaxI.TabIndex = 7;
+            this.lblMaxI.Text = "Max I:";
+            // 
+            // txtMaxI
+            // 
+            this.txtMaxI.Location = new System.Drawing.Point(147, 39);
+            this.txtMaxI.Name = "txtMaxI";
+            this.txtMaxI.Size = new System.Drawing.Size(46, 20);
+            this.txtMaxI.TabIndex = 6;
+            this.txtMaxI.Text = "1.0";
+            // 
+            // txtMinI
+            // 
+            this.txtMinI.Location = new System.Drawing.Point(49, 39);
+            this.txtMinI.Name = "txtMinI";
+            this.txtMinI.Size = new System.Drawing.Size(46, 20);
+            this.txtMinI.TabIndex = 5;
+            this.txtMinI.Text = "-1.0";
+            // 
+            // txtMaxP
+            // 
+            this.txtMaxP.Location = new System.Drawing.Point(147, 13);
+            this.txtMaxP.Name = "txtMaxP";
+            this.txtMaxP.Size = new System.Drawing.Size(46, 20);
+            this.txtMaxP.TabIndex = 4;
+            this.txtMaxP.Text = "1.0";
+            // 
+            // txtMinP
+            // 
+            this.txtMinP.Location = new System.Drawing.Point(49, 13);
+            this.txtMinP.Name = "txtMinP";
+            this.txtMinP.Size = new System.Drawing.Size(46, 20);
+            this.txtMinP.TabIndex = 3;
+            this.txtMinP.Text = "-1.0";
+            // 
+            // lblMinI
+            // 
+            this.lblMinI.AutoSize = true;
+            this.lblMinI.Location = new System.Drawing.Point(10, 42);
+            this.lblMinI.Name = "lblMinI";
+            this.lblMinI.Size = new System.Drawing.Size(33, 13);
+            this.lblMinI.TabIndex = 2;
+            this.lblMinI.Text = "Min I:";
+            // 
+            // lblMaxP
+            // 
+            this.lblMaxP.AutoSize = true;
+            this.lblMaxP.Location = new System.Drawing.Point(101, 17);
+            this.lblMaxP.Name = "lblMaxP";
+            this.lblMaxP.Size = new System.Drawing.Size(40, 13);
+            this.lblMaxP.TabIndex = 1;
+            this.lblMaxP.Text = "Max P:";
+            // 
+            // lblMinP
+            // 
+            this.lblMinP.AutoSize = true;
+            this.lblMinP.Location = new System.Drawing.Point(6, 16);
+            this.lblMinP.Name = "lblMinP";
+            this.lblMinP.Size = new System.Drawing.Size(37, 13);
+            this.lblMinP.TabIndex = 0;
+            this.lblMinP.Text = "Min P:";
+            // 
             // colourPicker1
             // 
             this.colourPicker1.Location = new System.Drawing.Point(10, 393);
@@ -1034,6 +1208,241 @@
             this.imageViewer1.TabIndex = 1;
             this.imageViewer1.Load += new System.EventHandler(this.imageViewer1_Load);
             this.imageViewer1.Paint += new System.Windows.Forms.PaintEventHandler(this.imageViewer1_Paint);
+            // 
+            // grpPSOParams
+            // 
+            this.grpPSOParams.Controls.Add(this.lblc);
+            this.grpPSOParams.Controls.Add(this.txtC);
+            this.grpPSOParams.Controls.Add(this.txtW);
+            this.grpPSOParams.Controls.Add(this.txtP);
+            this.grpPSOParams.Controls.Add(this.txtK);
+            this.grpPSOParams.Controls.Add(this.lblW);
+            this.grpPSOParams.Controls.Add(this.lblP);
+            this.grpPSOParams.Controls.Add(this.lblK);
+            this.grpPSOParams.Controls.Add(this.txtDimensions);
+            this.grpPSOParams.Controls.Add(this.label3);
+            this.grpPSOParams.Controls.Add(this.txtSwarmSize);
+            this.grpPSOParams.Controls.Add(this.lblSwarmSize);
+            this.grpPSOParams.Controls.Add(this.cmbRotation);
+            this.grpPSOParams.Controls.Add(this.lblRotation);
+            this.grpPSOParams.Controls.Add(this.cmbPSORandom);
+            this.grpPSOParams.Controls.Add(this.lblRandOrder);
+            this.grpPSOParams.Controls.Add(this.cmbRandOrder);
+            this.grpPSOParams.Controls.Add(this.lblPSORandom);
+            this.grpPSOParams.Controls.Add(this.cmbInitLinks);
+            this.grpPSOParams.Controls.Add(this.lblInitLinks);
+            this.grpPSOParams.Controls.Add(this.lblClamping);
+            this.grpPSOParams.Controls.Add(this.cmbClamping);
+            this.grpPSOParams.Location = new System.Drawing.Point(6, 109);
+            this.grpPSOParams.Name = "grpPSOParams";
+            this.grpPSOParams.Size = new System.Drawing.Size(217, 282);
+            this.grpPSOParams.TabIndex = 4;
+            this.grpPSOParams.TabStop = false;
+            this.grpPSOParams.Text = "General Parameters";
+            // 
+            // lblc
+            // 
+            this.lblc.AutoSize = true;
+            this.lblc.Location = new System.Drawing.Point(118, 244);
+            this.lblc.Name = "lblc";
+            this.lblc.Size = new System.Drawing.Size(16, 13);
+            this.lblc.TabIndex = 22;
+            this.lblc.Text = "c:";
+            // 
+            // txtC
+            // 
+            this.txtC.Location = new System.Drawing.Point(144, 241);
+            this.txtC.Name = "txtC";
+            this.txtC.Size = new System.Drawing.Size(46, 20);
+            this.txtC.TabIndex = 21;
+            this.txtC.Text = "0";
+            // 
+            // txtW
+            // 
+            this.txtW.Location = new System.Drawing.Point(28, 241);
+            this.txtW.Name = "txtW";
+            this.txtW.Size = new System.Drawing.Size(46, 20);
+            this.txtW.TabIndex = 20;
+            this.txtW.Text = "0";
+            // 
+            // txtP
+            // 
+            this.txtP.Location = new System.Drawing.Point(144, 215);
+            this.txtP.Name = "txtP";
+            this.txtP.Size = new System.Drawing.Size(46, 20);
+            this.txtP.TabIndex = 19;
+            this.txtP.Text = "0";
+            // 
+            // txtK
+            // 
+            this.txtK.Location = new System.Drawing.Point(28, 215);
+            this.txtK.Name = "txtK";
+            this.txtK.Size = new System.Drawing.Size(46, 20);
+            this.txtK.TabIndex = 18;
+            this.txtK.Text = "3";
+            // 
+            // lblW
+            // 
+            this.lblW.AutoSize = true;
+            this.lblW.Location = new System.Drawing.Point(5, 244);
+            this.lblW.Name = "lblW";
+            this.lblW.Size = new System.Drawing.Size(18, 13);
+            this.lblW.TabIndex = 17;
+            this.lblW.Text = "w:";
+            // 
+            // lblP
+            // 
+            this.lblP.AutoSize = true;
+            this.lblP.Location = new System.Drawing.Point(122, 218);
+            this.lblP.Name = "lblP";
+            this.lblP.Size = new System.Drawing.Size(16, 13);
+            this.lblP.TabIndex = 16;
+            this.lblP.Text = "p:";
+            // 
+            // lblK
+            // 
+            this.lblK.AutoSize = true;
+            this.lblK.Location = new System.Drawing.Point(5, 219);
+            this.lblK.Name = "lblK";
+            this.lblK.Size = new System.Drawing.Size(16, 13);
+            this.lblK.TabIndex = 15;
+            this.lblK.Text = "k:";
+            // 
+            // txtDimensions
+            // 
+            this.txtDimensions.Enabled = false;
+            this.txtDimensions.Location = new System.Drawing.Point(83, 152);
+            this.txtDimensions.Name = "txtDimensions";
+            this.txtDimensions.Size = new System.Drawing.Size(46, 20);
+            this.txtDimensions.TabIndex = 13;
+            this.txtDimensions.Text = "10";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(60, 155);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(18, 13);
+            this.label3.TabIndex = 12;
+            this.label3.Text = "D:";
+            // 
+            // txtSwarmSize
+            // 
+            this.txtSwarmSize.Location = new System.Drawing.Point(83, 180);
+            this.txtSwarmSize.Name = "txtSwarmSize";
+            this.txtSwarmSize.Size = new System.Drawing.Size(46, 20);
+            this.txtSwarmSize.TabIndex = 11;
+            this.txtSwarmSize.Text = "0";
+            // 
+            // lblSwarmSize
+            // 
+            this.lblSwarmSize.AutoSize = true;
+            this.lblSwarmSize.Location = new System.Drawing.Point(28, 183);
+            this.lblSwarmSize.Name = "lblSwarmSize";
+            this.lblSwarmSize.Size = new System.Drawing.Size(50, 13);
+            this.lblSwarmSize.TabIndex = 10;
+            this.lblSwarmSize.Text = "Particles:";
+            // 
+            // cmbRotation
+            // 
+            this.cmbRotation.FormattingEnabled = true;
+            this.cmbRotation.Items.AddRange(new object[] {
+            "Sensitive to rotation",
+            "Unsensitive"});
+            this.cmbRotation.Location = new System.Drawing.Point(83, 127);
+            this.cmbRotation.Name = "cmbRotation";
+            this.cmbRotation.Size = new System.Drawing.Size(121, 21);
+            this.cmbRotation.TabIndex = 9;
+            // 
+            // lblRotation
+            // 
+            this.lblRotation.AutoSize = true;
+            this.lblRotation.Location = new System.Drawing.Point(6, 131);
+            this.lblRotation.Name = "lblRotation";
+            this.lblRotation.Size = new System.Drawing.Size(72, 13);
+            this.lblRotation.TabIndex = 8;
+            this.lblRotation.Text = "Particle order:";
+            // 
+            // cmbPSORandom
+            // 
+            this.cmbPSORandom.Enabled = false;
+            this.cmbPSORandom.FormattingEnabled = true;
+            this.cmbPSORandom.Items.AddRange(new object[] {
+            "Kiss (unimplimented)",
+            "Mersenne Twister"});
+            this.cmbPSORandom.Location = new System.Drawing.Point(83, 73);
+            this.cmbPSORandom.Name = "cmbPSORandom";
+            this.cmbPSORandom.Size = new System.Drawing.Size(121, 21);
+            this.cmbPSORandom.TabIndex = 5;
+            // 
+            // lblRandOrder
+            // 
+            this.lblRandOrder.AutoSize = true;
+            this.lblRandOrder.Location = new System.Drawing.Point(6, 103);
+            this.lblRandOrder.Name = "lblRandOrder";
+            this.lblRandOrder.Size = new System.Drawing.Size(72, 13);
+            this.lblRandOrder.TabIndex = 7;
+            this.lblRandOrder.Text = "Particle order:";
+            // 
+            // cmbRandOrder
+            // 
+            this.cmbRandOrder.FormattingEnabled = true;
+            this.cmbRandOrder.Items.AddRange(new object[] {
+            "Particles modified in order",
+            "Particles modified randomly"});
+            this.cmbRandOrder.Location = new System.Drawing.Point(83, 100);
+            this.cmbRandOrder.Name = "cmbRandOrder";
+            this.cmbRandOrder.Size = new System.Drawing.Size(121, 21);
+            this.cmbRandOrder.TabIndex = 6;
+            // 
+            // lblPSORandom
+            // 
+            this.lblPSORandom.AutoSize = true;
+            this.lblPSORandom.Location = new System.Drawing.Point(6, 76);
+            this.lblPSORandom.Name = "lblPSORandom";
+            this.lblPSORandom.Size = new System.Drawing.Size(72, 13);
+            this.lblPSORandom.TabIndex = 4;
+            this.lblPSORandom.Text = "Randomness:";
+            // 
+            // cmbInitLinks
+            // 
+            this.cmbInitLinks.FormattingEnabled = true;
+            this.cmbInitLinks.Items.AddRange(new object[] {
+            "Reinit after failure",
+            "Reinit after success"});
+            this.cmbInitLinks.Location = new System.Drawing.Point(83, 46);
+            this.cmbInitLinks.Name = "cmbInitLinks";
+            this.cmbInitLinks.Size = new System.Drawing.Size(121, 21);
+            this.cmbInitLinks.TabIndex = 3;
+            // 
+            // lblInitLinks
+            // 
+            this.lblInitLinks.AutoSize = true;
+            this.lblInitLinks.Location = new System.Drawing.Point(25, 48);
+            this.lblInitLinks.Name = "lblInitLinks";
+            this.lblInitLinks.Size = new System.Drawing.Size(52, 13);
+            this.lblInitLinks.TabIndex = 2;
+            this.lblInitLinks.Text = "Init Links:";
+            // 
+            // lblClamping
+            // 
+            this.lblClamping.AutoSize = true;
+            this.lblClamping.Location = new System.Drawing.Point(25, 22);
+            this.lblClamping.Name = "lblClamping";
+            this.lblClamping.Size = new System.Drawing.Size(53, 13);
+            this.lblClamping.TabIndex = 1;
+            this.lblClamping.Text = "Clamping:";
+            // 
+            // cmbClamping
+            // 
+            this.cmbClamping.FormattingEnabled = true;
+            this.cmbClamping.Items.AddRange(new object[] {
+            "No Clamping",
+            "Classical (Bounded)"});
+            this.cmbClamping.Location = new System.Drawing.Point(83, 19);
+            this.cmbClamping.Name = "cmbClamping";
+            this.cmbClamping.Size = new System.Drawing.Size(121, 21);
+            this.cmbClamping.TabIndex = 0;
             // 
             // frmRunEditor
             // 
@@ -1066,6 +1475,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.numSegments)).EndInit();
             this.tabOptimisation.ResumeLayout(false);
             this.tabOptimisation.PerformLayout();
+            this.grpPSO.ResumeLayout(false);
             this.grpBackPropogation.ResumeLayout(false);
             this.grpEndCond.ResumeLayout(false);
             this.grpEndCond.PerformLayout();
@@ -1077,6 +1487,11 @@
             this.tabSaveLoad.PerformLayout();
             this.tabTesting.ResumeLayout(false);
             this.tabTesting.PerformLayout();
+            this.pnlPSO.ResumeLayout(false);
+            this.grpSwarm.ResumeLayout(false);
+            this.grpSwarm.PerformLayout();
+            this.grpPSOParams.ResumeLayout(false);
+            this.grpPSOParams.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1162,6 +1577,43 @@
         private System.Windows.Forms.TextBox txtMinimumError;
         private System.Windows.Forms.TextBox txtMaxIterations;
         private System.Windows.Forms.Button btnTestSegments;
+        private System.Windows.Forms.TextBox txtMaxTime;
+        private System.Windows.Forms.Label lblMaxTime;
+        private System.Windows.Forms.Panel pnlPSO;
+        private System.Windows.Forms.GroupBox grpSwarm;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblMaxI;
+        private System.Windows.Forms.TextBox txtMaxI;
+        private System.Windows.Forms.TextBox txtMinI;
+        private System.Windows.Forms.TextBox txtMaxP;
+        private System.Windows.Forms.TextBox txtMinP;
+        private System.Windows.Forms.Label lblMinI;
+        private System.Windows.Forms.Label lblMaxP;
+        private System.Windows.Forms.Label lblMinP;
+        private System.Windows.Forms.GroupBox grpPSOParams;
+        private System.Windows.Forms.Label lblc;
+        private System.Windows.Forms.TextBox txtC;
+        private System.Windows.Forms.TextBox txtW;
+        private System.Windows.Forms.TextBox txtP;
+        private System.Windows.Forms.TextBox txtK;
+        private System.Windows.Forms.Label lblW;
+        private System.Windows.Forms.Label lblP;
+        private System.Windows.Forms.Label lblK;
+        private System.Windows.Forms.TextBox txtDimensions;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox txtSwarmSize;
+        private System.Windows.Forms.Label lblSwarmSize;
+        private System.Windows.Forms.ComboBox cmbRotation;
+        private System.Windows.Forms.Label lblRotation;
+        private System.Windows.Forms.ComboBox cmbPSORandom;
+        private System.Windows.Forms.Label lblRandOrder;
+        private System.Windows.Forms.ComboBox cmbRandOrder;
+        private System.Windows.Forms.Label lblPSORandom;
+        private System.Windows.Forms.ComboBox cmbInitLinks;
+        private System.Windows.Forms.Label lblInitLinks;
+        private System.Windows.Forms.Label lblClamping;
+        private System.Windows.Forms.ComboBox cmbClamping;
     }
 }
 
