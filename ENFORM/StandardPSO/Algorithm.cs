@@ -252,15 +252,15 @@ namespace SPSO_2007
         public Algorithm(Problem pb)
         {
             this.pb = pb;
-            bestBest = new Position(pb.SS.D); 
+            bestBest = new Position(pb.SS.D);
             PX = new Velocity(pb.SS.D);
             R = new SPSO_2007.Result(pb.SS.D);
-            
+
             //f_run = File.OpenWrite("f_run.txt");
             //f_synth = File.OpenWrite("f_synth.txt");
 
             // ----------------------------------------------- PROBLEM
-           
+
 
 
             runMax = 100;
@@ -283,7 +283,7 @@ namespace SPSO_2007
             param.rand = 1; // 0 => Use KISS as random number generator. 
             // Any other value => use the system one
 
-            param.randOrder = 0; // 0 => at each iteration, particles are modified
+            param.randOrder = 1; // 0 => at each iteration, particles are modified
             //     always according to the same order 0..S-1
             //*1 => at each iteration, particles numbers are
             //		randomly permutated
@@ -340,7 +340,7 @@ namespace SPSO_2007
             }		// End loop on "run"
             */
             // ---------------------END 
-            
+
 
             // Save	
             //TODO: Fix up writing out to files
@@ -349,7 +349,7 @@ namespace SPSO_2007
             for (d = 0; d < pb.SS.D; d++) fUtils.Log(f_synth, " %f", bestBest.x[d]);
             fUtils.Log(f_synth, "\n");
              * */
-            
+
             return; // End of main program
         }
 
@@ -357,9 +357,9 @@ namespace SPSO_2007
         {
             //srand (clock () / 100);	// May improve pseudo-randomness   
             InitPSO();
-            Result = PSOResult;          
+            Result = PSOResult;
 
-            
+
         }
 
         public void EndRun()
@@ -397,7 +397,7 @@ namespace SPSO_2007
 
         public void Finish()
         {
-            
+
 
             // Display some statistical information
             evalMean /= runMax;
@@ -429,8 +429,8 @@ namespace SPSO_2007
         // PSO
         private void InitPSO()
         {
-            
-           
+
+
 
             aleaV.size = pb.SS.D;
             RotatePX.size = pb.SS.D;
@@ -469,7 +469,7 @@ namespace SPSO_2007
 
             // Find the best
             PSOResult.SW.best = 0;
-            
+
             switch (param.stop)
             {
                 default:
@@ -515,245 +515,221 @@ namespace SPSO_2007
             Error = errorPrev;
             // ---------------------------------------------- ITERATIONS
             iter = 0;
-           
+
         }
 
 
         public int NextIteration()
         {
-             iter++;
+            iter++;
 
-                if (initLinks == 1)	// Random topology
+            if (initLinks == 1)	// Random topology
+            {
+                // Who informs who, at random
+                for (s = 0; s < PSOResult.SW.S; s++)
                 {
-                    // Who informs who, at random
-                    for (s = 0; s < PSOResult.SW.S; s++)
+                    for (m = 0; m < PSOResult.SW.S; m++)
                     {
-                        for (m = 0; m < PSOResult.SW.S; m++)
-                        {
-                            if (rand.NextDouble() < p) LINKS[m, s] = 1;	// Probabilistic method
-                            else LINKS[m, s] = 0;
-                        }
-                        LINKS[s, s] = 1;
+                        if (rand.NextDouble() < p) LINKS[m, s] = 1;	// Probabilistic method
+                        else LINKS[m, s] = 0;
+                    }
+                    LINKS[s, s] = 1;
+                }
+            }
+
+            // The swarm MOVES
+            //Utils.Log("\nIteration %i",iter);
+            for (int i = 0; i < PSOResult.SW.S; i++)
+                index[i] = i;
+            //Permutate the index order
+            if (param.randOrder == 1)
+            {
+                index.Shuffle(7, PSOResult.SW.S);
+            }
+
+            Velocity GX = new Velocity(pb.SS.D);
+            for (s0 = 0; s0 < PSOResult.SW.S; s0++)	// For each particle ...
+            {
+
+
+                s = index[s0];
+                // ... find the first informant
+                s1 = 0;
+                while (LINKS[s1, s] == 0) s1++;
+                if (s1 >= PSOResult.SW.S) s1 = s;
+
+                // Find the best informant			
+                g = s1;
+                for (m = s1; m < PSOResult.SW.S; m++)
+                {
+                    if (LINKS[m, s] == 1 && PSOResult.SW.P[m].f < PSOResult.SW.P[g].f)
+                        g = m;
+                }
+
+                //.. compute the new velocity, and move
+
+                // Exploration tendency
+                for (d = 0; d < pb.SS.D; d++)
+                {
+                    PSOResult.SW.V[s].v[d] = param.w * PSOResult.SW.V[s].v[d];
+                    // Prepare Exploitation tendency  p-x
+                    PX.v[d] = PSOResult.SW.P[s].x[d] - PSOResult.SW.X[s].x[d];
+                    if (g != s)
+                        GX.v[d] = PSOResult.SW.P[g].x[d] - PSOResult.SW.X[s].x[d];// g-x
+                }
+                PX.size = pb.SS.D;
+                GX.size = pb.SS.D;
+
+
+                // Option "non sentivity to rotation"				
+                if (param.rotation > 0)
+                {
+                    normPX = Velocity.normL(PX, 2);
+                    if (g != s) normGX = Velocity.normL(GX, 2);
+                    if (normPX > 0)
+                    {
+                        RotatePX = Matrix.MatrixRotation(PX);
+                    }
+
+                    if (g != s && normGX > 0)
+                    {
+                        RotateGX = Matrix.MatrixRotation(GX);
                     }
                 }
 
-                // The swarm MOVES
-                //Utils.Log("\nIteration %i",iter);
-                for (int i = 0; i < PSOResult.SW.S; i++)
-                    index[i] = i;
-                //Permutate the index order
-                if (param.randOrder == 1)
-                {
-                    index.Shuffle(7, PSOResult.SW.S);
-                }
-
-                Velocity GX = new Velocity(pb.SS.D);
-                for (s0 = 0; s0 < PSOResult.SW.S; s0++)	// For each particle ...
-                {
-                    
-                    
-                    s = index[s0];
-                    // ... find the first informant
-                    s1 = 0;
-                    while (LINKS[s1, s] == 0) s1++;
-                    if (s1 >= PSOResult.SW.S) s1 = s;
-
-                    // Find the best informant			
-                    g = s1;
-                    for (m = s1; m < PSOResult.SW.S; m++)
-                    {
-                        if (LINKS[m, s] == 1 && PSOResult.SW.P[m].f < PSOResult.SW.P[g].f)
-                            g = m;
-                    }
-
-                    //.. compute the new velocity, and move
-
-                    // Exploration tendency
-                    for (d = 0; d < pb.SS.D; d++)
-                    {
-                        PSOResult.SW.V[s].v[d] = param.w * PSOResult.SW.V[s].v[d];
-                        // Prepare Exploitation tendency  p-x
-                        PX.v[d] = PSOResult.SW.P[s].x[d] - PSOResult.SW.X[s].x[d];
-                        if (g != s)
-                            GX.v[d] = PSOResult.SW.P[g].x[d] - PSOResult.SW.X[s].x[d];// g-x
-                    }
-                    PX.size = pb.SS.D;
-                    GX.size = pb.SS.D;
-
-
-                    // Option "non sentivity to rotation"				
-                    if (param.rotation > 0)
-                    {
-                        normPX = Velocity.normL(PX, 2);
-                        if (g != s) normGX = Velocity.normL(GX, 2);
-                        if (normPX > 0)
-                        {
-                            RotatePX = Matrix.MatrixRotation(PX);
-                        }
-
-                        if (g != s && normGX > 0)
-                        {
-                            RotateGX = Matrix.MatrixRotation(GX);
-                        }
-                    }
-
-                    // Exploitation tendencies
-                    switch (param.rotation)
-                    {
-                        default:
-                            for (d = 0; d < pb.SS.D; d++)
-                            {
-                                PSOResult.SW.V[s].v[d] = PSOResult.SW.V[s].v[d] + rand.NextDouble(0.0, param.c) * PX.v[d];
-                                if (g != s)
-                                    PSOResult.SW.V[s].v[d] = PSOResult.SW.V[s].v[d] + rand.NextDouble(0.0, param.c) * GX.v[d];
-                            }
-                            break;
-
-                        case 1:
-                            // First exploitation tendency
-                            if (normPX > 0)
-                            {
-                                zz = param.c * normPX / sqrtD;
-                                aleaV = rand.NextVector(pb.SS.D, zz);
-                                Velocity expt1 = RotatePX.VectorProduct(aleaV);
-
-                                for (d = 0; d < pb.SS.D; d++)
-                                {
-                                    PSOResult.SW.V[s].v[d] = PSOResult.SW.V[s].v[d] + expt1.v[d];
-                                }
-                            }
-
-                            // Second exploitation tendency
-                            if (g != s && normGX > 0)
-                            {
-                                zz = param.c * normGX / sqrtD;
-                                aleaV = rand.NextVector(pb.SS.D, zz);
-                                Velocity expt2 = RotateGX.VectorProduct(aleaV);
-                                for (d = 0; d < pb.SS.D; d++)
-                                {
-                                    PSOResult.SW.V[s].v[d] = PSOResult.SW.V[s].v[d] + expt2.v[d];
-                                }
-                            }
-                            break;
-                    }
-
-                    // Update the position
-                    for (d = 0; d < pb.SS.D; d++)
-                    {
-                        PSOResult.SW.X[s].x[d] = PSOResult.SW.X[s].x[d] + PSOResult.SW.V[s].v[d];
-                    }
-
-                    if (PSOResult.nEval >= pb.evalMax)
-                    {
-                        //error= fabs(error - pb.objective);
-                        goto end;
-                    }
-                    // --------------------------
-                    //noEval = 1;
-
-                    // Quantisation
-                    Position.quantis(PSOResult.SW.X[s], pb.SS);
-
-                    switch (param.clamping)
-                    {
-                        case 0:	// No clamping AND no evaluation
-                            outside = 0;
-
-                            for (d = 0; d < pb.SS.D; d++)
-                            {
-                                if (PSOResult.SW.X[s].x[d] < pb.SS.min[d] || PSOResult.SW.X[s].x[d] > pb.SS.max[d])
-                                    outside++;
-                            }
-
-                            if (outside == 0)	// If inside, the position is evaluated
-                            {
-                                PSOResult.SW.X[s].f =
-                                    pb.perf(PSOResult.SW.X[s], pb.function, pb.objective);
-                                PSOResult.nEval = PSOResult.nEval + 1;
-                            }
-                            break;
-
-                        case 1:	// Set to the bounds, and v to zero
-                            for (d = 0; d < pb.SS.D; d++)
-                            {
-                                if (PSOResult.SW.X[s].x[d] < pb.SS.min[d])
-                                {
-                                    PSOResult.SW.X[s].x[d] = pb.SS.min[d];
-                                    PSOResult.SW.V[s].v[d] = 0;
-                                }
-
-                                if (PSOResult.SW.X[s].x[d] > pb.SS.max[d])
-                                {
-                                    PSOResult.SW.X[s].x[d] = pb.SS.max[d];
-                                    PSOResult.SW.V[s].v[d] = 0;
-                                }
-                            }
-
-                            PSOResult.SW.X[s].f = pb.perf(PSOResult.SW.X[s], pb.function, pb.objective);
-                            PSOResult.nEval = PSOResult.nEval + 1;
-                            break;
-                    }
-
-                    // ... update the best previous position
-                    if (PSOResult.SW.X[s].f < PSOResult.SW.P[s].f)	// Improvement
-                    {
-                        PSOResult.SW.P[s] = PSOResult.SW.X[s].Clone();
-
-                        // ... update the best of the bests
-                        if (PSOResult.SW.P[s].f < PSOResult.SW.P[PSOResult.SW.best].f)
-                        {
-                            PSOResult.SW.best = s;
-                        }
-                    }
-                }			// End of "for (s0=0 ...  "	
-                // Check if finished
-                switch (param.stop)
+                // Exploitation tendencies
+                switch (param.rotation)
                 {
                     default:
-                        Error = PSOResult.SW.P[PSOResult.SW.best].f;
-                        break;
-
-                    case 2:
-                        Error = Position.distanceL(PSOResult.SW.P[PSOResult.SW.best], pb.solution, 2);
-                        break;
-                }
-                //error= fabs(error - pb.epsilon);
-
-                if (Error < errorPrev)	// Improvement
-                {
-                    initLinks = 0;
-                }
-                else			// No improvement
-                {
-                    initLinks = 1;	// Information links will be	reinitialized	
-                }
-
-                if (param.initLink == 1) initLinks = 1 - initLinks;
-
-                errorPrev = Error;
-            end:
-
-                switch (param.stop)
-                {
-                    case 0:
-                    case 2:
-                        if (Error > pb.epsilon)// && PSOResult.nEval < pb.evalMax)
+                        for (d = 0; d < pb.SS.D; d++)
                         {
-                            noStop = 0;	// Won't stop
-                        }
-                        else
-                        {
-                            noStop = 1;	// Will stop
+                            PSOResult.SW.V[s].v[d] = PSOResult.SW.V[s].v[d] + rand.NextDouble(0.0, param.c) * PX.v[d];
+                            if (g != s)
+                                PSOResult.SW.V[s].v[d] = PSOResult.SW.V[s].v[d] + rand.NextDouble(0.0, param.c) * GX.v[d];
                         }
                         break;
 
                     case 1:
-                        if (PSOResult.nEval < pb.evalMax)
-                            noStop = 0;	// Won't stop
-                        else
-                            noStop = 1;	// Will stop
+                        // First exploitation tendency
+                        if (normPX > 0)
+                        {
+                            zz = param.c * normPX / sqrtD;
+                            aleaV = rand.NextVector(pb.SS.D, zz);
+                            Velocity expt1 = RotatePX.VectorProduct(aleaV);
+
+                            for (d = 0; d < pb.SS.D; d++)
+                            {
+                                PSOResult.SW.V[s].v[d] = PSOResult.SW.V[s].v[d] + expt1.v[d];
+                            }
+                        }
+
+                        // Second exploitation tendency
+                        if (g != s && normGX > 0)
+                        {
+                            zz = param.c * normGX / sqrtD;
+                            aleaV = rand.NextVector(pb.SS.D, zz);
+                            Velocity expt2 = RotateGX.VectorProduct(aleaV);
+                            for (d = 0; d < pb.SS.D; d++)
+                            {
+                                PSOResult.SW.V[s].v[d] = PSOResult.SW.V[s].v[d] + expt2.v[d];
+                            }
+                        }
                         break;
                 }
+
+                // Update the position
+                for (d = 0; d < pb.SS.D; d++)
+                {
+                    PSOResult.SW.X[s].x[d] = PSOResult.SW.X[s].x[d] + PSOResult.SW.V[s].v[d];
+                }
+
+                // --------------------------
+                //noEval = 1;
+
+                // Quantisation
+                Position.quantis(PSOResult.SW.X[s], pb.SS);
+
+                switch (param.clamping)
+                {
+                    case 0:	// No clamping AND no evaluation
+                        outside = 0;
+
+                        for (d = 0; d < pb.SS.D; d++)
+                        {
+                            if (PSOResult.SW.X[s].x[d] < pb.SS.min[d] || PSOResult.SW.X[s].x[d] > pb.SS.max[d])
+                                outside++;
+                        }
+
+                        if (outside == 0)	// If inside, the position is evaluated
+                        {
+                            PSOResult.SW.X[s].f =
+                                pb.perf(PSOResult.SW.X[s], pb.function, pb.objective);
+                            PSOResult.nEval = PSOResult.nEval + 1;
+                        }
+                        break;
+
+                    case 1:	// Set to the bounds, and v to zero
+                        for (d = 0; d < pb.SS.D; d++)
+                        {
+                            if (PSOResult.SW.X[s].x[d] < pb.SS.min[d])
+                            {
+                                PSOResult.SW.X[s].x[d] = pb.SS.min[d];
+                                PSOResult.SW.V[s].v[d] = 0;
+                            }
+
+                            if (PSOResult.SW.X[s].x[d] > pb.SS.max[d])
+                            {
+                                PSOResult.SW.X[s].x[d] = pb.SS.max[d];
+                                PSOResult.SW.V[s].v[d] = 0;
+                            }
+                        }
+
+                        PSOResult.SW.X[s].f = pb.perf(PSOResult.SW.X[s], pb.function, pb.objective);
+                        PSOResult.nEval = PSOResult.nEval + 1;
+                        break;
+                }
+
+                // ... update the best previous position
+                if (PSOResult.SW.X[s].f < PSOResult.SW.P[s].f)	// Improvement
+                {
+                    PSOResult.SW.P[s] = PSOResult.SW.X[s].Clone();
+
+                    // ... update the best of the bests
+                    if (PSOResult.SW.P[s].f < PSOResult.SW.P[PSOResult.SW.best].f)
+                    {
+                        PSOResult.SW.best = s;
+                    }
+                }
+            }			// End of "for (s0=0 ...  "	
+            // Check if finished
+            switch (param.stop)
+            {
+                default:
+                    Error = PSOResult.SW.P[PSOResult.SW.best].f;
+                    break;
+
+                case 2:
+                    Error = Position.distanceL(PSOResult.SW.P[PSOResult.SW.best], pb.solution, 2);
+                    break;
+            }
+            //error= fabs(error - pb.epsilon);
+
+            if (Error < errorPrev)	// Improvement
+            {
+                initLinks = 0;
+            }
+            else			// No improvement
+            {
+                initLinks = 1;	// Information links will be	reinitialized	
+            }
+
+            if (param.initLink == 1) initLinks = 1 - initLinks;
+
+            errorPrev = Error;
+
+
+
+
 
             return (int)PSOResult.nEval;
         }
