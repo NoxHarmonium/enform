@@ -108,8 +108,8 @@
             this.lblClamping = new System.Windows.Forms.Label();
             this.cmbClamping = new System.Windows.Forms.ComboBox();
             this.grpSwarm = new System.Windows.Forms.GroupBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.txtQuant = new System.Windows.Forms.TextBox();
+            this.lblQuant = new System.Windows.Forms.Label();
             this.lblMaxI = new System.Windows.Forms.Label();
             this.txtMaxI = new System.Windows.Forms.TextBox();
             this.txtMinI = new System.Windows.Forms.TextBox();
@@ -995,15 +995,16 @@
             this.cmbRotation.Name = "cmbRotation";
             this.cmbRotation.Size = new System.Drawing.Size(121, 21);
             this.cmbRotation.TabIndex = 9;
+            this.cmbRotation.SelectedIndexChanged += new System.EventHandler(this.cmbRotation_SelectedIndexChanged);
             // 
             // lblRotation
             // 
             this.lblRotation.AutoSize = true;
-            this.lblRotation.Location = new System.Drawing.Point(6, 131);
+            this.lblRotation.Location = new System.Drawing.Point(27, 130);
             this.lblRotation.Name = "lblRotation";
-            this.lblRotation.Size = new System.Drawing.Size(72, 13);
+            this.lblRotation.Size = new System.Drawing.Size(50, 13);
             this.lblRotation.TabIndex = 8;
-            this.lblRotation.Text = "Particle order:";
+            this.lblRotation.Text = "Rotation:";
             // 
             // cmbPSORandom
             // 
@@ -1088,8 +1089,8 @@
             // 
             // grpSwarm
             // 
-            this.grpSwarm.Controls.Add(this.textBox1);
-            this.grpSwarm.Controls.Add(this.label1);
+            this.grpSwarm.Controls.Add(this.txtQuant);
+            this.grpSwarm.Controls.Add(this.lblQuant);
             this.grpSwarm.Controls.Add(this.lblMaxI);
             this.grpSwarm.Controls.Add(this.txtMaxI);
             this.grpSwarm.Controls.Add(this.txtMinI);
@@ -1105,22 +1106,22 @@
             this.grpSwarm.TabStop = false;
             this.grpSwarm.Text = "Swarm Parameters";
             // 
-            // textBox1
+            // txtQuant
             // 
-            this.textBox1.Location = new System.Drawing.Point(49, 64);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(46, 20);
-            this.textBox1.TabIndex = 9;
-            this.textBox1.Text = "0.0";
+            this.txtQuant.Location = new System.Drawing.Point(49, 64);
+            this.txtQuant.Name = "txtQuant";
+            this.txtQuant.Size = new System.Drawing.Size(46, 20);
+            this.txtQuant.TabIndex = 9;
+            this.txtQuant.Text = "0.0";
             // 
-            // label1
+            // lblQuant
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(4, 67);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(39, 13);
-            this.label1.TabIndex = 8;
-            this.label1.Text = "Quant:";
+            this.lblQuant.AutoSize = true;
+            this.lblQuant.Location = new System.Drawing.Point(4, 67);
+            this.lblQuant.Name = "lblQuant";
+            this.lblQuant.Size = new System.Drawing.Size(39, 13);
+            this.lblQuant.TabIndex = 8;
+            this.lblQuant.Text = "Quant:";
             // 
             // lblMaxI
             // 
@@ -1659,8 +1660,8 @@
         private System.Windows.Forms.Label lblMaxTime;
         private System.Windows.Forms.Panel pnlPSO;
         private System.Windows.Forms.GroupBox grpSwarm;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox txtQuant;
+        private System.Windows.Forms.Label lblQuant;
         private System.Windows.Forms.Label lblMaxI;
         private System.Windows.Forms.TextBox txtMaxI;
         private System.Windows.Forms.TextBox txtMinI;

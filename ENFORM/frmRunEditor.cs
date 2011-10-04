@@ -554,13 +554,48 @@ namespace ENFORM
                     dataAccess.SetParameter("Filter_ThresholdStr", numThreshold.Value.ToString());
 
                     dataAccess.SetParameter("Opt_Bp_Enabled", chkBackPropogation.Checked.ToString());
-                    dataAccess.SetParameter("Opt_Bp_LearningType", cmbLearningRateType.SelectedIndex.ToString());
-                    dataAccess.SetParameter("Opt_Bp_InitialLearnRate", txtInitialRate.Text);
-                    dataAccess.SetParameter("Opt_Bp_FinalLearnRate", txtFinalRate.Text);
-                    dataAccess.SetParameter("Opt_Bp_JitterEpoch", txtJitterEpoch.Text);
-                    dataAccess.SetParameter("Opt_Bp_JitterNoiseLimit", txtJitterNoiseLimit.Text);
-                    dataAccess.SetParameter("Opt_Bp_MaxIterations", txtMaxIterations.Text);
-                    dataAccess.SetParameter("Opt_Bp_MinError", txtMinimumError.Text);
+                    if (chkBackPropogation.Checked)
+                    {
+                        dataAccess.SetParameter("Opt_Bp_LearningType", cmbLearningRateType.SelectedIndex.ToString());
+                        dataAccess.SetParameter("Opt_Bp_InitialLearnRate", txtInitialRate.Text);
+                        dataAccess.SetParameter("Opt_Bp_FinalLearnRate", txtFinalRate.Text);
+                        dataAccess.SetParameter("Opt_Bp_JitterEpoch", txtJitterEpoch.Text);
+                        dataAccess.SetParameter("Opt_Bp_JitterNoiseLimit", txtJitterNoiseLimit.Text);
+                        dataAccess.SetParameter("Opt_Bp_MaxIterations", txtMaxIterations.Text);
+                        dataAccess.SetParameter("Opt_Bp_MinError", txtMinimumError.Text);
+                    }
+
+                    dataAccess.SetParameter("Opt_Pso_Enabled", chkPSO.Checked.ToString());
+                    if (chkPSO.Checked)
+                    {
+                        dataAccess.SetParameter("Opt_Pso_MinP", txtMinP.Text);
+                        dataAccess.SetParameter("Opt_Pso_MaxP", txtMaxP.Text);
+                        dataAccess.SetParameter("Opt_Pso_MinI", txtMinI.Text);
+                        dataAccess.SetParameter("Opt_Pso_MaxI", txtMaxI.Text);
+                        dataAccess.SetParameter("Opt_Pso_Quant",txtQuant.Text);
+
+                        dataAccess.SetParameter("Opt_Pso_Clamping", cmbClamping.SelectedIndex.ToString());
+                        dataAccess.SetParameter("Opt_Pso_InitLinks", cmbInitLinks.SelectedIndex.ToString());
+                        dataAccess.SetParameter("Opt_Pso_Randomness", cmbPSORandom.SelectedIndex.ToString());
+                        dataAccess.SetParameter("Opt_Pso_ParticleOrder", cmbRandOrder.SelectedIndex.ToString());
+                        dataAccess.SetParameter("Opt_Pso_Rotation", cmbRotation.SelectedIndex.ToString());
+                        
+                        dataAccess.SetParameter("Opt_Pso_Dimensions", txtDimensions.Text);
+                        dataAccess.SetParameter("Opt_Pso_Particles", txtSwarmSize.Text);
+                        dataAccess.SetParameter("Opt_Pso_k", txtK.Text);
+                        dataAccess.SetParameter("Opt_Pso_p", txtP.Text);
+                        dataAccess.SetParameter("Opt_Pso_w", txtW.Text);
+                        dataAccess.SetParameter("Opt_Pso_c", txtC.Text);
+
+                        dataAccess.SetParameter("Opt_Pso_AutoParticles", chkAutoSwarmSize.Checked.ToString());
+                        dataAccess.SetParameter("Opt_Pso_AutoK", chkAutoK.Checked.ToString());
+                        dataAccess.SetParameter("Opt_Pso_AutoP", chkAutoP.Checked.ToString());
+                        dataAccess.SetParameter("Opt_Pso_AutoW", chkAutoW.Checked.ToString());
+                        dataAccess.SetParameter("Opt_Pso_AutoC", chkAutoC.Checked.ToString());
+
+
+                    }
+                    
 
 
                     
@@ -611,7 +646,10 @@ namespace ENFORM
                     chkThreshold.Checked  = Convert.ToBoolean(dataAccess.GetParameter("Filter_Threshold"));
                     numThreshold.Value  = Convert.ToDecimal(dataAccess.GetParameter("Filter_ThresholdStr"));
 
+
                     chkBackPropogation.Checked = Convert.ToBoolean(dataAccess.GetParameter("Opt_Bp_Enabled"));
+                     try
+                    {
                     cmbLearningRateType.SelectedIndex = Convert.ToInt32(dataAccess.GetParameter("Opt_Bp_LearningType"));
                     txtInitialRate.Text = dataAccess.GetParameter("Opt_Bp_InitialLearnRate");
                     txtFinalRate.Text = dataAccess.GetParameter("Opt_Bp_FinalLearnRate");
@@ -619,6 +657,46 @@ namespace ENFORM
                     txtJitterNoiseLimit.Text = dataAccess.GetParameter("Opt_Bp_JitterNoiseLimit");
                     txtMaxIterations.Text = dataAccess.GetParameter("Opt_Bp_MaxIterations");
                     txtMinimumError.Text = dataAccess.GetParameter("Opt_Bp_MinError");
+
+                    }
+                     catch (Exception)
+                     {
+                         Utils.Log("Warning: Error reading backprop parameters");
+                     }
+                    try
+                    {
+
+                        chkPSO.Checked = Convert.ToBoolean(dataAccess.GetParameter("Opt_Pso_Enabled"));
+
+                        txtMinP.Text = dataAccess.GetParameter("Opt_Pso_MinP");
+                        txtMaxP.Text = dataAccess.GetParameter("Opt_Pso_MaxP");
+                        txtMinI.Text = dataAccess.GetParameter("Opt_Pso_MinI");
+                        txtMaxI.Text = dataAccess.GetParameter("Opt_Pso_MaxI");
+                        txtQuant.Text = dataAccess.GetParameter("Opt_Pso_Quant");
+
+                        cmbClamping.SelectedIndex = Convert.ToInt32(dataAccess.GetParameter("Opt_Pso_Clamping"));
+                        cmbInitLinks.SelectedIndex = Convert.ToInt32(dataAccess.GetParameter("Opt_Pso_InitLinks"));
+                        cmbPSORandom.SelectedIndex = Convert.ToInt32(dataAccess.GetParameter("Opt_Pso_Randomness"));
+                        cmbRandOrder.SelectedIndex = Convert.ToInt32(dataAccess.GetParameter("Opt_Pso_ParticleOrder"));
+                        cmbRotation.SelectedIndex = Convert.ToInt32(dataAccess.GetParameter("Opt_Pso_Rotation"));
+
+                        txtDimensions.Text = dataAccess.GetParameter("Opt_Pso_Dimensions");
+                        txtSwarmSize.Text = dataAccess.GetParameter("Opt_Pso_Particles");
+                        txtK.Text = dataAccess.GetParameter("Opt_Pso_k");
+                        txtP.Text = dataAccess.GetParameter("Opt_Pso_p");
+                        txtW.Text = dataAccess.GetParameter("Opt_Pso_w");
+                        txtC.Text = dataAccess.GetParameter("Opt_Pso_c");
+
+                        chkAutoSwarmSize.Checked  = Convert.ToBoolean(dataAccess.GetParameter("Opt_Pso_AutoParticles"));
+                       chkAutoK.Checked =Convert.ToBoolean(dataAccess.GetParameter("Opt_Pso_AutoK"));
+                        chkAutoP.Checked = Convert.ToBoolean(dataAccess.GetParameter("Opt_Pso_AutoP"));
+                       chkAutoW.Checked = Convert.ToBoolean(dataAccess.GetParameter("Opt_Pso_AutoW"));
+                       chkAutoC.Checked = Convert.ToBoolean(dataAccess.GetParameter("Opt_Pso_AutoC"));
+                    }
+                    catch (Exception)
+                    {
+                        Utils.Log("Warning: Error reading PSO parameters");
+                    }
 
 
 
@@ -916,6 +994,9 @@ namespace ENFORM
                 txtSwarmSize.Text = Convert.ToString(Math.Ceiling(10 + (2 * Math.Sqrt(Convert.ToDouble(txtDimensions.Text)))));
             }
         }
+
+       
+   
 
        
 
