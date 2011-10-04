@@ -37,7 +37,7 @@ namespace SPSO_2007
             this.function = (int)problem;
             this.epsilon = 0.00000;	// Acceptable error (default). May be modified below
             this.objective = 0;       // Objective value (default). May be modified below
-
+            //this.evalMax =100000
 
             // Define the solution point, for test
             // NEEDED when param.stop = 2 
@@ -69,8 +69,8 @@ namespace SPSO_2007
 
             for (d = 0; d < this.SS.D; d++)
             {
-                this.SS.maxInit[d] = initialWeights[d]; // May be a different value
-                this.SS.minInit[d] = initialWeights[d]; // May be a different value
+                this.SS.maxInit[d] = this.SS.max[d];
+                this.SS.minInit[d] = this.SS.min[d];
             }
 
         }
