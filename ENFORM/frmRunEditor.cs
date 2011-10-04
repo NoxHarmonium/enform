@@ -746,6 +746,7 @@ namespace ENFORM
             txtC.Text = Convert.ToString(0.5 + Math.Log(2));
             txtP.Text = Convert.ToString(1.0-Math.Pow(1.0-(1.0/Convert.ToDouble(txtSwarmSize.Text)),Convert.ToDouble(txtK.Text)));
 
+            txtDimensions.Text = calculateTotalWeights().ToString();
             
             
         }
@@ -825,28 +826,33 @@ namespace ENFORM
 
         private void txtDimensions_TextChanged(object sender, EventArgs e)
         {
-            try
+            if (chkAutoSwarmSize.Checked)
             {
-                txtSwarmSize.Text = Convert.ToString(Math.Ceiling(10 + (2 * Math.Sqrt(Convert.ToDouble(txtDimensions.Text)))));
+                try
+                {
+                    txtSwarmSize.Text = Convert.ToString(Math.Ceiling(10 + (2 * Math.Sqrt(Convert.ToDouble(txtDimensions.Text)))));
+                }
+                catch (Exception)
+                {
+                    txtSwarmSize.Text = "Error";
+                }
             }
-            catch (Exception)
-            {
-                txtSwarmSize.Text = "Error";
-            }
-            
             
             
         }
 
         private void txtK_TextChanged(object sender, EventArgs e)
         {
-            try
+            if (chkAutoP.Checked)
             {
-                txtP.Text = Convert.ToString(1.0 - Math.Pow(1.0 - (1.0 / Convert.ToDouble(txtSwarmSize.Text)), Convert.ToDouble(txtK.Text)));
-            }
-            catch (Exception)
-            {
-                txtP.Text = "Error";
+                try
+                {
+                    txtP.Text = Convert.ToString(1.0 - Math.Pow(1.0 - (1.0 / Convert.ToDouble(txtSwarmSize.Text)), Convert.ToDouble(txtK.Text)));
+                }
+                catch (Exception)
+                {
+                    txtP.Text = "Error";
+                }
             }
             
             
@@ -854,17 +860,67 @@ namespace ENFORM
 
         private void txtSwarmSize_TextChanged(object sender, EventArgs e)
         {
-            try
+            if (chkAutoP.Checked)
             {
-                txtP.Text = Convert.ToString(1.0 - Math.Pow(1.0 - (1.0 / Convert.ToDouble(txtSwarmSize.Text)), Convert.ToDouble(txtK.Text)));
-            }
-            catch (Exception)
-            {
-                txtP.Text = "Error";
+                try
+                {
+                    txtP.Text = Convert.ToString(1.0 - Math.Pow(1.0 - (1.0 / Convert.ToDouble(txtSwarmSize.Text)), Convert.ToDouble(txtK.Text)));
+                }
+                catch (Exception)
+                {
+                    txtP.Text = "Error";
+                }
             }
             
            
         }
+
+        private void chkAutoK_CheckedChanged(object sender, EventArgs e)
+        {
+            txtK.Enabled = !chkAutoK.Checked;
+        }
+
+        private void chkAutoW_CheckedChanged(object sender, EventArgs e)
+        {
+            txtW.Enabled = !chkAutoW.Checked;
+            if (chkAutoW.Checked)
+            {
+                txtW.Text = Convert.ToString(1.0 / (2.0 * Math.Log(2)));
+            }
+           
+        }
+
+        private void chkAutoP_CheckedChanged(object sender, EventArgs e)
+        {
+            txtP.Enabled = !chkAutoP.Checked;
+            if (chkAutoP.Checked)
+            {
+                txtP.Text = Convert.ToString(1.0 - Math.Pow(1.0 - (1.0 / Convert.ToDouble(txtSwarmSize.Text)), Convert.ToDouble(txtK.Text)));
+            }
+        }
+
+        private void chkAutoC_CheckedChanged(object sender, EventArgs e)
+        {
+            txtC.Enabled = !chkAutoC.Checked;
+            if (chkAutoC.Checked)
+            {
+                txtC.Text = Convert.ToString(0.5 + Math.Log(2));
+            }
+        }
+
+        private void chkAutoSwarmSize_CheckedChanged(object sender, EventArgs e)
+        {
+            txtSwarmSize.Enabled = !chkAutoSwarmSize.Checked;
+            if (chkAutoSwarmSize.Checked)
+            {
+                txtSwarmSize.Text = Convert.ToString(Math.Ceiling(10 + (2 * Math.Sqrt(Convert.ToDouble(txtDimensions.Text)))));
+            }
+        }
+
+       
+
+        
+      
 
         
     }
