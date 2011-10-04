@@ -92,7 +92,7 @@ namespace ENFORM
                     // Ottieni il risultato e chiudi la connessione
                     foreach (string cmd in query.Split(new char[] {';'}))
                     {
-                        command.CommandText = query;    
+                        command.CommandText = cmd;    
                         retval += command.ExecuteNonQuery();
                     }
                     
