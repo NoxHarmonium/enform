@@ -553,6 +553,10 @@ namespace ENFORM
                     dataAccess.SetParameter("Filter_Threshold", chkThreshold.Checked.ToString());
                     dataAccess.SetParameter("Filter_ThresholdStr", numThreshold.Value.ToString());
 
+                    dataAccess.SetParameter("Opt_Global_MaxIterations", txtMaxIterations.Text);
+                    dataAccess.SetParameter("Opt_Global_MinError", txtMinimumError.Text);
+                    dataAccess.SetParameter("Opt_Global_MaxTime", txtMaxTime.Text);
+
                     dataAccess.SetParameter("Opt_Bp_Enabled", chkBackPropogation.Checked.ToString());
                     if (chkBackPropogation.Checked)
                     {
@@ -561,8 +565,7 @@ namespace ENFORM
                         dataAccess.SetParameter("Opt_Bp_FinalLearnRate", txtFinalRate.Text);
                         dataAccess.SetParameter("Opt_Bp_JitterEpoch", txtJitterEpoch.Text);
                         dataAccess.SetParameter("Opt_Bp_JitterNoiseLimit", txtJitterNoiseLimit.Text);
-                        dataAccess.SetParameter("Opt_Bp_MaxIterations", txtMaxIterations.Text);
-                        dataAccess.SetParameter("Opt_Bp_MinError", txtMinimumError.Text);
+                      
                     }
 
                     dataAccess.SetParameter("Opt_Pso_Enabled", chkPSO.Checked.ToString());
@@ -623,6 +626,7 @@ namespace ENFORM
                         sourceItems.Add(newItem.GetHashCode(), source);
                     }
                     InputGroup[] groups = dataAccess.GetInputGroups();
+                    lstInputGroups.Items.Clear();
                     foreach (InputGroup group in groups)
                     {
                         lstInputGroups.Items.Add(group);
@@ -646,23 +650,32 @@ namespace ENFORM
                     chkThreshold.Checked  = Convert.ToBoolean(dataAccess.GetParameter("Filter_Threshold"));
                     numThreshold.Value  = Convert.ToDecimal(dataAccess.GetParameter("Filter_ThresholdStr"));
 
-
-                    chkBackPropogation.Checked = Convert.ToBoolean(dataAccess.GetParameter("Opt_Bp_Enabled"));
-                     try
+                    try
                     {
-                    cmbLearningRateType.SelectedIndex = Convert.ToInt32(dataAccess.GetParameter("Opt_Bp_LearningType"));
-                    txtInitialRate.Text = dataAccess.GetParameter("Opt_Bp_InitialLearnRate");
-                    txtFinalRate.Text = dataAccess.GetParameter("Opt_Bp_FinalLearnRate");
-                    txtJitterEpoch.Text = dataAccess.GetParameter("Opt_Bp_JitterEpoch");
-                    txtJitterNoiseLimit.Text = dataAccess.GetParameter("Opt_Bp_JitterNoiseLimit");
-                    txtMaxIterations.Text = dataAccess.GetParameter("Opt_Bp_MaxIterations");
-                    txtMinimumError.Text = dataAccess.GetParameter("Opt_Bp_MinError");
+                        txtMaxIterations.Text = dataAccess.GetParameter("Opt_Global_MaxIterations");
+                        txtMinimumError.Text = dataAccess.GetParameter("Opt_Global_MinError");
+                        txtMaxTime.Text = dataAccess.GetParameter("Opt_Global_MaxTime");
+                    }                    
+                    catch (Exception)
+                    {
+                        Utils.Log("Warning: Error reading global parameters");
+                    }
+
+                    try
+                    {
+                        chkBackPropogation.Checked = Convert.ToBoolean(dataAccess.GetParameter("Opt_Bp_Enabled"));
+                        cmbLearningRateType.SelectedIndex = Convert.ToInt32(dataAccess.GetParameter("Opt_Bp_LearningType"));
+                        txtInitialRate.Text = dataAccess.GetParameter("Opt_Bp_InitialLearnRate");
+                        txtFinalRate.Text = dataAccess.GetParameter("Opt_Bp_FinalLearnRate");
+                        txtJitterEpoch.Text = dataAccess.GetParameter("Opt_Bp_JitterEpoch");
+                        txtJitterNoiseLimit.Text = dataAccess.GetParameter("Opt_Bp_JitterNoiseLimit");
+                    
 
                     }
-                     catch (Exception)
-                     {
-                         Utils.Log("Warning: Error reading backprop parameters");
-                     }
+                    catch (Exception)
+                    {
+                        Utils.Log("Warning: Error reading backprop parameters");
+                    }
                     try
                     {
 
@@ -687,11 +700,11 @@ namespace ENFORM
                         txtW.Text = dataAccess.GetParameter("Opt_Pso_w");
                         txtC.Text = dataAccess.GetParameter("Opt_Pso_c");
 
-                        chkAutoSwarmSize.Checked  = Convert.ToBoolean(dataAccess.GetParameter("Opt_Pso_AutoParticles"));
-                       chkAutoK.Checked =Convert.ToBoolean(dataAccess.GetParameter("Opt_Pso_AutoK"));
+                        chkAutoSwarmSize.Checked = Convert.ToBoolean(dataAccess.GetParameter("Opt_Pso_AutoParticles"));
+                        chkAutoK.Checked = Convert.ToBoolean(dataAccess.GetParameter("Opt_Pso_AutoK"));
                         chkAutoP.Checked = Convert.ToBoolean(dataAccess.GetParameter("Opt_Pso_AutoP"));
-                       chkAutoW.Checked = Convert.ToBoolean(dataAccess.GetParameter("Opt_Pso_AutoW"));
-                       chkAutoC.Checked = Convert.ToBoolean(dataAccess.GetParameter("Opt_Pso_AutoC"));
+                        chkAutoW.Checked = Convert.ToBoolean(dataAccess.GetParameter("Opt_Pso_AutoW"));
+                        chkAutoC.Checked = Convert.ToBoolean(dataAccess.GetParameter("Opt_Pso_AutoC"));
                     }
                     catch (Exception)
                     {
@@ -716,55 +729,13 @@ namespace ENFORM
         private void chkPSO_CheckedChanged(object sender, EventArgs e)
         {
             grpPSO.Enabled = chkPSO.Checked;
-        }
+        }    
+
+       
+
+       
 
         
-
-        private void btnExecuteRun_Click(object sender, EventArgs e)
-        {
-            if (radCurrentRun.Checked)
-            {
-                using (OpenFileDialog dlgLoad = new OpenFileDialog())
-                {
-                    dlgLoad.AddExtension = true;
-                    dlgLoad.DefaultExt = "erun";
-                    dlgLoad.Filter = "ENFORM run file(*.erun)|*.*";
-                    dlgLoad.Title = "Open run file...";
-                    if (dlgLoad.ShowDialog() == DialogResult.OK)
-                    {
-                        optimisor = new Optimiser(dlgLoad.FileName);
-                        BackgroundWorker worker = new BackgroundWorker();
-                        worker.DoWork +=new DoWorkEventHandler(worker_DoWork);
-                        worker.ProgressChanged += new ProgressChangedEventHandler(worker_ProgressChanged);
-                        worker.WorkerReportsProgress = true;
-                        worker.WorkerSupportsCancellation = true;
-                        worker.RunWorkerAsync();
-
-                    }
-
-
-                } 
-
-
-            }
-        }
-
-        void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        {
-            lblMeanFitnessSquared.Text = "Mean fitness squared: " + Convert.ToString((double)e.UserState);
-        }
-
-        void worker_DoWork(object sender, DoWorkEventArgs e)
-        {
-            BackgroundWorker worker = (BackgroundWorker)sender;
-            while (!worker.CancellationPending)
-            {
-                worker.ReportProgress(0, optimisor.Optimise(1000));
-                
-
-            }
-            
-        }
 
         private void lstInputs_DoubleClick(object sender, EventArgs e)
         {

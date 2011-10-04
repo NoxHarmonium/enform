@@ -76,6 +76,13 @@
             this.cmbInputGroup = new System.Windows.Forms.ComboBox();
             this.lstInputGroups = new System.Windows.Forms.ListBox();
             this.tabOptimisation = new System.Windows.Forms.TabPage();
+            this.grpEndCond = new System.Windows.Forms.GroupBox();
+            this.txtMaxTime = new System.Windows.Forms.TextBox();
+            this.lblMaxTime = new System.Windows.Forms.Label();
+            this.lblMinError = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txtMinimumError = new System.Windows.Forms.TextBox();
+            this.txtMaxIterations = new System.Windows.Forms.TextBox();
             this.chkPSO = new System.Windows.Forms.CheckBox();
             this.grpPSO = new System.Windows.Forms.GroupBox();
             this.pnlPSO = new System.Windows.Forms.Panel();
@@ -120,13 +127,6 @@
             this.lblMinP = new System.Windows.Forms.Label();
             this.chkBackPropogation = new System.Windows.Forms.CheckBox();
             this.grpBackPropogation = new System.Windows.Forms.GroupBox();
-            this.grpEndCond = new System.Windows.Forms.GroupBox();
-            this.txtMaxTime = new System.Windows.Forms.TextBox();
-            this.lblMaxTime = new System.Windows.Forms.Label();
-            this.lblMinError = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.txtMinimumError = new System.Windows.Forms.TextBox();
-            this.txtMaxIterations = new System.Windows.Forms.TextBox();
             this.grpJitter = new System.Windows.Forms.GroupBox();
             this.lblJitterNoiseLimit = new System.Windows.Forms.Label();
             this.lblJitterEpoch = new System.Windows.Forms.Label();
@@ -143,11 +143,6 @@
             this.chkEmbed = new System.Windows.Forms.CheckBox();
             this.btnLoadRun = new System.Windows.Forms.Button();
             this.btnSaveRun = new System.Windows.Forms.Button();
-            this.tabTesting = new System.Windows.Forms.TabPage();
-            this.lblMeanFitnessSquared = new System.Windows.Forms.Label();
-            this.radOptimiseBatch = new System.Windows.Forms.RadioButton();
-            this.radCurrentRun = new System.Windows.Forms.RadioButton();
-            this.btnRunOptimiser = new System.Windows.Forms.Button();
             this.colourPicker1 = new ENFORM.ColourPicker();
             this.imageViewer1 = new ENFORM.ImageViewer();
             this.tabMain.SuspendLayout();
@@ -163,16 +158,15 @@
             this.tabGroups.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numSegments)).BeginInit();
             this.tabOptimisation.SuspendLayout();
+            this.grpEndCond.SuspendLayout();
             this.grpPSO.SuspendLayout();
             this.pnlPSO.SuspendLayout();
             this.grpPSOParams.SuspendLayout();
             this.grpSwarm.SuspendLayout();
             this.grpBackPropogation.SuspendLayout();
-            this.grpEndCond.SuspendLayout();
             this.grpJitter.SuspendLayout();
             this.grpLearningRate.SuspendLayout();
             this.tabSaveLoad.SuspendLayout();
-            this.tabTesting.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabMain
@@ -180,7 +174,6 @@
             this.tabMain.Controls.Add(this.tabTestData);
             this.tabMain.Controls.Add(this.tabOptimisation);
             this.tabMain.Controls.Add(this.tabSaveLoad);
-            this.tabMain.Controls.Add(this.tabTesting);
             this.tabMain.Location = new System.Drawing.Point(276, 12);
             this.tabMain.Name = "tabMain";
             this.tabMain.SelectedIndex = 0;
@@ -735,6 +728,7 @@
             // 
             // tabOptimisation
             // 
+            this.tabOptimisation.Controls.Add(this.grpEndCond);
             this.tabOptimisation.Controls.Add(this.chkPSO);
             this.tabOptimisation.Controls.Add(this.grpPSO);
             this.tabOptimisation.Controls.Add(this.chkBackPropogation);
@@ -745,6 +739,71 @@
             this.tabOptimisation.TabIndex = 2;
             this.tabOptimisation.Text = "Optimisation";
             this.tabOptimisation.UseVisualStyleBackColor = true;
+            // 
+            // grpEndCond
+            // 
+            this.grpEndCond.Controls.Add(this.txtMaxTime);
+            this.grpEndCond.Controls.Add(this.lblMaxTime);
+            this.grpEndCond.Controls.Add(this.lblMinError);
+            this.grpEndCond.Controls.Add(this.label2);
+            this.grpEndCond.Controls.Add(this.txtMinimumError);
+            this.grpEndCond.Controls.Add(this.txtMaxIterations);
+            this.grpEndCond.Location = new System.Drawing.Point(14, 253);
+            this.grpEndCond.Name = "grpEndCond";
+            this.grpEndCond.Size = new System.Drawing.Size(222, 101);
+            this.grpEndCond.TabIndex = 4;
+            this.grpEndCond.TabStop = false;
+            this.grpEndCond.Text = "End Conditions";
+            // 
+            // txtMaxTime
+            // 
+            this.txtMaxTime.Location = new System.Drawing.Point(116, 71);
+            this.txtMaxTime.Name = "txtMaxTime";
+            this.txtMaxTime.Size = new System.Drawing.Size(100, 20);
+            this.txtMaxTime.TabIndex = 10;
+            this.txtMaxTime.Text = "0";
+            // 
+            // lblMaxTime
+            // 
+            this.lblMaxTime.AutoSize = true;
+            this.lblMaxTime.Location = new System.Drawing.Point(55, 73);
+            this.lblMaxTime.Name = "lblMaxTime";
+            this.lblMaxTime.Size = new System.Drawing.Size(56, 13);
+            this.lblMaxTime.TabIndex = 9;
+            this.lblMaxTime.Text = "Max Time:";
+            // 
+            // lblMinError
+            // 
+            this.lblMinError.AutoSize = true;
+            this.lblMinError.Location = new System.Drawing.Point(34, 48);
+            this.lblMinError.Name = "lblMinError";
+            this.lblMinError.Size = new System.Drawing.Size(76, 13);
+            this.lblMinError.TabIndex = 8;
+            this.lblMinError.Text = "Minimum Error:";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(34, 22);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(76, 13);
+            this.label2.TabIndex = 7;
+            this.label2.Text = "Max Iterations:";
+            // 
+            // txtMinimumError
+            // 
+            this.txtMinimumError.Location = new System.Drawing.Point(116, 45);
+            this.txtMinimumError.Name = "txtMinimumError";
+            this.txtMinimumError.Size = new System.Drawing.Size(100, 20);
+            this.txtMinimumError.TabIndex = 6;
+            this.txtMinimumError.Text = "0";
+            // 
+            // txtMaxIterations
+            // 
+            this.txtMaxIterations.Location = new System.Drawing.Point(116, 19);
+            this.txtMaxIterations.Name = "txtMaxIterations";
+            this.txtMaxIterations.Size = new System.Drawing.Size(100, 20);
+            this.txtMaxIterations.TabIndex = 5;
             // 
             // chkPSO
             // 
@@ -1204,81 +1263,15 @@
             // 
             // grpBackPropogation
             // 
-            this.grpBackPropogation.Controls.Add(this.grpEndCond);
             this.grpBackPropogation.Controls.Add(this.grpJitter);
             this.grpBackPropogation.Controls.Add(this.grpLearningRate);
             this.grpBackPropogation.Enabled = false;
             this.grpBackPropogation.Location = new System.Drawing.Point(4, 28);
             this.grpBackPropogation.Name = "grpBackPropogation";
-            this.grpBackPropogation.Size = new System.Drawing.Size(238, 351);
+            this.grpBackPropogation.Size = new System.Drawing.Size(238, 211);
             this.grpBackPropogation.TabIndex = 0;
             this.grpBackPropogation.TabStop = false;
             this.grpBackPropogation.Text = "Back Propogation";
-            // 
-            // grpEndCond
-            // 
-            this.grpEndCond.Controls.Add(this.txtMaxTime);
-            this.grpEndCond.Controls.Add(this.lblMaxTime);
-            this.grpEndCond.Controls.Add(this.lblMinError);
-            this.grpEndCond.Controls.Add(this.label2);
-            this.grpEndCond.Controls.Add(this.txtMinimumError);
-            this.grpEndCond.Controls.Add(this.txtMaxIterations);
-            this.grpEndCond.Location = new System.Drawing.Point(10, 206);
-            this.grpEndCond.Name = "grpEndCond";
-            this.grpEndCond.Size = new System.Drawing.Size(222, 101);
-            this.grpEndCond.TabIndex = 4;
-            this.grpEndCond.TabStop = false;
-            this.grpEndCond.Text = "End Conditions";
-            // 
-            // txtMaxTime
-            // 
-            this.txtMaxTime.Location = new System.Drawing.Point(116, 71);
-            this.txtMaxTime.Name = "txtMaxTime";
-            this.txtMaxTime.Size = new System.Drawing.Size(100, 20);
-            this.txtMaxTime.TabIndex = 10;
-            this.txtMaxTime.Text = "0";
-            // 
-            // lblMaxTime
-            // 
-            this.lblMaxTime.AutoSize = true;
-            this.lblMaxTime.Location = new System.Drawing.Point(55, 73);
-            this.lblMaxTime.Name = "lblMaxTime";
-            this.lblMaxTime.Size = new System.Drawing.Size(56, 13);
-            this.lblMaxTime.TabIndex = 9;
-            this.lblMaxTime.Text = "Max Time:";
-            // 
-            // lblMinError
-            // 
-            this.lblMinError.AutoSize = true;
-            this.lblMinError.Location = new System.Drawing.Point(34, 48);
-            this.lblMinError.Name = "lblMinError";
-            this.lblMinError.Size = new System.Drawing.Size(76, 13);
-            this.lblMinError.TabIndex = 8;
-            this.lblMinError.Text = "Minimum Error:";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(34, 22);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(76, 13);
-            this.label2.TabIndex = 7;
-            this.label2.Text = "Max Iterations:";
-            // 
-            // txtMinimumError
-            // 
-            this.txtMinimumError.Location = new System.Drawing.Point(116, 45);
-            this.txtMinimumError.Name = "txtMinimumError";
-            this.txtMinimumError.Size = new System.Drawing.Size(100, 20);
-            this.txtMinimumError.TabIndex = 6;
-            this.txtMinimumError.Text = "0";
-            // 
-            // txtMaxIterations
-            // 
-            this.txtMaxIterations.Location = new System.Drawing.Point(116, 19);
-            this.txtMaxIterations.Name = "txtMaxIterations";
-            this.txtMaxIterations.Size = new System.Drawing.Size(100, 20);
-            this.txtMaxIterations.TabIndex = 5;
             // 
             // grpJitter
             // 
@@ -1448,61 +1441,6 @@
             this.btnSaveRun.UseVisualStyleBackColor = true;
             this.btnSaveRun.Click += new System.EventHandler(this.btnSaveRun_Click);
             // 
-            // tabTesting
-            // 
-            this.tabTesting.Controls.Add(this.lblMeanFitnessSquared);
-            this.tabTesting.Controls.Add(this.radOptimiseBatch);
-            this.tabTesting.Controls.Add(this.radCurrentRun);
-            this.tabTesting.Controls.Add(this.btnRunOptimiser);
-            this.tabTesting.Location = new System.Drawing.Point(4, 22);
-            this.tabTesting.Name = "tabTesting";
-            this.tabTesting.Size = new System.Drawing.Size(509, 386);
-            this.tabTesting.TabIndex = 3;
-            this.tabTesting.Text = "Testing";
-            this.tabTesting.UseVisualStyleBackColor = true;
-            // 
-            // lblMeanFitnessSquared
-            // 
-            this.lblMeanFitnessSquared.AutoSize = true;
-            this.lblMeanFitnessSquared.Location = new System.Drawing.Point(4, 57);
-            this.lblMeanFitnessSquared.Name = "lblMeanFitnessSquared";
-            this.lblMeanFitnessSquared.Size = new System.Drawing.Size(139, 13);
-            this.lblMeanFitnessSquared.TabIndex = 3;
-            this.lblMeanFitnessSquared.Text = "Mean Fitness Squared: N/A";
-            // 
-            // radOptimiseBatch
-            // 
-            this.radOptimiseBatch.AutoSize = true;
-            this.radOptimiseBatch.Enabled = false;
-            this.radOptimiseBatch.Location = new System.Drawing.Point(144, 4);
-            this.radOptimiseBatch.Name = "radOptimiseBatch";
-            this.radOptimiseBatch.Size = new System.Drawing.Size(105, 17);
-            this.radOptimiseBatch.TabIndex = 2;
-            this.radOptimiseBatch.Text = "Optimise Batch...";
-            this.radOptimiseBatch.UseVisualStyleBackColor = true;
-            // 
-            // radCurrentRun
-            // 
-            this.radCurrentRun.AutoSize = true;
-            this.radCurrentRun.Checked = true;
-            this.radCurrentRun.Location = new System.Drawing.Point(4, 4);
-            this.radCurrentRun.Name = "radCurrentRun";
-            this.radCurrentRun.Size = new System.Drawing.Size(134, 17);
-            this.radCurrentRun.TabIndex = 1;
-            this.radCurrentRun.TabStop = true;
-            this.radCurrentRun.Text = "Optimise Current Run...";
-            this.radCurrentRun.UseVisualStyleBackColor = true;
-            // 
-            // btnRunOptimiser
-            // 
-            this.btnRunOptimiser.Location = new System.Drawing.Point(3, 27);
-            this.btnRunOptimiser.Name = "btnRunOptimiser";
-            this.btnRunOptimiser.Size = new System.Drawing.Size(106, 23);
-            this.btnRunOptimiser.TabIndex = 0;
-            this.btnRunOptimiser.Text = "Run Optimiser....";
-            this.btnRunOptimiser.UseVisualStyleBackColor = true;
-            this.btnRunOptimiser.Click += new System.EventHandler(this.btnExecuteRun_Click);
-            // 
             // colourPicker1
             // 
             this.colourPicker1.Location = new System.Drawing.Point(10, 393);
@@ -1554,6 +1492,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.numSegments)).EndInit();
             this.tabOptimisation.ResumeLayout(false);
             this.tabOptimisation.PerformLayout();
+            this.grpEndCond.ResumeLayout(false);
+            this.grpEndCond.PerformLayout();
             this.grpPSO.ResumeLayout(false);
             this.pnlPSO.ResumeLayout(false);
             this.grpPSOParams.ResumeLayout(false);
@@ -1561,16 +1501,12 @@
             this.grpSwarm.ResumeLayout(false);
             this.grpSwarm.PerformLayout();
             this.grpBackPropogation.ResumeLayout(false);
-            this.grpEndCond.ResumeLayout(false);
-            this.grpEndCond.PerformLayout();
             this.grpJitter.ResumeLayout(false);
             this.grpJitter.PerformLayout();
             this.grpLearningRate.ResumeLayout(false);
             this.grpLearningRate.PerformLayout();
             this.tabSaveLoad.ResumeLayout(false);
             this.tabSaveLoad.PerformLayout();
-            this.tabTesting.ResumeLayout(false);
-            this.tabTesting.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1582,7 +1518,6 @@
         private System.Windows.Forms.ListView lstInputs;
         private System.Windows.Forms.ColumnHeader clmName;
         private System.Windows.Forms.ColumnHeader clmType;
-        private System.Windows.Forms.TabPage tabTesting;
         private System.Windows.Forms.Label lblHeight;
         private System.Windows.Forms.Label lblWidth;
         private System.Windows.Forms.TextBox txtHeight;
@@ -1634,10 +1569,6 @@
         private System.Windows.Forms.CheckBox chkEmbed;
         private System.Windows.Forms.Button btnLoadRun;
         private System.Windows.Forms.Button btnSaveRun;
-        private System.Windows.Forms.Button btnRunOptimiser;
-        private System.Windows.Forms.RadioButton radOptimiseBatch;
-        private System.Windows.Forms.RadioButton radCurrentRun;
-        private System.Windows.Forms.Label lblMeanFitnessSquared;
         private System.Windows.Forms.GroupBox grpLearningRate;
         private System.Windows.Forms.Label lblFinalRate;
         private System.Windows.Forms.TextBox txtFinalRate;

@@ -84,6 +84,7 @@ namespace ENFORM
                 lstRuns.Items.Add(new ListViewItem(run.ToStringArray()));
             }
 
+            lstInputGroups.Items.Clear();
             InputGroup[] groups = dataAccess.GetInputGroups();
             foreach (InputGroup group in groups)
             {

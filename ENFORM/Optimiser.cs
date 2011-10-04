@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NeuronDotNet.Core;
-//using NeuronDotNet.Core.Backpropagation;
+using NeuronDotNet.Core.Backpropagation;
 using NeuronDotNet.Core.PSO;
 using NeuronDotNet.Core.Initializers;
 using System.Drawing;
@@ -18,6 +18,13 @@ namespace ENFORM
         private Preprocessor preprocessor;
         private INetwork network;
         private int maxIterations = int.MaxValue;
+        private int maxTime = -1;
+
+        public int MaxTime
+        {
+            get { return maxTime; }
+            set { maxTime = value; }
+        }
 
         public int MaxIterations
         {
@@ -63,14 +70,30 @@ namespace ENFORM
             dataAccess.SetParameter("Opt_Bp_MaxIterations", txtMaxIterations.Text);
             dataAccess.SetParameter("Opt_Bp_MinError", txtMinimumError.Text);
             */
+            bool usePSO = false;
+            bool useBP = false;
+            try
+            {
+                useBP = Convert.ToBoolean(dataAccess.GetParameter("Opt_Bp_Enabled"));
+            }
+            catch (Exception)
+            {
+                Utils.Log("Warning unable to read BP params");
+            }
+            try
+            {
+                usePSO = Convert.ToBoolean(dataAccess.GetParameter("Opt_Pso_Enabled"));
+            }
+            catch (Exception)
+            {
+                Utils.Log("Warning unable to read PSO params");
+            }
 
-            int learningRateFunction = Convert.ToInt32(dataAccess.GetParameter("Opt_Bp_LearningType"));
-            double initialLR = Convert.ToDouble(dataAccess.GetParameter("Opt_Bp_InitialLearnRate"));
-            double finalLR = Convert.ToDouble(dataAccess.GetParameter("Opt_Bp_FinalLearnRate"));
-            int jitterEpoch = Convert.ToInt32(dataAccess.GetParameter("Opt_Bp_JitterEpoch"));
-            double jitterNoiseLimit = Convert.ToDouble(dataAccess.GetParameter("Opt_Bp_JitterNoiseLimit"));
-            maxIterations = Convert.ToInt32(dataAccess.GetParameter("Opt_Bp_MaxIterations"));
-            minError = Convert.ToDouble(dataAccess.GetParameter("Opt_Bp_MinError"));
+            if (usePSO && useBP)
+            {
+                throw new NotImplementedException("At this current time you cannot use both BP and PSO");
+
+            }
 
             InputGroup[] inputGroups = dataAccess.GetInputGroups();
             SourceItem[] sourceItems = dataAccess.GetSourceItems();
@@ -95,53 +118,124 @@ namespace ENFORM
 
             }
 
-           
-            LinearLayer inputLayer = new LinearLayer(preprocessor.ImageSize.Width * preprocessor.ImageSize.Height);
-            SigmoidLayer hiddenLayer = new SigmoidLayer(total);
-            hiddenLayer.InputGroups = inputGroups.Length;
-            SigmoidLayer outputLayer = new SigmoidLayer(1);
-
-            hiddenLayer.Initializer = new NormalizedRandomFunction();
+            maxIterations = Convert.ToInt32(dataAccess.GetParameter("Opt_Global_MaxIterations"));
+            minError = Convert.ToDouble(dataAccess.GetParameter("Opt_Global_MinError"));
+            maxTime = Convert.ToInt32(dataAccess.GetParameter("Opt_Global_MaxTime")); 
 
 
-            new PSOConnector(
-                inputLayer, 
-                hiddenLayer, 
-                inputGroups, 
-                preprocessor.ImageSize.Width, 
-                preprocessor.ImageSize.Height
-                );
 
-            new PSOConnector(hiddenLayer, outputLayer);
-
-            network = new PSONetwork(inputLayer, outputLayer);
-            
-            switch (learningRateFunction)
+            if (useBP)
             {
-                case 0:
-                    network.SetLearningRate(initialLR);
-                    break;
-                case 1:
-                    network.SetLearningRate(new NeuronDotNet.Core.LearningRateFunctions.ExponentialFunction(initialLR,finalLR));//exp
-                    break;
-                case 2:
-                    network.SetLearningRate(new NeuronDotNet.Core.LearningRateFunctions.HyperbolicFunction(initialLR,finalLR));//hyp
-                    break;
-                case 3:
-                    network.SetLearningRate(new NeuronDotNet.Core.LearningRateFunctions.LinearFunction(initialLR,finalLR));//lin
-                    break;
 
-                default:
-                    throw new ArgumentOutOfRangeException("The learning rate index is out of range.\n");                  
+                int learningRateFunction = Convert.ToInt32(dataAccess.GetParameter("Opt_Bp_LearningType"));
+                double initialLR = Convert.ToDouble(dataAccess.GetParameter("Opt_Bp_InitialLearnRate"));
+                double finalLR = Convert.ToDouble(dataAccess.GetParameter("Opt_Bp_FinalLearnRate"));
+                int jitterEpoch = Convert.ToInt32(dataAccess.GetParameter("Opt_Bp_JitterEpoch"));
+                double jitterNoiseLimit = Convert.ToDouble(dataAccess.GetParameter("Opt_Bp_JitterNoiseLimit"));
+               
 
+                
+
+                NeuronDotNet.Core.Backpropagation.LinearLayer inputLayer = new NeuronDotNet.Core.Backpropagation.LinearLayer(preprocessor.ImageSize.Width * preprocessor.ImageSize.Height);
+                NeuronDotNet.Core.Backpropagation.SigmoidLayer hiddenLayer = new NeuronDotNet.Core.Backpropagation.SigmoidLayer(total);
+                hiddenLayer.InputGroups = inputGroups.Length;
+                NeuronDotNet.Core.Backpropagation.SigmoidLayer outputLayer = new NeuronDotNet.Core.Backpropagation.SigmoidLayer(1);
+
+                hiddenLayer.Initializer = new NormalizedRandomFunction();
+
+
+                new BackpropagationConnector(
+                    inputLayer,
+                    hiddenLayer,
+                    inputGroups,
+                    preprocessor.ImageSize.Width,
+                    preprocessor.ImageSize.Height
+                    );
+
+                new BackpropagationConnector(hiddenLayer, outputLayer);
+
+                network = new BackpropagationNetwork(inputLayer, outputLayer);
+
+                switch (learningRateFunction)
+                {
+                    case 0:
+                        network.SetLearningRate(initialLR);
+                        break;
+                    case 1:
+                        network.SetLearningRate(new NeuronDotNet.Core.LearningRateFunctions.ExponentialFunction(initialLR, finalLR));//exp
+                        break;
+                    case 2:
+                        network.SetLearningRate(new NeuronDotNet.Core.LearningRateFunctions.HyperbolicFunction(initialLR, finalLR));//hyp
+                        break;
+                    case 3:
+                        network.SetLearningRate(new NeuronDotNet.Core.LearningRateFunctions.LinearFunction(initialLR, finalLR));//lin
+                        break;
+
+                    default:
+                        throw new ArgumentOutOfRangeException("The learning rate index is out of range.\n");
+                }
+                network.JitterEpoch = jitterEpoch;
+                network.JitterNoiseLimit = jitterNoiseLimit;
 
             }
+
+
+            if (usePSO)
+            {
+                double minP = Convert.ToDouble(dataAccess.GetParameter("Opt_Pso_MinP"));
+                double maxP = Convert.ToDouble(dataAccess.GetParameter("Opt_Pso_MaxP"));
+                double minI = Convert.ToDouble(dataAccess.GetParameter("Opt_Pso_MinI"));
+                double maxI = Convert.ToDouble(dataAccess.GetParameter("Opt_Pso_MaxI"));
+                double quant = Convert.ToDouble(dataAccess.GetParameter("Opt_Pso_Quant"));
+
+                int clamping = Convert.ToInt32(dataAccess.GetParameter("Opt_Pso_Clamping"));
+                int initLinks = Convert.ToInt32(dataAccess.GetParameter("Opt_Pso_InitLinks"));
+                int randomness = Convert.ToInt32(dataAccess.GetParameter("Opt_Pso_Randomness"));
+                int randOrder = Convert.ToInt32(dataAccess.GetParameter("Opt_Pso_ParticleOrder"));
+                int rotation = Convert.ToInt32(dataAccess.GetParameter("Opt_Pso_Rotation"));
+
+                int dimensions = Convert.ToInt32(dataAccess.GetParameter("Opt_Pso_Dimensions"));
+                int swarmSize = Convert.ToInt32(dataAccess.GetParameter("Opt_Pso_Particles"));
+                double k = Convert.ToDouble(dataAccess.GetParameter("Opt_Pso_k"));
+                double p = Convert.ToDouble(dataAccess.GetParameter("Opt_Pso_p"));
+                double w = Convert.ToDouble(dataAccess.GetParameter("Opt_Pso_w"));
+                double c = Convert.ToDouble(dataAccess.GetParameter("Opt_Pso_c"));
+
+                NeuronDotNet.Core.PSO.LinearLayer inputLayer = new NeuronDotNet.Core.PSO.LinearLayer(preprocessor.ImageSize.Width * preprocessor.ImageSize.Height);
+                NeuronDotNet.Core.PSO.SigmoidLayer hiddenLayer = new NeuronDotNet.Core.PSO.SigmoidLayer(total);
+                hiddenLayer.InputGroups = inputGroups.Length;
+                NeuronDotNet.Core.PSO.SigmoidLayer outputLayer = new NeuronDotNet.Core.PSO.SigmoidLayer(1);
+
+                hiddenLayer.Initializer = new NormalizedRandomFunction();
+
+
+                new PSOConnector(
+                    inputLayer,
+                    hiddenLayer,
+                    inputGroups,
+                    preprocessor.ImageSize.Width,
+                    preprocessor.ImageSize.Height
+                    );
+
+                new PSOConnector(hiddenLayer, outputLayer);
+
+                network = new PSONetwork(inputLayer, outputLayer);
+
+            }
+
+            
             
 
             
-            //= new NeuronDotNet.Core.LearningRateFunctions.ExponentialFunction(0.3, 0.000005);
-            network.JitterEpoch = jitterEpoch;
-            network.JitterNoiseLimit = jitterNoiseLimit;
+
+           
+           
+            
+           
+            
+
+            
+           
 
 
 
