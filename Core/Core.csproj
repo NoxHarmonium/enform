@@ -1,0 +1,161 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{FF4C3306-A814-4DA3-BDA5-600549E018D9}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Core</RootNamespace>
+    <AssemblyName>Core</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AForge">
+      <HintPath>Libraries\AForge.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Imaging">
+      <HintPath>Libraries\AForge.Imaging.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Imaging.Formats">
+      <HintPath>Libraries\AForge.Imaging.Formats.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.SQLite">
+      <HintPath>Libraries\System.Data.SQLite.DLL</HintPath>
+    </Reference>
+    <Reference Include="System.Data.SQLite.Linq">
+      <HintPath>Libraries\System.Data.SQLite.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CustomImage.cs" />
+    <Compile Include="DataAccess.cs" />
+    <Compile Include="Enums.cs" />
+    <Compile Include="InputGroup.cs" />
+    <Compile Include="Job.cs" />
+    <Compile Include="MersenneTwister.cs" />
+    <Compile Include="NeuronDotNet\Core\Backpropagation\ActivationLayer.cs" />
+    <Compile Include="NeuronDotNet\Core\Backpropagation\ActivationNeuron.cs" />
+    <Compile Include="NeuronDotNet\Core\Backpropagation\BackpropagationConnector.cs" />
+    <Compile Include="NeuronDotNet\Core\Backpropagation\BackpropagationNetwork.cs" />
+    <Compile Include="NeuronDotNet\Core\Backpropagation\BackpropagationSynapse.cs" />
+    <Compile Include="NeuronDotNet\Core\Backpropagation\LinearLayer.cs" />
+    <Compile Include="NeuronDotNet\Core\Backpropagation\LogarithmLayer.cs" />
+    <Compile Include="NeuronDotNet\Core\Backpropagation\SigmoidLayer.cs" />
+    <Compile Include="NeuronDotNet\Core\Backpropagation\SineLayer.cs" />
+    <Compile Include="NeuronDotNet\Core\Backpropagation\TanhLayer.cs" />
+    <Compile Include="NeuronDotNet\Core\ConnectionMode.cs" />
+    <Compile Include="NeuronDotNet\Core\Connector.cs" />
+    <Compile Include="NeuronDotNet\Core\Helper.cs" />
+    <Compile Include="NeuronDotNet\Core\IConnector.cs" />
+    <Compile Include="NeuronDotNet\Core\IInitializer.cs" />
+    <Compile Include="NeuronDotNet\Core\ILayer.cs" />
+    <Compile Include="NeuronDotNet\Core\ILearningRateFunction.cs" />
+    <Compile Include="NeuronDotNet\Core\INetwork.cs" />
+    <Compile Include="NeuronDotNet\Core\INeuron.cs" />
+    <Compile Include="NeuronDotNet\Core\Initializers\ConstantFunction.cs" />
+    <Compile Include="NeuronDotNet\Core\Initializers\NguyenWidrowFunction.cs" />
+    <Compile Include="NeuronDotNet\Core\Initializers\NormalizedRandomFunction.cs" />
+    <Compile Include="NeuronDotNet\Core\Initializers\RandomFunction.cs" />
+    <Compile Include="NeuronDotNet\Core\Initializers\ZeroFunction.cs" />
+    <Compile Include="NeuronDotNet\Core\ISynapse.cs" />
+    <Compile Include="NeuronDotNet\Core\Layer.cs" />
+    <Compile Include="NeuronDotNet\Core\LearningRateFunctions\AbstractFunction.cs" />
+    <Compile Include="NeuronDotNet\Core\LearningRateFunctions\ExponentialFunction.cs" />
+    <Compile Include="NeuronDotNet\Core\LearningRateFunctions\HyperbolicFunction.cs" />
+    <Compile Include="NeuronDotNet\Core\LearningRateFunctions\LinearFunction.cs" />
+    <Compile Include="NeuronDotNet\Core\Network.cs" />
+    <Compile Include="NeuronDotNet\Core\PSO\ActivationLayer.cs" />
+    <Compile Include="NeuronDotNet\Core\PSO\ActivationNeuron.cs" />
+    <Compile Include="NeuronDotNet\Core\PSO\LinearLayer.cs" />
+    <Compile Include="NeuronDotNet\Core\PSO\LogarithmLayer.cs" />
+    <Compile Include="NeuronDotNet\Core\PSO\PSOConnector.cs" />
+    <Compile Include="NeuronDotNet\Core\PSO\PSONetwork.cs" />
+    <Compile Include="NeuronDotNet\Core\PSO\PSOSynapse.cs" />
+    <Compile Include="NeuronDotNet\Core\PSO\SigmoidLayer.cs" />
+    <Compile Include="NeuronDotNet\Core\PSO\SineLayer.cs" />
+    <Compile Include="NeuronDotNet\Core\PSO\TanhLayer.cs" />
+    <Compile Include="NeuronDotNet\Core\SOM\INeighborhoodFunction.cs" />
+    <Compile Include="NeuronDotNet\Core\SOM\KohonenConnector.cs" />
+    <Compile Include="NeuronDotNet\Core\SOM\KohonenLayer.cs" />
+    <Compile Include="NeuronDotNet\Core\SOM\KohonenNetwork.cs" />
+    <Compile Include="NeuronDotNet\Core\SOM\KohonenSynapse.cs" />
+    <Compile Include="NeuronDotNet\Core\SOM\LatticeTopology.cs" />
+    <Compile Include="NeuronDotNet\Core\SOM\NeighborhoodFunctions\GaussianFunction.cs" />
+    <Compile Include="NeuronDotNet\Core\SOM\NeighborhoodFunctions\MexicanHatFunction.cs" />
+    <Compile Include="NeuronDotNet\Core\SOM\PositionNeuron.cs" />
+    <Compile Include="NeuronDotNet\Core\TrainingEpochEventArgs.cs" />
+    <Compile Include="NeuronDotNet\Core\TrainingMethod.cs" />
+    <Compile Include="NeuronDotNet\Core\TrainingSample.cs" />
+    <Compile Include="NeuronDotNet\Core\TrainingSampleEventArgs.cs" />
+    <Compile Include="NeuronDotNet\Core\TrainingSet.cs" />
+    <Compile Include="Optimiser.cs" />
+    <Compile Include="Preprocessor.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <DependentUpon>Resources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Run.cs" />
+    <Compile Include="SourceItem.cs" />
+    <Compile Include="SQLiteDatabase.cs" />
+    <Compile Include="StandardPSO\Algorithm.cs" />
+    <Compile Include="StandardPSO\Enums.cs" />
+    <Compile Include="StandardPSO\Extensions.cs" />
+    <Compile Include="StandardPSO\Fitness.cs" />
+    <Compile Include="StandardPSO\Matrix.cs" />
+    <Compile Include="StandardPSO\Parameters.cs" />
+    <Compile Include="StandardPSO\Position.cs" />
+    <Compile Include="StandardPSO\Problem.cs" />
+    <Compile Include="StandardPSO\Quantum.cs" />
+    <Compile Include="StandardPSO\Result.cs" />
+    <Compile Include="StandardPSO\Swarm.cs" />
+    <Compile Include="StandardPSO\SwarmSize.cs" />
+    <Compile Include="StandardPSO\Velocity.cs" />
+    <Compile Include="Utils.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

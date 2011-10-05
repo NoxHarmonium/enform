@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Drawing;
 using System.IO;
-using System.Windows.Forms;
+
 
 public enum SourceType
 {
@@ -93,7 +93,7 @@ namespace ENFORM
                     }
                     catch (Exception e)
                     {
-                        MessageBox.Show("Error reading file.\n Exception: " + e.Message);
+                        Utils.Log("Error reading file.\n Exception: " + e.Message);
                     }
                     return null;
                     

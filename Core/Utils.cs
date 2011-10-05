@@ -10,7 +10,7 @@ namespace ENFORM
     public static class Utils
     {
 
-        private static frmLogBox logbox;
+        //private static frmLogBox logbox;
         private static bool ready = false;
         public delegate void logDelegate(string message);
         public delegate void setPosDelegate(int x, int y);
@@ -19,6 +19,8 @@ namespace ENFORM
 
         static Utils()
         {
+            
+            /*
             Thread t = (new System.Threading.Thread(() =>
             {
                 logbox = new frmLogBox();
@@ -30,7 +32,7 @@ namespace ENFORM
             }));
             t.Start();
 
-           
+           */
         }
 
         static void logbox_Shown(object sender, EventArgs e)
@@ -62,19 +64,19 @@ namespace ENFORM
 
         private static void setPos(int x, int y)
         {
-            logbox.Location = new Point(x, y);
-            logbox.BringToFront();
+            //logbox.Location = new Point(x, y);
+            //logbox.BringToFront();
 
         }
 
         private static void closeLogBox()
         {
-            logbox.Close();
+            //logbox.Close();
         }
 
         private static void log(string message)
         {
-            logbox.AddLogEntry(message);
+           // logbox.AddLogEntry(message);
         }
 
         private static void checkIfReady()
@@ -87,6 +89,7 @@ namespace ENFORM
 
         public static void CloseLogBox()
         {
+            /*
             checkIfReady();
             if (logbox.InvokeRequired)
             {
@@ -96,11 +99,12 @@ namespace ENFORM
             {
                 closeLogBox();
             }
+             * */
         }
 
         public static void Log(string message)
         {
-            
+            /*
             checkIfReady();
             if (true || logbox.InvokeRequired)
             {
@@ -110,6 +114,7 @@ namespace ENFORM
             {
                 log(message);
             }
+             * */
             
          }
 
@@ -121,7 +126,7 @@ namespace ENFORM
 
         public static void SetLogWindowLocation(int x, int y)
         {
-            
+            /*
             checkIfReady();
             if (logbox.InvokeRequired)
             {
@@ -131,7 +136,9 @@ namespace ENFORM
             {
                 setPos(x, y);
             }
-
+            */
         }
+
+
     }
 }

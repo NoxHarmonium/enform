@@ -7,7 +7,7 @@ using NeuronDotNet.Core.Backpropagation;
 using NeuronDotNet.Core.PSO;
 using NeuronDotNet.Core.Initializers;
 using System.Drawing;
-using System.Windows.Forms;
+
 using SPSO_2007;
 namespace ENFORM
 {

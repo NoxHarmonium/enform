@@ -9,7 +9,7 @@ using System.Data.SqlClient;
 using System.Data.SQLite;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.Windows.Forms;
+
 using NeuronDotNet.Core;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -165,7 +165,7 @@ namespace ENFORM
                         transaction.Rollback();
                     }
                 }
-                MessageBox.Show(ex.Message);
+                Utils.Log(ex.Message);
 
             }
             finally

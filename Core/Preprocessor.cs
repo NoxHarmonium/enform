@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Drawing;
-using System.Windows.Forms;
+
 
 namespace ENFORM
 {
-    class Preprocessor
+    public class Preprocessor
     {
         private int filterLevel = 0;
 
@@ -132,7 +132,7 @@ namespace ENFORM
             }
             if (ScalingMethod == ScalingMethods.Bicubic)
             {
-                MessageBox.Show("Bicubic resize is not implimented for now.\nNReverting to nearest neighbor...");
+                Utils.Log("Bicubic resize is not implimented for now.\nNReverting to nearest neighbor...");
                 //AForge.Imaging.Filters.ResizeBicubic resizer = new AForge.Imaging.Filters.ResizeBicubic(newWidth, newHeight);
                 //image = cropper.Apply(resizer.Apply((Bitmap)image));
             }
