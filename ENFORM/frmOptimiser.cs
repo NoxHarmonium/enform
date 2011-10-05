@@ -306,6 +306,11 @@ namespace ENFORM
         {
             //Utils.SetLogWindowLocation(this.Location.X, this.Location.Y + this.Size.Height + 10);
         }
+
+        private void btnMoveUp_Click(object sender, EventArgs e)
+        {
+
+        }
        
     }
 }

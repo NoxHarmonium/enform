@@ -93,7 +93,7 @@ namespace ENFORM
         {
 
            
-
+            /*
             LinearLayer inputLayer = new LinearLayer(5);
             SigmoidLayer hiddenLayer = new SigmoidLayer(2);        
             SigmoidLayer outputLayer = new SigmoidLayer(2);
@@ -119,7 +119,7 @@ namespace ENFORM
             a.EndRun();
             a.Finish();
              
-            
+            */
         }
 
        

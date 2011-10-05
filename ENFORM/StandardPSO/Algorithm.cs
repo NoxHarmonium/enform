@@ -161,7 +161,7 @@ namespace SPSO_2007
         //const int D_max = 114;		// Max number of dimensions of the search space
         const int R_max = 500;	// Max number of runs
         const int S_max = 910;	// Max swarm size
-        static NPack.MersenneTwister rand = new NPack.MersenneTwister(); //System Random Number Generator
+        NPack.MersenneTwister rand = new NPack.MersenneTwister(); //System Random Number Generator
 
         // Global variables
         static double sqrtD;
@@ -249,7 +249,7 @@ namespace SPSO_2007
 
 
         // =================================================
-        public Algorithm(Problem pb)
+        public Algorithm(Problem pb, Parameters param)
         {
             this.pb = pb;
             bestBest = new Position(pb.SS.D);
@@ -262,71 +262,12 @@ namespace SPSO_2007
             // ----------------------------------------------- PROBLEM
 
 
-
+            this.param = param;
             runMax = 100;
             if (runMax > R_max) runMax = R_max;
 
 
-            // -----------------------------------------------------
-            // PARAMETERS
-            // * means "suggested value"		
-
-            param = new Parameters();
-            param.clamping = 1;
-            // 0 => no clamping AND no evaluation. WARNING: the program
-            // 				may NEVER stop (in particular with option move 20 (jumps)) 1
-            // *1 => classical. Set to bounds, and velocity to zero
-
-            param.initLink = 0; // 0 => re-init links after each unsuccessful iteration
-            // 1 => re-init links after each successful iteration
-
-            param.rand = 1; // 0 => Use KISS as random number generator. 
-            // Any other value => use the system one
-
-            param.randOrder = 1; // 0 => at each iteration, particles are modified
-            //     always according to the same order 0..S-1
-            //*1 => at each iteration, particles numbers are
-            //		randomly permutated
-            param.rotation = 0;
-            // WARNING. Experimental code, completely valid only for dimension 2
-            // 0 =>  sensitive to rotation of the system of coordinates
-            // 1 => non sensitive (except side effects), 
-            // 			by using a rotated hypercube for the probability distribution
-            //			WARNING. Quite time consuming!
-
-            param.stop = 0;	// Stop criterion
-            // 0 => error < pb.epsilon
-            // 1 => eval >= pb.evalMax		
-            // 2 => ||x-solution|| < pb.epsilon
-
-            // -------------------------------------------------------
-            // Some information
-            Utils.Log(String.Format("\n Function {0} ", pb.ToString()));
-            Utils.Log("\n (clamping, randOrder, rotation, stop_criterion) = ({0}, {1}, {2}, {3})",
-                   param.clamping, param.randOrder, param.rotation, param.stop);
-            //if (param.rand == 0) Utils.Log("\n WARNING, I am using the RNG KISS"); //Now just System.Random
-
-            // =========================================================== 
-            // RUNs
-
-            // Initialize some objects
-            //pb = new Problem(function);
-
-            // You may "manipulate" S, p, w and c
-            // but here are the suggested values
-            param.S = (int)(10 + 2 * Math.Sqrt(pb.SS.D));	// Swarm size
-            if (param.S > S_max) param.S = S_max;
-            //param.S=100;
-            Utils.Log("\n Swarm size {0}", param.S);
-
-            param.K = 3;
-            param.p = 1.0 - Math.Pow(1.0 - (1.0 / (param.S)), param.K);
-            // (to simulate the global best PSO, set param.p=1)
-            //param.p=1;
-
-            // According to Clerc's Stagnation Analysis
-            param.w = 1.0 / (2.0 * Math.Log(2.0)); // 0.721
-            param.c = 0.5 + Math.Log(2.0); // 1.193
+           
 
             Utils.Log("\n c = {0},  w = {1}", param.c, param.w);
             //---------------

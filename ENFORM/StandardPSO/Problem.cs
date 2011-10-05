@@ -23,6 +23,96 @@ namespace SPSO_2007
         //Constants
         const int zero = 0;			// 1.0e-30 // To avoid numerical instabilities    
 
+        public double MinP
+        {
+            get
+            {
+                return this.SS.min[0];
+            }
+            set
+            {
+                for (int d = 0; d < this.SS.D; d++)
+                {
+                    this.SS.min[d] = value; // -100             
+                }
+            }
+
+        }
+
+        public double MaxP
+        {
+            get
+            {
+                return this.SS.max[0];
+            }
+            set
+            {
+                for (int d = 0; d < this.SS.D; d++)
+                {
+                    this.SS.max[d] = value; // -100             
+                }
+            }
+
+        }
+
+        public double MinI
+        {
+            get
+            {
+                return this.SS.minInit[0];
+            }
+            set
+            {
+                for (int d = 0; d < this.SS.D; d++)
+                {                  
+                    this.SS.minInit[d] = value;            
+                }
+            }
+
+        }
+        public double MaxI
+        {
+            get
+            {
+                return this.SS.maxInit[0];
+            }
+            set
+            {
+                for (int d = 0; d < this.SS.D; d++)
+                {
+                    this.SS.maxInit[d] = value;
+                }
+            }
+
+        }
+
+        public double Quantisation
+        {
+            get
+            {
+                return this.SS.q.q[0];
+            }
+            set
+            {
+                for (int d = 0; d < this.SS.D; d++)
+                {
+                    this.SS.q.q[d] = value;
+                }
+            }
+        }
+        public double Objective
+        {
+            get
+            {
+                return this.objective;
+            }
+            set
+            {
+                this.objective = value;
+            }
+
+        }
+
 
         public Problem(OptimisationProblem problem, FitnessHandler fitnessFunction, double[] initialWeights)
         {

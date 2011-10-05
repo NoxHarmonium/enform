@@ -8,7 +8,7 @@ using NeuronDotNet.Core.PSO;
 using NeuronDotNet.Core.Initializers;
 using System.Drawing;
 using System.Windows.Forms;
-
+using SPSO_2007;
 namespace ENFORM
 {
     public class Optimiser
@@ -201,6 +201,57 @@ namespace ENFORM
                 double w = Convert.ToDouble(dataAccess.GetParameter("Opt_Pso_w"));
                 double c = Convert.ToDouble(dataAccess.GetParameter("Opt_Pso_c"));
 
+
+                Parameters param = new Parameters();
+                param.clamping = clamping;
+                // 0 => no clamping AND no evaluation. WARNING: the program
+                // 				may NEVER stop (in particular with option move 20 (jumps)) 1
+                // *1 => classical. Set to bounds, and velocity to zero
+
+                param.initLink = initLinks; // 0 => re-init links after each unsuccessful iteration
+                // 1 => re-init links after each successful iteration
+
+                param.rand = randomness; // 0 => Use KISS as random number generator. 
+                // Any other value => use the system one
+
+                param.randOrder = randOrder; // 0 => at each iteration, particles are modified
+                //     always according to the same order 0..S-1
+                //*1 => at each iteration, particles numbers are
+                //		randomly permutated
+                param.rotation = rotation;
+                // WARNING. Experimental code, completely valid only for dimension 2
+                // 0 =>  sensitive to rotation of the system of coordinates
+                // 1 => non sensitive (except side effects), 
+                // 			by using a rotated hypercube for the probability distribution
+                //			WARNING. Quite time consuming!
+
+                param.stop = 0;	// Stop criterion
+                // 0 => error < pb.epsilon
+                // 1 => eval >= pb.evalMax		
+                // 2 => ||x-solution|| < pb.epsilon              
+
+                // =========================================================== 
+                // RUNs
+
+                // Initialize some objects
+                //pb = new Problem(function);
+
+                // You may "manipulate" S, p, w and c
+                // but here are the suggested values
+                param.S = swarmSize;
+                if (param.S > 910) param.S = 910;
+        
+
+                param.K = (int)k;
+                param.p = p;
+                // (to simulate the global best PSO, set param.p=1)
+                //param.p=1;
+       
+                param.w = w;
+                param.c = c;
+
+
+
                 NeuronDotNet.Core.PSO.LinearLayer inputLayer = new NeuronDotNet.Core.PSO.LinearLayer(preprocessor.ImageSize.Width * preprocessor.ImageSize.Height);
                 NeuronDotNet.Core.PSO.SigmoidLayer hiddenLayer = new NeuronDotNet.Core.PSO.SigmoidLayer(total);
                 hiddenLayer.InputGroups = inputGroups.Length;
@@ -219,8 +270,17 @@ namespace ENFORM
 
                 new PSOConnector(hiddenLayer, outputLayer);
 
-                network = new PSONetwork(inputLayer, outputLayer);
+                PSONetwork n = new PSONetwork(inputLayer, outputLayer);
+                
 
+                n.PsoParameters = param;
+                n.PsoProblem.MaxI = maxI;
+                n.PsoProblem.MinI = minI;
+                n.PsoProblem.MaxP = maxP;
+                n.PsoProblem.MinP = minP;
+                n.PsoProblem.Quantisation = quant;
+                network = n;
+                
             }
 
             

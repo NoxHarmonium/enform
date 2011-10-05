@@ -21,6 +21,7 @@ using System;
 using System.Runtime.Serialization;
 using SPSO_2007;
 using System.Collections.Generic;
+using ENFORM;
 
 namespace NeuronDotNet.Core.PSO
 {
@@ -37,6 +38,20 @@ namespace NeuronDotNet.Core.PSO
         private TrainingSet trainingSet;
         private int currentIteration;
         private int trainingEpochs;
+        private Problem psoProblem;      
+        private Parameters psoParameters;
+
+        public Parameters PsoParameters
+        {
+            get { return psoParameters; }
+            set { psoParameters = value; }
+        }
+
+        public Problem PsoProblem
+        {
+            get { return psoProblem; }
+            set { psoProblem = value; }
+        }
 
         public double[] AllWeights
         {
@@ -83,6 +98,13 @@ namespace NeuronDotNet.Core.PSO
         {
             this.meanSquaredError = 0d;
             this.isValidMSE = false;
+
+            // Re-Initialize the network
+            Initialize();
+
+            double[] weights = getAllWeights();
+
+            PsoProblem = new Problem(OptimisationProblem.Neural_Network, new Problem.FitnessHandler(getFitness), weights);
         }
 
         /// <summary>
@@ -100,6 +122,9 @@ namespace NeuronDotNet.Core.PSO
         public PSONetwork(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
+            
+
+
         }
 
         /// <summary>
@@ -303,13 +328,12 @@ namespace NeuronDotNet.Core.PSO
             // Reset isStopping
             isStopping = false;
 
+
             // Re-Initialize the network
-            Initialize();
-
-            double[] weights = getAllWeights();
-
-            Problem pb = new Problem(OptimisationProblem.Neural_Network, new Problem.FitnessHandler(getFitness), weights);
-            SPSO_2007.Algorithm pso = new SPSO_2007.Algorithm(pb);
+            Initialize();           
+            
+           
+            SPSO_2007.Algorithm pso = new SPSO_2007.Algorithm(PsoProblem,PsoParameters);
             pso.StartRun();
 
             for (currentIteration = 0; currentIteration < trainingEpochs;)
