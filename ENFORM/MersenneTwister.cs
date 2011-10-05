@@ -76,7 +76,7 @@
 using System;
 
 namespace NPack
-{
+{   
     /// <summary>
     /// Generates pseudo-random numbers using the Mersenne Twister algorithm.
     /// </summary>
@@ -87,6 +87,23 @@ namespace NPack
     /// </remarks>
     public class MersenneTwister : Random
     {
+        private static readonly Random _global = new Random();
+        [ThreadStatic]
+        private static Random _local;
+
+        public static int rNext()
+        {
+            Random inst = _local;
+            if (inst == null)
+            {
+                int seed;
+                lock (_global) seed = _global.Next();
+                _local = inst = new Random(seed);
+            }
+            return inst.Next();
+        }
+
+        
         /// <summary>
         /// Creates a new pseudo-random number generator with a given seed.
         /// </summary>
@@ -104,7 +121,7 @@ namespace NPack
         /// is used for the seed.
         /// </remarks>
         public MersenneTwister()
-            : this(new Random().Next()) /* a default initial seed is used   */
+            : this(rNext()) /* a default initial seed is used   */
         { }
 
         /// <summary>

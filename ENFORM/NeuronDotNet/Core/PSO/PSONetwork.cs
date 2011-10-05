@@ -338,7 +338,7 @@ namespace NeuronDotNet.Core.PSO
 
             for (currentIteration = 0; currentIteration < trainingEpochs;)
             {
-                int[] randomOrder = Helper.GetRandomOrder(trainingSet.TrainingSampleCount);
+                //int[] randomOrder = Helper.GetRandomOrder(trainingSet.TrainingSampleCount);
                 // Beginning a new training epoch
                 OnBeginEpoch(currentIteration, trainingSet);
 

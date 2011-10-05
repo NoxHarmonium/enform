@@ -258,7 +258,7 @@ namespace ENFORM
             
             iteration += 2;
             //Updating the UI thread bottlenecks performance
-            if (updateCount++ > 10)
+            if (updateCount++ > 100)
             {
                 changeThreadProgress(Int32.Parse(Thread.CurrentThread.Name), network.MeanSquaredError, e.TrainingIteration,"Optimising");
                 updateCount = 0;
