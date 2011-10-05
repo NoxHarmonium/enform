@@ -107,7 +107,7 @@ namespace NeuronDotNet.Core.Initializers
         /// <exception cref="ArgumentNullException">
         /// If <c>activationLayer</c> is <c>null</c>
         /// </exception>
-        public void Initialize(ActivationLayer activationLayer)
+        public void Initialize(Backpropagation.ActivationLayer activationLayer)
         {
             Helper.ValidateNotNull(activationLayer, "activationLayer");
 
@@ -119,7 +119,7 @@ namespace NeuronDotNet.Core.Initializers
 
             double nGuyenWidrowFactor = NGuyenWidrowFactor(activationLayer.NeuronCount, hiddenNeuronCount);
 
-            foreach (ActivationNeuron neuron in activationLayer.Neurons)
+            foreach (Backpropagation.ActivationNeuron neuron in activationLayer.Neurons)
             {
                 neuron.bias = Helper.GetRandom(-nGuyenWidrowFactor, nGuyenWidrowFactor);
             }
@@ -148,6 +148,39 @@ namespace NeuronDotNet.Core.Initializers
                 int i = 0;
                 double[] normalizedVector = Helper.GetRandomVector(synapsesPerNeuron, nGuyenWidrowFactor);
                 foreach (BackpropagationSynapse synapse in connector.GetSourceSynapses(neuron))
+                {
+                    synapse.Weight = normalizedVector[i++];
+                    if (i >= synapsesPerNeuron)
+                    {
+                        break;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Initializes weights of all backpropagation synapses in the backpropagation connector.
+        /// </summary>
+        /// <param name="connector">
+        /// The backpropagation connector to initialize.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        /// If <c>connector</c> is <c>null</c>
+        /// </exception>
+        public void Initialize(PSO.PSOConnector connector)
+        {
+            Helper.ValidateNotNull(connector, "connector");
+
+            double nGuyenWidrowFactor = NGuyenWidrowFactor(
+                connector.SourceLayer.NeuronCount, connector.TargetLayer.NeuronCount);
+
+            int synapsesPerNeuron = connector.SynapseCount / connector.TargetLayer.NeuronCount;
+
+            foreach (INeuron neuron in connector.TargetLayer.Neurons)
+            {
+                int i = 0;
+                double[] normalizedVector = Helper.GetRandomVector(synapsesPerNeuron, nGuyenWidrowFactor);
+                foreach (PSO.PSOSynapse synapse in connector.GetSourceSynapses(neuron))
                 {
                     synapse.Weight = normalizedVector[i++];
                     if (i >= synapsesPerNeuron)
@@ -201,6 +234,33 @@ namespace NeuronDotNet.Core.Initializers
         private double NGuyenWidrowFactor(int inputNeuronCount, int hiddenNeuronCount)
         {
             return 0.7d * Math.Pow(hiddenNeuronCount, (1d / inputNeuronCount)) / outputRange;
+        }
+
+        /// <summary>
+        /// Initializes bias values of activation neurons in the activation layer.
+        /// </summary>
+        /// <param name="activationLayer">
+        /// The activation layer to initialize
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        /// If <c>activationLayer</c> is <c>null</c>
+        /// </exception>
+        public void Initialize(PSO.ActivationLayer activationLayer)
+        {
+            Helper.ValidateNotNull(activationLayer, "activationLayer");
+
+            int hiddenNeuronCount = 0;
+            foreach (IConnector targetConnector in activationLayer.TargetConnectors)
+            {
+                hiddenNeuronCount += targetConnector.TargetLayer.NeuronCount;
+            }
+
+            double nGuyenWidrowFactor = NGuyenWidrowFactor(activationLayer.NeuronCount, hiddenNeuronCount);
+
+            foreach (PSO.ActivationNeuron neuron in activationLayer.Neurons)
+            {
+                neuron.bias = Helper.GetRandom(-nGuyenWidrowFactor, nGuyenWidrowFactor);
+            }
         }
     }
 }

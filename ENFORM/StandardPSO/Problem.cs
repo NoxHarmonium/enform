@@ -5,6 +5,8 @@ namespace SPSO_2007
 {
     public class Problem
     {
+
+        public delegate double FitnessHandler(double[] weights);
         
         public int constraint;			// Number of constraints
         public double epsilon; 	// Admissible error
@@ -17,10 +19,152 @@ namespace SPSO_2007
         //For Network problems
         private static int bcsNb;
         private static int btsNb;
+        private FitnessHandler fitnessFunction;
         //Constants
         const int zero = 0;			// 1.0e-30 // To avoid numerical instabilities    
 
-      
+        public double MinP
+        {
+            get
+            {
+                return this.SS.min[0];
+            }
+            set
+            {
+                for (int d = 0; d < this.SS.D; d++)
+                {
+                    this.SS.min[d] = value; // -100             
+                }
+            }
+
+        }
+
+        public double MaxP
+        {
+            get
+            {
+                return this.SS.max[0];
+            }
+            set
+            {
+                for (int d = 0; d < this.SS.D; d++)
+                {
+                    this.SS.max[d] = value; // -100             
+                }
+            }
+
+        }
+
+        public double MinI
+        {
+            get
+            {
+                return this.SS.minInit[0];
+            }
+            set
+            {
+                for (int d = 0; d < this.SS.D; d++)
+                {                  
+                    this.SS.minInit[d] = value;            
+                }
+            }
+
+        }
+        public double MaxI
+        {
+            get
+            {
+                return this.SS.maxInit[0];
+            }
+            set
+            {
+                for (int d = 0; d < this.SS.D; d++)
+                {
+                    this.SS.maxInit[d] = value;
+                }
+            }
+
+        }
+
+        public double Quantisation
+        {
+            get
+            {
+                return this.SS.q.q[0];
+            }
+            set
+            {
+                for (int d = 0; d < this.SS.D; d++)
+                {
+                    this.SS.q.q[d] = value;
+                }
+            }
+        }
+        public double Objective
+        {
+            get
+            {
+                return this.objective;
+            }
+            set
+            {
+                this.objective = value;
+            }
+
+        }
+
+
+        public Problem(OptimisationProblem problem, FitnessHandler fitnessFunction, double[] initialWeights)
+        {
+            this.fitnessFunction = fitnessFunction;
+
+            solution = new Position(initialWeights.Length);
+
+            SS = new SwarmSize(initialWeights.Length);
+
+            int d;
+
+            this.function = (int)problem;
+            this.epsilon = 0.00000;	// Acceptable error (default). May be modified below
+            this.objective = 0;       // Objective value (default). May be modified below
+            //this.evalMax =100000
+
+            // Define the solution point, for test
+            // NEEDED when param.stop = 2 
+            // i.e. when stop criterion is distance_to_solution < epsilon
+            /*
+            for (d = 0; d < 30; d++)
+            {
+                this.solution.x[d] = 0;
+            }
+             */
+
+            this.SS.q.size = this.SS.D;
+
+            this.SS.D = initialWeights.Length;//  Dimension							
+
+            for (d = 0; d < this.SS.D; d++)
+            {
+                this.SS.min[d] = -1; // -100
+                this.SS.max[d] = 1;	// 100
+                this.SS.q.q[d] = 0;	// Relative quantisation, in [0,1].   
+            }
+
+            this.evalMax = int.MaxValue;// Max number of evaluations for each run
+            this.epsilon = 0.0; // 1e-3;	
+            this.objective = 0;
+
+            // For test purpose, the initialisation space may be different from
+            // the search space. If so, just modify the code below
+
+            for (d = 0; d < this.SS.D; d++)
+            {
+                this.SS.maxInit[d] = this.SS.max[d];
+                this.SS.minInit[d] = this.SS.min[d];
+            }
+
+        }
+          
 
         public Problem(OptimisationProblem problem)
         {
@@ -707,6 +851,8 @@ namespace SPSO_2007
 
         }
 
+
+
         public double perf(Position x, int function, double objective)
         {				// Evaluate the fitness value for the particle of rank s   
             int d;
@@ -717,7 +863,7 @@ namespace SPSO_2007
             double s11, s12, s21, s22;
             double sum1, sum2;
             double t0, tt, t1;
-            Position xs = new Position();
+            Position xs = new Position(x.size);
             // Shifted Parabola/Sphere (CEC 2005 benchmark)		
             double[] offset_0 =
                 { 
@@ -832,6 +978,12 @@ namespace SPSO_2007
 
             switch (function)
             {
+                case (int)OptimisationProblem.Neural_Network:
+                    f = fitnessFunction(xs.x);
+
+
+                break;
+                
                 case 100: // Parabola (Sphere) CEC 2005
                     f = -450;
                     for (d = 0; d < xs.size; d++)
@@ -1178,6 +1330,8 @@ namespace SPSO_2007
                     f = 0.5 + (Math.Pow(Math.Sin(Math.Sqrt(sum1)), 2) - 0.5) / (1 + 0.001 * sum1 * sum1);
                     break;
 
+
+                
 
                     //TODO: Figure out why the following is unreachable
                     /*

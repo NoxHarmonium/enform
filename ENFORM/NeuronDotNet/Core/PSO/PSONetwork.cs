@@ -19,17 +19,53 @@
 
 using System;
 using System.Runtime.Serialization;
+using SPSO_2007;
+using System.Collections.Generic;
+using ENFORM;
 
-namespace NeuronDotNet.Core.Backpropagation
+namespace NeuronDotNet.Core.PSO
 {
+    
+    
     /// <summary>
     /// This class extends a <see cref="Network"/> and represents a Backpropagation neural network.
     /// </summary>
     [Serializable]
-    public class BackpropagationNetwork : Network
+    public class PSONetwork : Network
     {
         private double meanSquaredError;
         private bool isValidMSE;
+        private TrainingSet trainingSet;
+        private int currentIteration;
+        private int trainingEpochs;
+        private Problem psoProblem;      
+        private Parameters psoParameters;
+
+        public Parameters PsoParameters
+        {
+            get { return psoParameters; }
+            set { psoParameters = value; }
+        }
+
+        public Problem PsoProblem
+        {
+            get { return psoProblem; }
+            set { psoProblem = value; }
+        }
+
+        public double[] AllWeights
+        {
+            get
+            {
+                return getAllWeights();
+            }
+            set
+            {
+                setAllWeights(value);
+
+            }
+
+        }
 
         /// <summary>
         /// Gets the value of mean squared error
@@ -57,11 +93,18 @@ namespace NeuronDotNet.Core.Backpropagation
         /// <exception cref="ArgumentNullException">
         /// If <c>inputLayer</c> or <c>outputLayer</c> is <c>null</c>
         /// </exception>
-        public BackpropagationNetwork(ActivationLayer inputLayer, ActivationLayer outputLayer)
+        public PSONetwork(ActivationLayer inputLayer, ActivationLayer outputLayer)
             : base(inputLayer, outputLayer, TrainingMethod.Supervised)
         {
             this.meanSquaredError = 0d;
             this.isValidMSE = false;
+
+            // Re-Initialize the network
+            Initialize();
+
+            double[] weights = getAllWeights();
+
+            PsoProblem = new Problem(OptimisationProblem.Neural_Network, new Problem.FitnessHandler(getFitness), weights);
         }
 
         /// <summary>
@@ -76,9 +119,12 @@ namespace NeuronDotNet.Core.Backpropagation
         /// <exception cref="ArgumentNullException">
         /// If <c>info</c> is <c>null</c>
         /// </exception>
-        public BackpropagationNetwork(SerializationInfo info, StreamingContext context)
+        public PSONetwork(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
+            
+
+
         }
 
         /// <summary>
@@ -170,23 +216,161 @@ namespace NeuronDotNet.Core.Backpropagation
             }
 
             // Set Errors
-            meanSquaredError += (outputLayer as ActivationLayer).SetErrors(trainingSample.OutputVector);
+            meanSquaredError += (outputLayer as ActivationLayer).SetErrors(trainingSample.OutputVector);            
+        }
+
+        private double getFitness(double[] weights)
+        {
+            this.setAllWeights(weights);          
+            
+            
+
+            for (int index = 0; index < trainingSet.TrainingSampleCount; index++)
+            {
+                TrainingSample randomSample = trainingSet[index];
+                // Learn a random training sample
+
+                LearnSample(trainingSet[index], currentIteration, trainingEpochs);
+
+                
+
+            }
+
+            return meanSquaredError / (double)trainingSet.TrainingSampleCount;
+        }
+
+        protected void setAllWeights(double[] weights)
+        {
+            
+
+            int layerCount = layers.Count;
+            int weightCount = 0;
 
             // Backpropagate errors
+
+
             for (int i = layerCount; i > 0; )
             {
                 ActivationLayer layer = layers[--i] as ActivationLayer;
-                if (layer != null)
+                foreach (ActivationNeuron neuron in layer.Neurons)
                 {
-                    layer.EvaluateErrors();
+                    neuron.bias = weights[weightCount++];
+                    
+                    foreach (ISynapse synapse in neuron.SourceSynapses)
+                    {
+                        synapse.Weight = weights[weightCount++];
+                    }
+
                 }
             }
 
-            // Optimize synapse weights and neuron bias values
-            for (int i = 0; i < layerCount; i++)
+        }
+
+
+        protected double[] getAllWeights()
+        {
+            int layerCount = layers.Count;
+
+            List<double> weights = new List<double>();
+            
+            // Backpropagate errors
+            
+            
+            for (int i = layerCount; i > 0; )
             {
-                layers[i].Learn(currentIteration, trainingEpochs);
+                ActivationLayer layer = layers[--i] as ActivationLayer;
+                foreach (ActivationNeuron neuron in layer.Neurons)
+                {
+                    weights.Add(neuron.Bias);
+                    foreach (ISynapse synapse in neuron.SourceSynapses)
+                    {
+                        weights.Add(synapse.Weight);
+                    }
+
+                }
             }
+
+
+            return weights.ToArray();
+        }
+
+        /// <summary>
+        /// Trains the neural network for the given training set (Batch Training)
+        /// </summary>
+        /// <param name="trainingSet">
+        /// The training set to use
+        /// </param>
+        /// <param name="trainingEpochs">
+        /// Number of training epochs. (All samples are trained in some random order, in every
+        /// training epoch)
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        /// if <c>trainingSet</c> is <c>null</c>
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// if <c>trainingEpochs</c> is zero or negative
+        /// </exception>
+        public override void Learn(TrainingSet trainingSet, int trainingEpochs)
+        {
+            this.trainingSet = trainingSet;
+            this.trainingEpochs = trainingEpochs;
+
+            // Validate
+            Helper.ValidateNotNull(trainingSet, "trainingSet");
+            Helper.ValidatePositive(trainingEpochs, "trainingEpochs");
+            if ((trainingSet.InputVectorLength != inputLayer.NeuronCount)
+                || (trainingMethod == TrainingMethod.Supervised && trainingSet.OutputVectorLength != outputLayer.NeuronCount)
+                || (trainingMethod == TrainingMethod.Unsupervised && trainingSet.OutputVectorLength != 0))
+            {
+                throw new ArgumentException("Invalid training set");
+            }
+
+            // Reset isStopping
+            isStopping = false;
+
+
+            // Re-Initialize the network
+            Initialize();           
+            
+           
+            SPSO_2007.Algorithm pso = new SPSO_2007.Algorithm(PsoProblem,PsoParameters);
+            pso.StartRun();
+
+            for (currentIteration = 0; currentIteration < trainingEpochs;)
+            {
+                //int[] randomOrder = Helper.GetRandomOrder(trainingSet.TrainingSampleCount);
+                // Beginning a new training epoch
+                OnBeginEpoch(currentIteration, trainingSet);
+
+                // Check for Jitter Epoch
+                /*
+                if (jitterEpoch > 0 && currentIteration % jitterEpoch == 0)
+                {
+                    for (int i = 0; i < connectors.Count; i++)
+                    {
+                        connectors[i].Jitter(jitterNoiseLimit);
+                    }
+                }
+                */
+
+
+                currentIteration = pso.NextIteration();
+
+                meanSquaredError = pso.BestFitness * trainingSet.TrainingSampleCount;
+                
+
+
+                // Training Epoch successfully complete
+                OnEndEpoch(currentIteration, trainingSet);
+
+                // Check if we need to stop
+                if (isStopping) {
+                    pso.EndRun();
+                    isStopping = false; 
+                    return; 
+                }
+            }
+
         }
     }
 }

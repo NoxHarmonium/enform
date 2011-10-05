@@ -8,19 +8,35 @@ namespace SPSO_2007
     static class Extensions
     {
         [ThreadStatic]
-        private static NPack.MersenneTwister twister = new NPack.MersenneTwister();
+        private static NPack.MersenneTwister twister;
+
+        public static NPack.MersenneTwister Twister
+        {
+            get
+            {
+
+                if (twister == null)
+                {
+                    twister = new NPack.MersenneTwister();
+                }
+
+                return Extensions.twister;
+
+
+            }
+
+        }
 
         public static double NextDouble()
         {
-            return (twister.NextDouble());
+            return (Twister.NextDouble());
         }
 
-        public static double NextDouble(this Random rand,double lowerBound,double upperBound)
-        {       
-            
-            return lowerBound + twister.NextDouble() * (upperBound - lowerBound);
+        public static double NextDouble(this Random rand, double lowerBound, double upperBound)
+        {
+            return lowerBound + Twister.NextDouble() * (upperBound - lowerBound);
         }
-        public static Velocity NextVector(this Random rand,int dimensions, double coeff)
+        public static Velocity NextVector(this Random rand, int dimensions, double coeff)
         {
             Velocity velocity = new Velocity();
             int K = 2; // 1 => uniform distribution in a hypercube
@@ -39,14 +55,14 @@ namespace SPSO_2007
 
             return velocity;
         }
-        public static void Shuffle(this int[] index,int count,int max)
+        public static void Shuffle(this int[] index, int count, int max)
         {
-            
+
             for (int i = 0; i < count; i++) //Shuffle count times
             {
                 for (int j = 0; j < max; j++)
                 {
-                    int r = twister.Next(max);
+                    int r = Twister.Next(max);
                     int temp = index[j];
                     index[j] = index[r];
                     index[r] = temp;

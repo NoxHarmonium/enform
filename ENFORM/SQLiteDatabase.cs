@@ -92,11 +92,12 @@ namespace ENFORM
                     // Ottieni il risultato e chiudi la connessione
                     foreach (string cmd in query.Split(new char[] {';'}))
                     {
-                        command.CommandText = query;    
+                        command.CommandText = cmd;    
                         retval += command.ExecuteNonQuery();
                     }
                     
                     tx.Commit();
+                    connection.Close();
                     return retval;
                 }
             }
@@ -177,7 +178,7 @@ namespace ENFORM
 
         }
 
-        public int InsertBLOBNetwork(Network network)
+        public int InsertBLOBNetwork(INetwork network)
         {
 
             MemoryStream stream = new MemoryStream();
@@ -255,6 +256,10 @@ namespace ENFORM
         {
 
             byte[] buffer = retrieveBLOB(index);
+            if (buffer == null)
+            {
+                throw new Exception("BLOB missing from database!");
+            }
             
             MemoryStream stream = new MemoryStream(buffer, false);
             Image image = Bitmap.FromStream(stream);    

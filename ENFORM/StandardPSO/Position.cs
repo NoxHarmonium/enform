@@ -18,7 +18,7 @@ namespace SPSO_2007
         public double[] x;
         public Position Clone()
         {
-            Position retVal = new Position();
+            Position retVal = new Position(x.Length);
             retVal.f = this.f;
             retVal.improved = this.improved;
             retVal.size = this.size;

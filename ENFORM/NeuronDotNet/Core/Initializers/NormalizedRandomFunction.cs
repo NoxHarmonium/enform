@@ -73,13 +73,34 @@ namespace NeuronDotNet.Core.Initializers
         /// <exception cref="ArgumentNullException">
         /// If <c>activationLayer</c> is <c>null</c>
         /// </exception>
-        public void Initialize(ActivationLayer activationLayer)
+        public void Initialize(Backpropagation.ActivationLayer activationLayer)
         {
             Helper.ValidateNotNull(activationLayer, "activationLayer");
 
             int i = 0;
             double[] normalized = Helper.GetRandomVector(activationLayer.NeuronCount, 1d);
-            foreach (ActivationNeuron neuron in activationLayer.Neurons)
+            foreach (Backpropagation.ActivationNeuron neuron in activationLayer.Neurons)
+            {
+                neuron.bias = normalized[i++];
+            }
+        }
+
+        /// <summary>
+        /// Initializes bias values of activation neurons in the activation layer.
+        /// </summary>
+        /// <param name="activationLayer">
+        /// The activation layer to initialize
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        /// If <c>activationLayer</c> is <c>null</c>
+        /// </exception>
+        public void Initialize(PSO.ActivationLayer activationLayer)
+        {
+            Helper.ValidateNotNull(activationLayer, "activationLayer");
+
+            int i = 0;
+            double[] normalized = Helper.GetRandomVector(activationLayer.NeuronCount, 1d);
+            foreach (PSO.ActivationNeuron neuron in activationLayer.Neurons)
             {
                 neuron.bias = normalized[i++];
             }
@@ -101,6 +122,27 @@ namespace NeuronDotNet.Core.Initializers
             int i = 0;
             double[] normalized = Helper.GetRandomVector(connector.SynapseCount, 1d);
             foreach (BackpropagationSynapse synapse in connector.Synapses)
+            {
+                synapse.Weight = normalized[i++];
+            }
+        }
+
+        /// <summary>
+        /// Initializes weights of all backpropagation synapses in the backpropagation connector.
+        /// </summary>
+        /// <param name="connector">
+        /// The backpropagation connector to initialize.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        /// If <c>connector</c> is <c>null</c>
+        /// </exception>
+        public void Initialize(PSO.PSOConnector connector)
+        {
+            Helper.ValidateNotNull(connector, "connector");
+
+            int i = 0;
+            double[] normalized = Helper.GetRandomVector(connector.SynapseCount, 1d);
+            foreach (PSO.PSOSynapse synapse in connector.Synapses)
             {
                 synapse.Weight = normalized[i++];
             }

@@ -120,13 +120,10 @@ namespace SPSO_2007
         /// Non-rotated Ackley (F8)
         /// CEC 2005 benchmark  (Use no more than 30D. See cec2005data.c) 
         /// </summary>
-        F8 = 106
+        F8 = 106,
 
-
-
-
-
-
+        //CUSTOM
+        Neural_Network = 200
 
     }
 

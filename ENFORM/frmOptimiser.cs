@@ -251,14 +251,14 @@ namespace ENFORM
 
         void Network_EndEpochEvent(object sender, NeuronDotNet.Core.TrainingEpochEventArgs e)
         {
-            BackpropagationNetwork network = (BackpropagationNetwork) sender;
+            INetwork network = (INetwork) sender;
             
             results[iteration] = (float)network.MeanSquaredError;
             results[iteration + 1] = (float) stopWatch.Elapsed.TotalMilliseconds;
             
             iteration += 2;
             //Updating the UI thread bottlenecks performance
-            if (updateCount++ > 10)
+            if (updateCount++ > 100)
             {
                 changeThreadProgress(Int32.Parse(Thread.CurrentThread.Name), network.MeanSquaredError, e.TrainingIteration,"Optimising");
                 updateCount = 0;
@@ -304,7 +304,12 @@ namespace ENFORM
 
         private void frmOptimiser_Shown(object sender, EventArgs e)
         {
-            Utils.SetLogWindowLocation(this.Location.X, this.Location.Y + this.Size.Height + 10);
+            //Utils.SetLogWindowLocation(this.Location.X, this.Location.Y + this.Size.Height + 10);
+        }
+
+        private void btnMoveUp_Click(object sender, EventArgs e)
+        {
+
         }
        
     }
