@@ -49,6 +49,7 @@
             this.grpInfo = new System.Windows.Forms.GroupBox();
             this.lblCurrentRunValue = new System.Windows.Forms.Label();
             this.lblCurrentRun = new System.Windows.Forms.Label();
+            this.btnSaveBatch = new System.Windows.Forms.Button();
             this.grpProperties.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numThreads)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numRuns)).BeginInit();
@@ -250,11 +251,22 @@
             this.lblCurrentRun.TabIndex = 0;
             this.lblCurrentRun.Text = "Current Run:";
             // 
+            // btnSaveBatch
+            // 
+            this.btnSaveBatch.Location = new System.Drawing.Point(13, 406);
+            this.btnSaveBatch.Name = "btnSaveBatch";
+            this.btnSaveBatch.Size = new System.Drawing.Size(108, 23);
+            this.btnSaveBatch.TabIndex = 10;
+            this.btnSaveBatch.Text = "Save Batch File";
+            this.btnSaveBatch.UseVisualStyleBackColor = true;
+            this.btnSaveBatch.Click += new System.EventHandler(this.btnSaveBatch_Click);
+            // 
             // frmOptimiser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(794, 411);
+            this.ClientSize = new System.Drawing.Size(794, 435);
+            this.Controls.Add(this.btnSaveBatch);
             this.Controls.Add(this.grpInfo);
             this.Controls.Add(this.btnStop);
             this.Controls.Add(this.btnStart);
@@ -304,5 +316,6 @@
         private System.Windows.Forms.GroupBox grpInfo;
         private System.Windows.Forms.Label lblCurrentRunValue;
         private System.Windows.Forms.Label lblCurrentRun;
+        private System.Windows.Forms.Button btnSaveBatch;
     }
 }

@@ -13,6 +13,7 @@ using NeuronDotNet.Core;
 using NeuronDotNet.Core.Backpropagation;
 using System.Diagnostics;
 using ENFORM.Core;
+using System.IO;
 
 namespace ENFORM.GUI
 {
@@ -311,6 +312,35 @@ namespace ENFORM.GUI
         private void btnMoveUp_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnSaveBatch_Click(object sender, EventArgs e)
+        {
+            using (SaveFileDialog dlgSave = new SaveFileDialog())
+            {
+                dlgSave.AddExtension = true;
+                dlgSave.DefaultExt = "ebat";
+                dlgSave.Filter = "ENFORM batch file(*.ebat)|*.ebat";
+                dlgSave.Title = "Save batch file...";
+             
+
+                if (dlgSave.ShowDialog() == DialogResult.OK)
+                {
+                    using (StreamWriter writer = new StreamWriter(dlgSave.FileName))
+                    {
+                        writer.WriteLine("ENFORM batch file");
+                        writer.WriteLine(numRuns.Value.ToString() + "," + numThreads.Value.ToString());
+                        for (int i = 0; i < lstRuns.Items.Count; i++)
+                        {
+                            writer.WriteLine(new FileInfo(lstRuns.Items[i].SubItems[2].Text).Name);
+                        }
+                        writer.Close();
+                    }
+                    
+                }
+
+
+            } 
         }
        
     }
