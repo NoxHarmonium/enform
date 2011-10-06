@@ -1,4 +1,4 @@
-﻿namespace ENFORM
+﻿namespace ENFORM.GUI
 {
     partial class frmRunEditor
     {
@@ -143,8 +143,8 @@
             this.chkEmbed = new System.Windows.Forms.CheckBox();
             this.btnLoadRun = new System.Windows.Forms.Button();
             this.btnSaveRun = new System.Windows.Forms.Button();
-            this.colourPicker1 = new ENFORM.ColourPicker();
-            this.imageViewer1 = new ENFORM.ImageViewer();
+            this.colourPicker1 = new ENFORM.GUI.ColourPicker();
+            this.imageViewer1 = new ENFORM.GUI.ImageViewer();
             this.tabMain.SuspendLayout();
             this.tabTestData.SuspendLayout();
             this.tabInnerTestData.SuspendLayout();
@@ -1455,7 +1455,7 @@
             this.imageViewer1.DrawingColour = System.Drawing.Color.Black;
             this.imageViewer1.Location = new System.Drawing.Point(12, 12);
             this.imageViewer1.Name = "imageViewer1";
-            this.imageViewer1.ScalingMethod = ENFORM.ScalingMethods.Nearest_Neighbor;
+            this.imageViewer1.ScalingMethod = ENFORM.Core.ScalingMethods.Nearest_Neighbor;
             this.imageViewer1.Size = new System.Drawing.Size(258, 375);
             this.imageViewer1.TabIndex = 1;
             this.imageViewer1.Load += new System.EventHandler(this.imageViewer1_Load);

@@ -12,8 +12,9 @@ using System.Collections;
 using NeuronDotNet.Core;
 using NeuronDotNet.Core.Backpropagation;
 using System.Diagnostics;
+using ENFORM.Core;
 
-namespace ENFORM
+namespace ENFORM.GUI
 {
     public partial class frmOptimiser : Form
     {

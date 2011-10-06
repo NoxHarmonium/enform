@@ -8,8 +8,9 @@ using System.Text;
 using System.Windows.Forms;
 using NeuronDotNet.Core;
 using NeuronDotNet.Core.Backpropagation;
+using ENFORM.Core;
 
-namespace ENFORM
+namespace ENFORM.GUI
 {
     public partial class frmNetworkTester : Form
     {

@@ -1,4 +1,4 @@
-﻿namespace ENFORM
+﻿namespace ENFORM.GUI
 {
     partial class frmLogBox
     {

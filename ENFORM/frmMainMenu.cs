@@ -10,12 +10,13 @@ using SPSO_2007;
 using NeuronDotNet.Core;
 using NeuronDotNet.Core.Initializers;
 using NeuronDotNet.Core.PSO;
+using ENFORM.Core;
 
-namespace ENFORM
+namespace ENFORM.GUI
 {
     public partial class frmMainMenu : Form
     {
-        PSONetwork network;
+        //private PSONetwork network;
         
         public frmMainMenu()
         {
@@ -76,16 +77,16 @@ namespace ENFORM
         }
 
 
-        private double getFitness(double[] weights)
-        {
-            network.AllWeights = weights;          
-            network.Run(new double[] { 0.2, 0.4, 0.222, 0.75, 0.9 });
-            double[] output = network.OutputLayer.GetOutput();
+        //private double getFitness(double[] weights)
+        //{
+        //    network.AllWeights = weights;          
+        //    network.Run(new double[] { 0.2, 0.4, 0.222, 0.75, 0.9 });
+        //    double[] output = network.OutputLayer.GetOutput();
 
-            return Math.Abs(output[0] - 0.9) + Math.Abs(output[1] - 0.2);
+        //    return Math.Abs(output[0] - 0.9) + Math.Abs(output[1] - 0.2);
 
 
-        }
+        //}
 
 
 

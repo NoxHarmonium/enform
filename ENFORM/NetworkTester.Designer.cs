@@ -1,4 +1,4 @@
-﻿namespace ENFORM
+﻿namespace ENFORM.GUI
 {
     partial class frmNetworkTester
     {
@@ -51,7 +51,7 @@
             this.chkContastStretch = new System.Windows.Forms.CheckBox();
             this.chkGreyscale = new System.Windows.Forms.CheckBox();
             this.lstInputGroups = new System.Windows.Forms.ListBox();
-            this.imgTestImage = new ENFORM.ImageViewer();
+            this.imgTestImage = new ENFORM.GUI.ImageViewer();
             this.lblFitness = new System.Windows.Forms.Label();
             this.cmbSampleType = new System.Windows.Forms.ComboBox();
             this.grpFilters.SuspendLayout();
@@ -330,7 +330,7 @@
             this.imgTestImage.DrawingColour = System.Drawing.Color.Black;
             this.imgTestImage.Location = new System.Drawing.Point(696, 12);
             this.imgTestImage.Name = "imgTestImage";
-            this.imgTestImage.ScalingMethod = ENFORM.ScalingMethods.Nearest_Neighbor;
+            this.imgTestImage.ScalingMethod = ENFORM.Core.ScalingMethods.Nearest_Neighbor;
             this.imgTestImage.Size = new System.Drawing.Size(258, 334);
             this.imgTestImage.TabIndex = 0;
             // 

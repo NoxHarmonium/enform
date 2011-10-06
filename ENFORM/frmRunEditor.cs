@@ -9,9 +9,10 @@ using System.Windows.Forms;
 using NeuronDotNet.Core;
 using NeuronDotNet.Core.Backpropagation;
 using NeuronDotNet.Core.Initializers;
+using ENFORM.Core;
 
 
-namespace ENFORM
+namespace ENFORM.GUI
 {
     public partial class frmRunEditor : Form
     {
@@ -74,7 +75,7 @@ namespace ENFORM
         {
             if (txtHeight.Text == "" || txtWidth.Text == "")
             {
-                imageViewer1.LoadImage(ENFORM.Properties.Resources.Error);
+                imageViewer1.LoadImage(ENFORM.GUI.Properties.Resources.Error);
                 return;
             }
             
@@ -92,7 +93,7 @@ namespace ENFORM
                 catch (Exception ex)
                 {
                     MessageBox.Show("Error loading the selected file as an image.\n" + ex.Message + ex.StackTrace);
-                    imageViewer1.LoadImage(ENFORM.Properties.Resources.Error);
+                    imageViewer1.LoadImage(ENFORM.GUI.Properties.Resources.Error);
                     
                 }
                      
@@ -170,7 +171,7 @@ namespace ENFORM
             }
             catch (Exception)
             {
-                imageViewer1.LoadImage(ENFORM.Properties.Resources.Error);
+                imageViewer1.LoadImage(ENFORM.GUI.Properties.Resources.Error);
                 txtDimensions.Text = "Error";
             }
 
@@ -185,7 +186,7 @@ namespace ENFORM
             }
             catch (Exception)
             {
-                imageViewer1.LoadImage(ENFORM.Properties.Resources.Error);
+                imageViewer1.LoadImage(ENFORM.GUI.Properties.Resources.Error);
                 txtDimensions.Text = "Error";
             }
         }

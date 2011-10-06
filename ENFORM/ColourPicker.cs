@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace ENFORM
+namespace ENFORM.GUI
 {
     public delegate void ColourSelectedHandler(object sender, Color selectedColour);
 

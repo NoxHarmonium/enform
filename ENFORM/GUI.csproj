@@ -8,8 +8,8 @@
     <ProjectGuid>{E20D48AB-FC31-42EF-A14F-791EBCF4B9BB}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ENFORM</RootNamespace>
-    <AssemblyName>ENFORM</AssemblyName>
+    <RootNamespace>ENFORM.GUI</RootNamespace>
+    <AssemblyName>ENFORM.GUI</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -210,6 +210,7 @@
   <ItemGroup>
     <Content Include="db\LatestTemplate.sql" />
     <Content Include="Licences.txt" />
+    <None Include="Resources\Error.png" />
     <None Include="Resources\TextFile1.txt" />
   </ItemGroup>
   <ItemGroup>

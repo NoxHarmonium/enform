@@ -6,9 +6,9 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using ENFORM.Core;
 
-
-namespace ENFORM
+namespace ENFORM.GUI
 {
  
     
@@ -106,7 +106,7 @@ namespace ENFORM
 
            
 
-            if( scalingMethod == ENFORM.ScalingMethods.Bicubic)
+            if( scalingMethod == ENFORM.Core.ScalingMethods.Bicubic)
             {
                 MessageBox.Show("Not implimented yet, reverting to nearest neighbor...");
                 /*
@@ -115,15 +115,15 @@ namespace ENFORM
                 g.DrawImage(resize.Apply((Bitmap)image), new Point(0, 0));
                 g.DrawImage(resize.Apply((Bitmap)overlay), new Point(0, 0));
                  * */
-                scalingMethod = ENFORM.ScalingMethods.Nearest_Neighbor;
+                scalingMethod = ENFORM.Core.ScalingMethods.Nearest_Neighbor;
             }
-            if (scalingMethod == ENFORM.ScalingMethods.Bilinear)
+            if (scalingMethod == ENFORM.Core.ScalingMethods.Bilinear)
             {
                 AForge.Imaging.Filters.ResizeBilinear resize = new AForge.Imaging.Filters.ResizeBilinear(newWidth, newHeight);
                 g.DrawImage(resize.Apply((Bitmap)image), new Point(0, 0));
                 g.DrawImage(resize.Apply((Bitmap)overlay), new Point(0, 0));
             }
-            if (scalingMethod == ENFORM.ScalingMethods.Nearest_Neighbor)
+            if (scalingMethod == ENFORM.Core.ScalingMethods.Nearest_Neighbor)
             {
                 AForge.Imaging.Filters.ResizeNearestNeighbor resize = new AForge.Imaging.Filters.ResizeNearestNeighbor(newWidth, newHeight);
                 g.DrawImage(resize.Apply((Bitmap)image), new Point(0, 0));
