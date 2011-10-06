@@ -88,9 +88,72 @@ namespace ENFORM.Core
 
         }
 
-        public void SaveResult(string jobUUID, INetwork finalNetwork, int iterations, float[] results, DateTime startTime, DateTime endTime)
+        public void SaveResult(string jobUUID, INetwork finalNetwork, int iterations, float[] results, DateTime startTime, DateTime endTime, int runid)
         {
 
+            string query = "UPDATE Runs SET EndTime= " + endTime.ToString("yyyy-MM-dd HH:mm:ss");
+            
+            
+            string[][] items = new string[iterations/2][];
+
+            for (int i = 0; i < iterations; i += 2)
+            {
+                items[i / 2] = new string[] { runid.ToString(), Convert.ToString(i / 2), results[i + 1].ToString(), results[i].ToString() };
+            }
+
+            database.BatchInsert("Results", items);
+        
+
+        }
+
+        public int StartRun(string jobUUID)
+        {
+            string query = "INSERT INTO RUNS\n" +
+                "VALUES (NULL," +
+                 "''," +
+                "''," +
+                "'1','" +
+                "-1','" +
+                jobUUID + "');" +
+                "SELECT last_insert_rowid();";
+
+            DataSet result = database.RunQuery(query);
+            return Convert.ToInt32(result.Tables[0].Rows[0][0]);
+
+
+        }
+
+        public void SaveFinalResult(string jobUUID, INetwork finalNetwork, int iterations, float[] results, DateTime startTime, DateTime endTime, int runid,int totalIterations)
+        {
+
+            SavePartialResult(jobUUID, iterations, results, runid, totalIterations);
+            
+            int networkID = database.InsertBLOBNetwork(finalNetwork);
+
+
+
+            string query = "UPDATE Runs " +
+                "SET StartTime='" + startTime.ToString("yyyy-MM-dd HH:mm:ss") + "'," +
+                "EndTime='" + endTime.ToString("yyyy-MM-dd HH:mm:ss") + "'," +
+                "Status='0'," +
+                "StartTime='" + startTime.ToString("yyyy-MM-dd HH:mm:ss") + "'," +
+                "BLOBindex='" + networkID.ToString() +"' " +
+                "WHERE RunID = '" + runid + "'";
+
+            database.RunQueryNoResult(query);
+
+           
+           
+        }
+
+        public void SavePartialResult(string jobUUID, int iterations, float[] results, int runid,int totalIterations)
+        {
+
+           
+            if (iterations == 0)
+            {
+                return;
+            }
             /*
               CREATE TABLE [Runs] (
                 [RunID] INTEGER  PRIMARY KEY AUTOINCREMENT NOT NULL,
@@ -100,50 +163,18 @@ namespace ENFORM.Core
                 [BLOBindex] INTEGER  NULL,
                 [JobUUID] TEXT NULL
                 );            
-             */
-            int networkID = database.InsertBLOBNetwork(finalNetwork);
-            int runid = 0;
-           
-            //string sStartTime = "strftime('%s','2004-01-01 02:34:56');"
-
-
-
-            string query = "INSERT INTO RUNS\n" + 
-                "VALUES (NULL," +
-                 "'" + startTime.ToString("yyyy-MM-dd HH:mm:ss") +"'," +
-                "'" + endTime.ToString("yyyy-MM-dd HH:mm:ss") + "'," +
-                "'0','" + 
-                networkID.ToString() + "','" + 
-                jobUUID +"');"+
-                "SELECT last_insert_rowid();";
-
-            DataSet result = database.RunQuery(query);
-            runid = Convert.ToInt32(result.Tables[0].Rows[0][0]);
-
-            /*
-            StringBuilder s = new StringBuilder();
-            //query = "BEGIN TRANSACTION;\n";
-
-            for (int i = 0; i < iterations; i += 2)
-            {
-                s.AppendLine("INSERT INTO Results \n" +
-                    "VALUES(NULL,'" + runid.ToString() + "','" + i / 2 + "','" + results[i + 1].ToString() + "','" + results[i].ToString() + "');");
-
-            }
-
-
-            //query += "COMMIT TRANSACTION;\n";
-
-            database.RunQueryNoResult(s.ToString());
-            */
-            string[][] items = new string[iterations/2][];
+             */           
+          
+            string[][] items = new string[(int)Math.Ceiling(iterations/2.0)][];
             
             for (int i = 0; i < iterations; i += 2)
             {                
-                items[i/2] = new string[] { runid.ToString(),Convert.ToString(i/2),results[i + 1].ToString(),results[i].ToString()};
+                items[i/2] = new string[] { runid.ToString(),Convert.ToString((totalIterations-(iterations/2))+ (i/2)),results[i + 1].ToString(),results[i].ToString()};
             }
-
+            
             database.BatchInsert("Results", items);
+
+         
 
         }
 

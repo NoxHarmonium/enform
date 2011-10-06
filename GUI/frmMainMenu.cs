@@ -46,7 +46,7 @@ namespace ENFORM.GUI
         {
             frmOptimiser optimisor = new frmOptimiser();
 
-            Utils.Logger.Log("Opening optimser....");
+            Utils.Logger.Log("Opening optimiser....");
 
             optimisor.Show(this);
             //Utils.SetLogWindowLocation(this.Location.X, this.Location.Y + this.Size.Height + 10);

@@ -20,6 +20,7 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using System.Threading;
 
 namespace NeuronDotNet.Core
 {
@@ -403,6 +404,8 @@ namespace NeuronDotNet.Core
             {
                 EndEpochEvent(this, new TrainingEpochEventArgs(currentIteration, trainingSet));
             }
+
+            //if (
         }
 
         /// <summary>

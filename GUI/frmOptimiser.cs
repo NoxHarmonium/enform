@@ -31,18 +31,15 @@ namespace ENFORM.GUI
 
         private Thread[] threads;
 
-        private Queue<Job> jobs = new Queue<Job>();       
+        private Queue<Job> jobs = new Queue<Job>();
 
-        [ThreadStatic]    
-        static int updateCount;
-        [ThreadStatic]
-        static Job currentJob;
-        [ThreadStatic]
-        static float[] results;
-        [ThreadStatic]
-        static int iteration;
         [ThreadStatic]
         static Stopwatch stopWatch;
+   
+
+  
+        
+        
         
 
         
@@ -194,11 +191,12 @@ namespace ENFORM.GUI
 
         void runThread(object o)
         {
-            stopWatch = new Stopwatch();
-            iteration = 0;
-            updateCount = 0;
-            results = new float[2000000];
 
+            stopWatch = new Stopwatch();
+            stopWatch.Start();
+           
+            Job currentJob;
+           
             // Thread.CurrentThread.Name = o.ToString();
             while (Thread.CurrentThread.IsAlive)
             {
@@ -219,34 +217,14 @@ namespace ENFORM.GUI
                 }
 
                 currentJob = job;
-                iteration = 0;
-                if (stopWatch.IsRunning)
-                    stopWatch.Stop();              
-
-                stopWatch.Reset();
-
+              
                 Optimiser optimiser = new Optimiser(job.Filename);
            
-                optimiser.Network.EndEpochEvent += new NeuronDotNet.Core.TrainingEpochEventHandler(Network_EndEpochEvent);
-                
-                //BackgroundWorker worker = (BackgroundWorker)sender;
-                double mes = 1;
-                
-                stopWatch.Start();
-                DateTime startTime = DateTime.Now;
-                mes = optimiser.Optimise();
-
-                changeThreadProgress(Int32.Parse(Thread.CurrentThread.Name), optimiser.Network.MeanSquaredError, optimiser.MaxIterations,"Writing results...");
-                DateTime endTime = DateTime.Now;
-                
-                
-                DataAccess dataAccess = new DataAccess(job.Filename);
-
-                dataAccess.SaveResult(job.ID,optimiser.Network, iteration, results, startTime,endTime);
-                    
-                    //worker.ReportProgress((int)e.Argument, mes);
+                optimiser.Network.EndEpochEvent += new NeuronDotNet.Core.TrainingEpochEventHandler(Network_EndEpochEvent);               
+              
+                double mes = 1;                
                
-
+                mes = optimiser.Optimise();    
             }
 
         }
@@ -255,15 +233,12 @@ namespace ENFORM.GUI
         {
             INetwork network = (INetwork) sender;
             
-            results[iteration] = (float)network.MeanSquaredError;
-            results[iteration + 1] = (float) stopWatch.Elapsed.TotalMilliseconds;
-            
-            iteration += 2;
+           
             //Updating the UI thread bottlenecks performance
-            if (updateCount++ > 100)
+            if (stopWatch.ElapsedMilliseconds > 100)
             {
                 changeThreadProgress(Int32.Parse(Thread.CurrentThread.Name), network.MeanSquaredError, e.TrainingIteration,"Optimising");
-                updateCount = 0;
+                stopWatch.Restart();
             }
         }
 

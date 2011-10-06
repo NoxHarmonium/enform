@@ -40,6 +40,13 @@ namespace NeuronDotNet.Core.PSO
         private int trainingEpochs;
         private Problem psoProblem;      
         private Parameters psoParameters;
+        private int evaluations = 0;
+
+        public int Evaluations
+        {
+            get { return evaluations; }
+            set { evaluations = value; }
+        }
 
         public Parameters PsoParameters
         {
@@ -354,7 +361,8 @@ namespace NeuronDotNet.Core.PSO
                 */
 
 
-                currentIteration = pso.NextIteration();
+                Evaluations = pso.NextIteration();
+                currentIteration++;
 
                 meanSquaredError = pso.BestFitness * trainingSet.TrainingSampleCount;
                 

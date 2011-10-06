@@ -557,6 +557,7 @@ namespace ENFORM.GUI
                     dataAccess.SetParameter("Opt_Global_MaxIterations", txtMaxIterations.Text);
                     dataAccess.SetParameter("Opt_Global_MinError", txtMinimumError.Text);
                     dataAccess.SetParameter("Opt_Global_MaxTime", txtMaxTime.Text);
+                    dataAccess.SetParameter("Opt_Global_BufferSize", txtBufferSize.Text);
 
                     dataAccess.SetParameter("Opt_Bp_Enabled", chkBackPropogation.Checked.ToString());
                     if (chkBackPropogation.Checked)
@@ -656,6 +657,7 @@ namespace ENFORM.GUI
                         txtMaxIterations.Text = dataAccess.GetParameter("Opt_Global_MaxIterations");
                         txtMinimumError.Text = dataAccess.GetParameter("Opt_Global_MinError");
                         txtMaxTime.Text = dataAccess.GetParameter("Opt_Global_MaxTime");
+                        txtBufferSize.Text = dataAccess.GetParameter("Opt_Global_BufferSize");
                     }                    
                     catch (Exception)
                     {

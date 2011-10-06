@@ -145,6 +145,8 @@
             this.btnSaveRun = new System.Windows.Forms.Button();
             this.colourPicker1 = new ENFORM.GUI.ColourPicker();
             this.imageViewer1 = new ENFORM.GUI.ImageViewer();
+            this.txtBufferSize = new System.Windows.Forms.TextBox();
+            this.lblBufferSize = new System.Windows.Forms.Label();
             this.tabMain.SuspendLayout();
             this.tabTestData.SuspendLayout();
             this.tabInnerTestData.SuspendLayout();
@@ -742,6 +744,8 @@
             // 
             // grpEndCond
             // 
+            this.grpEndCond.Controls.Add(this.lblBufferSize);
+            this.grpEndCond.Controls.Add(this.txtBufferSize);
             this.grpEndCond.Controls.Add(this.txtMaxTime);
             this.grpEndCond.Controls.Add(this.lblMaxTime);
             this.grpEndCond.Controls.Add(this.lblMinError);
@@ -750,10 +754,10 @@
             this.grpEndCond.Controls.Add(this.txtMaxIterations);
             this.grpEndCond.Location = new System.Drawing.Point(14, 253);
             this.grpEndCond.Name = "grpEndCond";
-            this.grpEndCond.Size = new System.Drawing.Size(222, 101);
+            this.grpEndCond.Size = new System.Drawing.Size(222, 124);
             this.grpEndCond.TabIndex = 4;
             this.grpEndCond.TabStop = false;
-            this.grpEndCond.Text = "End Conditions";
+            this.grpEndCond.Text = "Global Parameters";
             // 
             // txtMaxTime
             // 
@@ -804,6 +808,7 @@
             this.txtMaxIterations.Name = "txtMaxIterations";
             this.txtMaxIterations.Size = new System.Drawing.Size(100, 20);
             this.txtMaxIterations.TabIndex = 5;
+            this.txtMaxIterations.Text = "0";
             // 
             // chkPSO
             // 
@@ -1461,6 +1466,23 @@
             this.imageViewer1.Load += new System.EventHandler(this.imageViewer1_Load);
             this.imageViewer1.Paint += new System.Windows.Forms.PaintEventHandler(this.imageViewer1_Paint);
             // 
+            // txtBufferSize
+            // 
+            this.txtBufferSize.Location = new System.Drawing.Point(116, 98);
+            this.txtBufferSize.Name = "txtBufferSize";
+            this.txtBufferSize.Size = new System.Drawing.Size(100, 20);
+            this.txtBufferSize.TabIndex = 11;
+            this.txtBufferSize.Text = "100000";
+            // 
+            // lblBufferSize
+            // 
+            this.lblBufferSize.AutoSize = true;
+            this.lblBufferSize.Location = new System.Drawing.Point(49, 101);
+            this.lblBufferSize.Name = "lblBufferSize";
+            this.lblBufferSize.Size = new System.Drawing.Size(61, 13);
+            this.lblBufferSize.TabIndex = 12;
+            this.lblBufferSize.Text = "Buffer Size:";
+            // 
             // frmRunEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1629,6 +1651,8 @@
         private System.Windows.Forms.CheckBox chkAutoW;
         private System.Windows.Forms.CheckBox chkAutoSwarmSize;
         private System.Windows.Forms.CheckBox chkAutoK;
+        private System.Windows.Forms.Label lblBufferSize;
+        private System.Windows.Forms.TextBox txtBufferSize;
     }
 }
 

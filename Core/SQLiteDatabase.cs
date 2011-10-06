@@ -70,8 +70,10 @@ namespace ENFORM.Core
                         
                     }
                     tx.Commit();
+                    connection.Close();
                     return retval;
                 }
+                
             }
 
 

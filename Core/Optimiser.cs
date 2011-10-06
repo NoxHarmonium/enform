@@ -7,6 +7,7 @@ using NeuronDotNet.Core.Backpropagation;
 using NeuronDotNet.Core.PSO;
 using NeuronDotNet.Core.Initializers;
 using System.Drawing;
+using System.Diagnostics;
 
 using SPSO_2007;
 namespace ENFORM.Core
@@ -19,6 +20,20 @@ namespace ENFORM.Core
         private INetwork network;
         private int maxIterations = int.MaxValue;
         private int maxTime = -1;
+        private float[] results;
+        private int resultIndex = 0;
+        private int totalIterations = 0;
+    
+        private int runID = -1;
+
+        public int TotalIterations
+        {
+            get { return totalIterations; }
+           
+        }
+
+        static Stopwatch stopWatch;
+
 
         public int MaxTime
         {
@@ -42,6 +57,8 @@ namespace ENFORM.Core
         
         public Optimiser(string filename)
         {
+            stopWatch = new Stopwatch();
+            
             this.filename = filename;
 
             dataAccess = new DataAccess(filename);
@@ -120,8 +137,8 @@ namespace ENFORM.Core
 
             maxIterations = Convert.ToInt32(dataAccess.GetParameter("Opt_Global_MaxIterations"));
             minError = Convert.ToDouble(dataAccess.GetParameter("Opt_Global_MinError"));
-            maxTime = Convert.ToInt32(dataAccess.GetParameter("Opt_Global_MaxTime")); 
-
+            maxTime = Convert.ToInt32(dataAccess.GetParameter("Opt_Global_MaxTime"));
+            results = new float[Convert.ToInt32(dataAccess.GetParameter("Opt_Global_BufferSize"))];
 
 
             if (useBP)
@@ -283,22 +300,6 @@ namespace ENFORM.Core
                 
             }
 
-            
-            
-
-            
-
-           
-           
-            
-           
-            
-
-            
-           
-
-
-
             set = new TrainingSet(preprocessor.ImageSize.Width * preprocessor.ImageSize.Height, 1);
             foreach (SourceItem item in sourceItems)
             {
@@ -315,11 +316,36 @@ namespace ENFORM.Core
         }
 
         void network_EndEpochEvent(object sender, TrainingEpochEventArgs e)
-        {           
-            
-            if (network.MeanSquaredError <= minError)
+        {
+
+            results[resultIndex] = (float)network.MeanSquaredError;
+            results[resultIndex + 1 ] = (float)stopWatch.Elapsed.TotalMilliseconds;
+
+            resultIndex += 2;
+            totalIterations++;
+
+            //Flush results
+            if (resultIndex >= results.Length)
             {
+                Utils.Logger.Log("Flushing results....");
+                
+                stopWatch.Stop();                
+                dataAccess.SavePartialResult(this.GetHashCode().ToString(), resultIndex, results, runID,totalIterations);
+                resultIndex = 0;
+                stopWatch.Start();
+            }
+
+            if (network.MeanSquaredError <= minError)                           
+            {
+                Utils.Logger.Log("Run ended due to minimum error reached");
                 network.StopLearning();
+            }
+
+            if((stopWatch.ElapsedMilliseconds/1000) >= maxTime)
+            {
+                 Utils.Logger.Log("Run ended due to time limit reached");
+                network.StopLearning();
+
             }
         }
 
@@ -330,9 +356,17 @@ namespace ENFORM.Core
 
         public double Optimise(int iterations)
         {
-                           
-                Network.Learn(set, iterations);
-                return Network.MeanSquaredError;   
+            DateTime startTime = DateTime.Now;
+            Utils.Logger.Log("Starting run....");
+            runID = dataAccess.StartRun(this.GetHashCode().ToString());
+            Utils.Logger.Log("id = " + runID.ToString());
+            stopWatch.Start();           
+            Network.Learn(set, iterations);
+            stopWatch.Stop();
+            DateTime endTime = DateTime.Now;
+           
+            dataAccess.SaveFinalResult(this.GetHashCode().ToString(), this.Network, resultIndex, results, startTime, endTime,runID,totalIterations);
+            return Network.MeanSquaredError;   
         }
 
         
