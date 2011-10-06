@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ENFORM Core Libraries")]
+[assembly: AssemblyTitle("ENFORM Command Line Interface")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Sean Dawson")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("760ae67e-a4a9-4f78-bf9c-e6a5323ddd5c")]
+[assembly: Guid("5c57775e-9fdb-4eb3-bc12-320c1d57697f")]
 
 // Version information for an assembly consists of the following four values:
 //
