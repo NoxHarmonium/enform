@@ -6,6 +6,7 @@ using ENFORM.Core;
 using System.Windows.Forms;
 using System.Threading;
 using System.Drawing;
+using ENFORM.Core.Logging;
 
 namespace ENFORM.GUI
 {
