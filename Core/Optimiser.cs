@@ -78,7 +78,7 @@ namespace ENFORM.Core
             }
             catch (Exception)
             {
-                Utils.Log("Warning unable to read BP params");
+                Utils.Logger.Log("Warning unable to read BP params");
             }
             try
             {
@@ -86,7 +86,7 @@ namespace ENFORM.Core
             }
             catch (Exception)
             {
-                Utils.Log("Warning unable to read PSO params");
+                Utils.Logger.Log("Warning unable to read PSO params");
             }
 
             if (usePSO && useBP)

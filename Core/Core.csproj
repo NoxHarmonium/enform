@@ -59,6 +59,7 @@
     <Compile Include="CustomImage.cs" />
     <Compile Include="DataAccess.cs" />
     <Compile Include="Enums.cs" />
+    <Compile Include="ILogger.cs" />
     <Compile Include="InputGroup.cs" />
     <Compile Include="Job.cs" />
     <Compile Include="MersenneTwister.cs" />

@@ -93,7 +93,7 @@ namespace ENFORM.Core
                     }
                     catch (Exception e)
                     {
-                        Utils.Log("Error reading file.\n Exception: " + e.Message);
+                        Utils.Logger.Log("Error reading file.\n Exception: " + e.Message);
                     }
                     return null;
                     

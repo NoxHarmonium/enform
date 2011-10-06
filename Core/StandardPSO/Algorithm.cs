@@ -269,7 +269,7 @@ namespace SPSO_2007
 
            
 
-            Utils.Log("\n c = {0},  w = {1}", param.c, param.w);
+            Utils.Logger.Log("\n c = {0},  w = {1}", param.c, param.w);
             //---------------
             sqrtD = Math.Sqrt(pb.SS.D);
 
@@ -285,10 +285,10 @@ namespace SPSO_2007
 
             // Save	
             //TODO: Fix up writing out to files
-            /*fUtils.Log(f_synth, "%f %f %.0f%% %f   ",
+            /*fUtils.Logger.Log(f_synth, "%f %f %.0f%% %f   ",
                      errorMean, variance, successRate, evalMean);
-            for (d = 0; d < pb.SS.D; d++) fUtils.Log(f_synth, " %f", bestBest.x[d]);
-            fUtils.Log(f_synth, "\n");
+            for (d = 0; d < pb.SS.D; d++) fUtils.Logger.Log(f_synth, " %f", bestBest.x[d]);
+            fUtils.Logger.Log(f_synth, "\n");
              * */
 
             return; // End of main program
@@ -315,13 +315,13 @@ namespace SPSO_2007
                 bestBest = Result.SW.P[Result.SW.best].Clone();
 
             // Result display
-            Utils.Log("\nRun {0}. Eval {1}. Error {2} \n", run, Result.nEval, Result.error);
-            //for (d=0;d<pb.SS.D;d++) Utils.Log(" %f",result.SW.P[result.SW.best].x[d]);
+            Utils.Logger.Log("\nRun {0}. Eval {1}. Error {2} \n", run, Result.nEval, Result.error);
+            //for (d=0;d<pb.SS.D;d++) Utils.Logger.Log(" %f",result.SW.P[result.SW.best].x[d]);
 
             // Save result
             //TODO: Fix up writing out to files
-            /*fUtils.Log(f_run, "\n%i %.0f %e ", run + 1, result.nEval, error);
-                for (d = 0; d < pb.SS.D; d++) fUtils.Log(f_run, " %f", result.SW.P[result.SW.best].x[d]);
+            /*fUtils.Logger.Log(f_run, "\n%i %.0f %e ", run + 1, result.nEval, error);
+                for (d = 0; d < pb.SS.D; d++) fUtils.Logger.Log(f_run, " %f", result.SW.P[result.SW.best].x[d]);
              */
             // Compute/store some statistical information
             if (run == 0)
@@ -345,8 +345,8 @@ namespace SPSO_2007
             errorMean /= runMax;
             logProgressMean /= runMax;
 
-            Utils.Log("\n Eval. (mean)= {0}", evalMean);
-            Utils.Log("\n Error (mean) = {0}", errorMean);
+            Utils.Logger.Log("\n Eval. (mean)= {0}", evalMean);
+            Utils.Logger.Log("\n Error (mean) = {0}", errorMean);
             // Variance
             double variance = 0;
             for (run = 0; run < runMax; run++)
@@ -354,16 +354,16 @@ namespace SPSO_2007
                 variance += Math.Pow(errorMeanBest[run] - errorMean, 2);
             }
             variance = Math.Sqrt(variance / runMax);
-            Utils.Log("\n Std. dev. {0}", variance);
-            Utils.Log("\n Log_progress (mean) = {0}", logProgressMean);
+            Utils.Logger.Log("\n Std. dev. {0}", variance);
+            Utils.Logger.Log("\n Log_progress (mean) = {0}", logProgressMean);
             // Success rate and minimum value
-            Utils.Log("\n Failure(s) {0}", nFailure);
-            Utils.Log("\n Success rate = {0}%", 100 * (1 - nFailure / (double)runMax));
+            Utils.Logger.Log("\n Failure(s) {0}", nFailure);
+            Utils.Logger.Log("\n Success rate = {0}%", 100 * (1 - nFailure / (double)runMax));
 
-            Utils.Log("\n Best min value = {0}", errorMin);
-            Utils.Log("\nPosition of the optimum: ");
+            Utils.Logger.Log("\n Best min value = {0}", errorMin);
+            Utils.Logger.Log("\nPosition of the optimum: ");
             for (int d = 0; d < pb.SS.D; d++)
-            { Utils.Log(" {0}", bestBest.x[d]); }
+            { Utils.Logger.Log(" {0}", bestBest.x[d]); }
         }
 
         // ===============================================================
@@ -446,9 +446,9 @@ namespace SPSO_2007
                 }
             }
             // Display the best
-            Utils.Log(" Best value after init. {0} ", errorPrev);
-            //	Utils.Log( "\n Position :\n" );
-            //	for ( d = 0; d < SS.D; d++ ) Utils.Log( " %f", R.SW.P[R.SW.best].x[d] );
+            Utils.Logger.Log(" Best value after init. {0} ", errorPrev);
+            //	Utils.Logger.Log( "\n Position :\n" );
+            //	for ( d = 0; d < SS.D; d++ ) Utils.Logger.Log( " %f", R.SW.P[R.SW.best].x[d] );
 
             initLinks = 1;		// So that information links will beinitialized
             // Note: It is also a flag saying "No improvement"
@@ -479,7 +479,7 @@ namespace SPSO_2007
             }
 
             // The swarm MOVES
-            //Utils.Log("\nIteration %i",iter);
+            //Utils.Logger.Log("\nIteration %i",iter);
             for (int i = 0; i < PSOResult.SW.S; i++)
                 index[i] = i;
             //Permutate the index order

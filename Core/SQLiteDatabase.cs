@@ -165,7 +165,7 @@ namespace ENFORM.Core
                         transaction.Rollback();
                     }
                 }
-                Utils.Log(ex.Message);
+                Utils.Logger.Log(ex.Message);
 
             }
             finally

@@ -132,7 +132,7 @@ namespace ENFORM.Core
             }
             if (ScalingMethod == ScalingMethods.Bicubic)
             {
-                Utils.Log("Bicubic resize is not implimented for now.\nNReverting to nearest neighbor...");
+                Utils.Logger.Log("Bicubic resize is not implimented for now.\nNReverting to nearest neighbor...");
                 //AForge.Imaging.Filters.ResizeBicubic resizer = new AForge.Imaging.Filters.ResizeBicubic(newWidth, newHeight);
                 //image = cropper.Apply(resizer.Apply((Bitmap)image));
             }
