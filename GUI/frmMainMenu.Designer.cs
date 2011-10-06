@@ -34,7 +34,6 @@
             this.btnRunEditor = new System.Windows.Forms.Button();
             this.btnLaunchOptimiser = new System.Windows.Forms.Button();
             this.btnLaunchTester = new System.Windows.Forms.Button();
-            this.btnPSOTest = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lblTitle
@@ -53,9 +52,9 @@
             this.lblSubtitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSubtitle.Location = new System.Drawing.Point(14, 46);
             this.lblSubtitle.Name = "lblSubtitle";
-            this.lblSubtitle.Size = new System.Drawing.Size(485, 16);
+            this.lblSubtitle.Size = new System.Drawing.Size(252, 32);
             this.lblSubtitle.TabIndex = 1;
-            this.lblSubtitle.Text = "Experimental Neural Facial recognition Optimisation Reporting and Management";
+            this.lblSubtitle.Text = "Experimental Neural Facial recognition \r\nOptimisation Reporting and Management";
             // 
             // btnRunEditor
             // 
@@ -63,7 +62,7 @@
             this.btnRunEditor.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnRunEditor.Location = new System.Drawing.Point(12, 84);
             this.btnRunEditor.Name = "btnRunEditor";
-            this.btnRunEditor.Size = new System.Drawing.Size(220, 61);
+            this.btnRunEditor.Size = new System.Drawing.Size(251, 61);
             this.btnRunEditor.TabIndex = 2;
             this.btnRunEditor.Text = "Launch Run Editor";
             this.btnRunEditor.UseVisualStyleBackColor = true;
@@ -75,7 +74,7 @@
             this.btnLaunchOptimiser.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnLaunchOptimiser.Location = new System.Drawing.Point(12, 151);
             this.btnLaunchOptimiser.Name = "btnLaunchOptimiser";
-            this.btnLaunchOptimiser.Size = new System.Drawing.Size(220, 61);
+            this.btnLaunchOptimiser.Size = new System.Drawing.Size(251, 61);
             this.btnLaunchOptimiser.TabIndex = 3;
             this.btnLaunchOptimiser.Text = "Launch Optimiser";
             this.btnLaunchOptimiser.UseVisualStyleBackColor = true;
@@ -87,28 +86,17 @@
             this.btnLaunchTester.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnLaunchTester.Location = new System.Drawing.Point(12, 218);
             this.btnLaunchTester.Name = "btnLaunchTester";
-            this.btnLaunchTester.Size = new System.Drawing.Size(220, 61);
+            this.btnLaunchTester.Size = new System.Drawing.Size(251, 61);
             this.btnLaunchTester.TabIndex = 4;
             this.btnLaunchTester.Text = "Launch Network Tester";
             this.btnLaunchTester.UseVisualStyleBackColor = true;
             this.btnLaunchTester.Click += new System.EventHandler(this.btnLaunchTester_Click);
             // 
-            // btnPSOTest
-            // 
-            this.btnPSOTest.Location = new System.Drawing.Point(304, 179);
-            this.btnPSOTest.Name = "btnPSOTest";
-            this.btnPSOTest.Size = new System.Drawing.Size(75, 23);
-            this.btnPSOTest.TabIndex = 5;
-            this.btnPSOTest.Text = "Test PSO!";
-            this.btnPSOTest.UseVisualStyleBackColor = true;
-            this.btnPSOTest.Click += new System.EventHandler(this.btnTestPSO_Click);
-            // 
             // frmMainMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(566, 429);
-            this.Controls.Add(this.btnPSOTest);
+            this.ClientSize = new System.Drawing.Size(275, 296);
             this.Controls.Add(this.btnLaunchTester);
             this.Controls.Add(this.btnLaunchOptimiser);
             this.Controls.Add(this.btnRunEditor);
@@ -131,6 +119,5 @@
         private System.Windows.Forms.Button btnRunEditor;
         private System.Windows.Forms.Button btnLaunchOptimiser;
         private System.Windows.Forms.Button btnLaunchTester;
-        private System.Windows.Forms.Button btnPSOTest;
     }
 }
