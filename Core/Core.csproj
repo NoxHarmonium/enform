@@ -59,9 +59,10 @@
     <Compile Include="CustomImage.cs" />
     <Compile Include="DataAccess.cs" />
     <Compile Include="Enums.cs" />
-    <Compile Include="ILogger.cs" />
+    <Compile Include="Logging\ILogger.cs" />
     <Compile Include="InputGroup.cs" />
     <Compile Include="Job.cs" />
+    <Compile Include="Logging\SQLiteLogger.cs" />
     <Compile Include="MersenneTwister.cs" />
     <Compile Include="NeuronDotNet\Core\Backpropagation\ActivationLayer.cs" />
     <Compile Include="NeuronDotNet\Core\Backpropagation\ActivationNeuron.cs" />

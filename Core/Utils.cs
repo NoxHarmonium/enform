@@ -12,9 +12,9 @@ namespace ENFORM.Core
 
         //private static frmLogBox logbox;
 
-        private static ILogger logger;
+        private static Logging.ILogger logger;
 
-        public static ILogger Logger
+        public static Logging.ILogger Logger
         {
             get { return logger; }
             set { logger = value; }
