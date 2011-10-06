@@ -659,7 +659,7 @@ namespace ENFORM.GUI
                     }                    
                     catch (Exception)
                     {
-                        Utils.Log("Warning: Error reading global parameters");
+                        Utils.Logger.Log("Warning: Error reading global parameters");
                     }
 
                     try
@@ -675,7 +675,7 @@ namespace ENFORM.GUI
                     }
                     catch (Exception)
                     {
-                        Utils.Log("Warning: Error reading backprop parameters");
+                        Utils.Logger.Log("Warning: Error reading backprop parameters");
                     }
                     try
                     {
@@ -709,7 +709,7 @@ namespace ENFORM.GUI
                     }
                     catch (Exception)
                     {
-                        Utils.Log("Warning: Error reading PSO parameters");
+                        Utils.Logger.Log("Warning: Error reading PSO parameters");
                     }
 
 

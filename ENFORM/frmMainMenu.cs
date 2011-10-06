@@ -20,8 +20,10 @@ namespace ENFORM.GUI
         
         public frmMainMenu()
         {
-            InitializeComponent();  
-            Utils.Log("ENFORM booting up....");
+            InitializeComponent();
+            Utils.Logger = new GUILogger();
+            Utils.Logger.StartLogger();
+            Utils.Logger.Log("ENFORM booting up....");
         }
 
         private void frmMainMenu_Load(object sender, EventArgs e)
@@ -34,7 +36,7 @@ namespace ENFORM.GUI
         {
             using (frmRunEditor editor = new frmRunEditor())
             {
-                Utils.Log("Opening run editor....");
+                Utils.Logger.Log("Opening run editor....");
                 
                 editor.ShowDialog(this);
                 //Utils.SetLogWindowLocation(this.Location.X, this.Location.Y + this.Size.Height + 10);
@@ -47,7 +49,7 @@ namespace ENFORM.GUI
         {
             using (frmOptimiser optimisor = new frmOptimiser())
             {
-                Utils.Log("Opening optimser....");
+                Utils.Logger.Log("Opening optimser....");
                 
                 optimisor.ShowDialog(this);
                 //Utils.SetLogWindowLocation(this.Location.X, this.Location.Y + this.Size.Height + 10);
@@ -58,7 +60,7 @@ namespace ENFORM.GUI
         {
             using (frmNetworkTester tester = new frmNetworkTester())
             {
-                Utils.Log("Opening network tester....");               
+                Utils.Logger.Log("Opening network tester....");               
                 tester.ShowDialog(this);
                 //Utils.SetLogWindowLocation(this.Location.X, this.Location.Y + this.Size.Height + 10);
             }
@@ -66,14 +68,14 @@ namespace ENFORM.GUI
 
         private void frmMainMenu_FormClosed(object sender, FormClosedEventArgs e)
         {
-            Utils.CloseLogBox();
+            Utils.Logger.StopLogger();
         }
 
       
 
         private void frmMainMenu_Shown(object sender, EventArgs e)
         {
-            Utils.SetLogWindowLocation(this.Location.X, this.Location.Y + this.Size.Height + 50);
+            ((GUILogger)Utils.Logger).SetLogWindowLocation(this.Location.X, this.Location.Y + this.Size.Height + 50);
         }
 
 
@@ -114,7 +116,7 @@ namespace ENFORM.GUI
                 a.NextIteration();
                 if (z % 500 == 0)
                 {
-                    //Utils.Log(getFitness(a.BestResult).ToString());
+                    //Utils.Logger.Log(getFitness(a.BestResult).ToString());
                 }
             }
             a.EndRun();
