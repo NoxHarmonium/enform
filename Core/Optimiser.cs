@@ -9,7 +9,7 @@ using NeuronDotNet.Core.Initializers;
 using System.Drawing;
 
 using SPSO_2007;
-namespace ENFORM
+namespace ENFORM.Core
 {
     public class Optimiser
     {

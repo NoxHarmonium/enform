@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using ENFORM;
+using ENFORM.Core;
 
 /*
 Standard PSO 2007

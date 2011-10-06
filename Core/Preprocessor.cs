@@ -5,7 +5,7 @@ using System.Text;
 using System.Drawing;
 
 
-namespace ENFORM
+namespace ENFORM.Core
 {
     public class Preprocessor
     {

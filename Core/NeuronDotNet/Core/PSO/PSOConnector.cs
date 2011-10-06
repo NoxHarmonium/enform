@@ -33,7 +33,7 @@ namespace NeuronDotNet.Core.PSO
         : Connector<ActivationLayer, ActivationLayer,PSOSynapse>
     {
         internal double momentum = 0.07d;
-        private ENFORM.InputGroup[] inputGroups = null;
+        private ENFORM.Core.InputGroup[] inputGroups = null;
         private int width;
         private int height;
 
@@ -80,7 +80,7 @@ namespace NeuronDotNet.Core.PSO
         /// <exception cref="ArgumentNullException">
         /// If <c>sourceLayer</c> or <c>targetLayer</c> is <c>null</c>
         /// </exception>
-        public PSOConnector(ActivationLayer sourceLayer, ActivationLayer targetLayer, ENFORM.InputGroup[] inputGroups,int width, int height)
+        public PSOConnector(ActivationLayer sourceLayer, ActivationLayer targetLayer, ENFORM.Core.InputGroup[] inputGroups,int width, int height)
             : base(sourceLayer, targetLayer, ConnectionMode.Complete)            
         {
             this.inputGroups = inputGroups;
@@ -126,7 +126,7 @@ namespace NeuronDotNet.Core.PSO
         public PSOConnector(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
-            this.inputGroups = (ENFORM.InputGroup[]) info.GetValue("inputGroups",typeof(ENFORM.InputGroup[]));
+            this.inputGroups = (ENFORM.Core.InputGroup[]) info.GetValue("inputGroups",typeof(ENFORM.Core.InputGroup[]));
             this.width = info.GetInt32("width");
             this.height = info.GetInt32("height");
     
@@ -174,7 +174,7 @@ namespace NeuronDotNet.Core.PSO
             }
 
             info.AddValue("weights", weights, typeof(double[]));
-            info.AddValue("inputGroups", inputGroups, typeof(ENFORM.InputGroup[]));
+            info.AddValue("inputGroups", inputGroups, typeof(ENFORM.Core.InputGroup[]));
             info.AddValue("width", width, typeof(int));
             info.AddValue("height", height, typeof(int));
         }
@@ -208,7 +208,7 @@ namespace NeuronDotNet.Core.PSO
                             }
                             totalTargetNeuron = 0;
 
-                            foreach (ENFORM.InputGroup inputGroup in inputGroups)
+                            foreach (ENFORM.Core.InputGroup inputGroup in inputGroups)
                             {
                                 
                                 

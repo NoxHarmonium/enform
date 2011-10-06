@@ -13,7 +13,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using NeuronDotNet.Core;
 
 
-namespace ENFORM
+namespace ENFORM.Core
 {
     public class DataAccess
     {

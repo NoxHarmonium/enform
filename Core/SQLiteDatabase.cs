@@ -15,7 +15,7 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 
 
-namespace ENFORM
+namespace ENFORM.Core
 {
     public class SQLiteDatabase
     {

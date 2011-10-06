@@ -5,7 +5,7 @@ using System.Text;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Threading;
-namespace ENFORM
+namespace ENFORM.Core
 {
     public static class Utils
     {

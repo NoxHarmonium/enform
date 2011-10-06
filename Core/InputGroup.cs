@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ENFORM
+namespace ENFORM.Core
 {
   
     [Serializable]
@@ -45,13 +45,13 @@ namespace ENFORM
 
             switch (this.inputGroupType)
             {
-                case ENFORM.InputGroupType.Grid:
+                case ENFORM.Core.InputGroupType.Grid:
                     return hIndex + vIndex * segments;
                  
-                case ENFORM.InputGroupType.Horozontal:
+                case ENFORM.Core.InputGroupType.Horozontal:
                     return vIndex;            
                    
-                case ENFORM.InputGroupType.Vertical:
+                case ENFORM.Core.InputGroupType.Vertical:
                     return hIndex;
                     
                 default:

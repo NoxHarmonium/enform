@@ -21,7 +21,7 @@ using System;
 using System.Runtime.Serialization;
 using SPSO_2007;
 using System.Collections.Generic;
-using ENFORM;
+using ENFORM.Core;
 
 namespace NeuronDotNet.Core.PSO
 {

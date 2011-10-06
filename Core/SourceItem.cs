@@ -14,7 +14,7 @@ public enum SourceType
 
 }
 
-namespace ENFORM
+namespace ENFORM.Core
 {
     public class SourceItem
     {

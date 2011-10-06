@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ENFORM
+namespace ENFORM.Core
 {
     [Serializable]
     public enum InputGroupType
