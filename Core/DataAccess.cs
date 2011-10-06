@@ -65,7 +65,7 @@ namespace ENFORM.Core
             }
             else
             {
-                return "";
+                throw new Exception("Parameter does not exist in database: " + key);              
             }
 
         }

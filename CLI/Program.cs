@@ -18,6 +18,7 @@ namespace ENFORM.CLI
         static private Queue<Job> jobs = new Queue<Job>();
         static private int runCount = -1;
         static private int threadCount = -1;
+        static private string rootDir = "";
 
     
 
@@ -36,19 +37,22 @@ namespace ENFORM.CLI
 
             Utils.Logger.Log("Attempting to load file...");
 
-            if (File.Exists(args[0]))
+            if (args.Length > 0 && File.Exists(args[0]))
             {
                 try
                 {
+                    rootDir = new FileInfo(args[0]).Directory.FullName;
+                    
                     using (StreamReader reader = new StreamReader(args[0]))
                     {
                         reader.ReadLine();
                         string[] param = reader.ReadLine().Split(new char[] { ',' });
                         runCount = Convert.ToInt32(param[0]);
                         threadCount = Convert.ToInt32(param[1]);
+                        threads = new Thread[threadCount];
                         while (!reader.EndOfStream)
                         {
-                            files.Add(reader.ReadLine());
+                            files.Add(rootDir+ "\\" + reader.ReadLine());
                         }
                     }
 
@@ -59,6 +63,12 @@ namespace ENFORM.CLI
                     Utils.Logger.Log(e.Message);
                     Utils.Logger.Log(e.StackTrace);
                 }
+            }
+            else
+            {
+                Console.WriteLine("Error passing command line parameters.\nExiting...");
+                Utils.Logger.Log("Error parsing command lines:");
+                return;
             }
             Utils.Logger.Log("Loading up runs...");
             foreach (string filename in files)
@@ -102,7 +112,7 @@ namespace ENFORM.CLI
                 }
 
                 currentJob = job;
-                Utils.Logger.Log("Optimising job: " + job);
+                Utils.Logger.Log("Optimising job: " + job.Filename);
 
                 Optimiser optimiser = new Optimiser(job.Filename);                
 
