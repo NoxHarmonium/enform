@@ -167,8 +167,8 @@ namespace SPSO_2007
         static double sqrtD;
 
         // File(s);
-        static FileStream f_run;
-        static FileStream f_synth;
+       // static FileStream f_run;
+        //static FileStream f_synth;
 
         private int d;
         private int g;
@@ -180,7 +180,7 @@ namespace SPSO_2007
         private int m;
         //int noEval;
         private double normPX = 0.0, normGX = 0.0;
-        private int noStop;
+       // private int noStop;
         private int outside;
         private double p;
         private Velocity PX;
@@ -452,7 +452,7 @@ namespace SPSO_2007
 
             initLinks = 1;		// So that information links will beinitialized
             // Note: It is also a flag saying "No improvement"
-            noStop = 0;
+            //noStop = 0;
             Error = errorPrev;
             // ---------------------------------------------- ITERATIONS
             iter = 0;

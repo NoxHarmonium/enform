@@ -11,7 +11,7 @@ namespace ENFORM.Core
     {
 
         //private static frmLogBox logbox;
-        private static bool ready = false;
+
         private static ILogger logger;
 
         public static ILogger Logger
@@ -28,10 +28,7 @@ namespace ENFORM.Core
            
         }
 
-        static void logbox_Shown(object sender, EventArgs e)
-        {
-            ready = true;
-        }
+        
 
 
        
