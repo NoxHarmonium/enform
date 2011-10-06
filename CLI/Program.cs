@@ -5,23 +5,33 @@ using System.Text;
 using System.IO;
 using ENFORM.Core;
 using System.Threading;
+using System.Diagnostics;
+using ENFORM.Core.Logging;
 
 namespace ENFORM.CLI
 {
     class Program
     {
-        
-        
+
+        static private Thread[] threads;
+
+        static private Queue<Job> jobs = new Queue<Job>();
+        static private int runCount = -1;
+        static private int threadCount = -1;
+
+    
+
         static void Main(string[] args)
         {
-            int runCount = 0;
-            int threadCount = 0;
-            List<string> files = new List<string>();
+         
             
+            List<string> files = new List<string>();
+
             Console.WriteLine("ENFORM Command Line Interface");
             Console.WriteLine("By Sean Dawson");
             Console.WriteLine("Switching to file logging system now...");
             Thread.CurrentThread.Name = "Main Thread";
+            Utils.Logger = new SQLiteLogger();
             Utils.Logger.StartLogger();
 
             Utils.Logger.Log("Attempting to load file...");
@@ -33,7 +43,7 @@ namespace ENFORM.CLI
                     using (StreamReader reader = new StreamReader(args[0]))
                     {
                         reader.ReadLine();
-                        string[] param = reader.ReadLine().Split(new char[] {','});
+                        string[] param = reader.ReadLine().Split(new char[] { ',' });
                         runCount = Convert.ToInt32(param[0]);
                         threadCount = Convert.ToInt32(param[1]);
                         while (!reader.EndOfStream)
@@ -41,7 +51,7 @@ namespace ENFORM.CLI
                             files.Add(reader.ReadLine());
                         }
                     }
-                    
+
                 }
                 catch (Exception e)
                 {
@@ -50,6 +60,79 @@ namespace ENFORM.CLI
                     Utils.Logger.Log(e.StackTrace);
                 }
             }
+            Utils.Logger.Log("Loading up runs...");
+            foreach (string filename in files)
+            {
+                beginRun(filename);
+            }
+            Utils.Logger.Log("Waiting on threads...");
+            foreach (Thread t in threads)
+            {
+                t.Join();
+            }
+            Utils.Logger.Log("All threads closed...");
+            Utils.Logger.Log("Exiting...");
+        }
+
+
+        static private void runThread(object o)
+        {
+
+          
+
+            Job currentJob;
+
+            // Thread.CurrentThread.Name = o.ToString();
+            while (Thread.CurrentThread.IsAlive)
+            {
+
+                //Thread.CurrentThread.Name = o.ToString();
+                Job job = null;
+                lock (jobs)
+                {
+                    if (jobs.Count > 0)
+                    {
+                        job = jobs.Dequeue();
+                    }
+                }
+                if (job == null)
+                {
+                    Utils.Logger.Log("Jobs done!");
+                    return;
+                }
+
+                currentJob = job;
+                Utils.Logger.Log("Optimising job: " + job);
+
+                Optimiser optimiser = new Optimiser(job.Filename);                
+
+                double mes = 1;
+
+                mes = optimiser.Optimise();
+            }
+
+        }
+
+        static private void beginRun(string filename)
+        {
+            
+
+            for (int i = 0; i < runCount; i++)
+            {
+                jobs.Enqueue(new Job(filename));
+            }
+
+
+            for (int i = 0; i < threadCount; i++)
+            {           
+                threads[i] = new Thread(new ParameterizedThreadStart(runThread));
+                threads[i].Name = i.ToString();
+                threads[i].Start(i);
+            }
+
+
+
+
 
         }
     }

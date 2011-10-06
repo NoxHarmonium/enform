@@ -238,7 +238,8 @@ namespace ENFORM.GUI
             if (stopWatch.ElapsedMilliseconds > 100)
             {
                 changeThreadProgress(Int32.Parse(Thread.CurrentThread.Name), network.MeanSquaredError, e.TrainingIteration,"Optimising");
-                stopWatch.Restart();
+                stopWatch.Reset();
+                stopWatch.Start();
             }
         }
 
