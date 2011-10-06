@@ -11,6 +11,7 @@ using NeuronDotNet.Core;
 using NeuronDotNet.Core.Initializers;
 using NeuronDotNet.Core.PSO;
 using ENFORM.Core;
+using System.Threading;
 
 namespace ENFORM.GUI
 {
@@ -20,6 +21,7 @@ namespace ENFORM.GUI
         
         public frmMainMenu()
         {
+            Thread.CurrentThread.Name = "Main UI Thread";
             InitializeComponent();
             Utils.Logger = new GUILogger();
             Utils.Logger.StartLogger();
@@ -28,42 +30,37 @@ namespace ENFORM.GUI
 
         private void frmMainMenu_Load(object sender, EventArgs e)
         {
-           
+            
             
         }
 
         private void btnRunEditor_Click(object sender, EventArgs e)
         {
-            using (frmRunEditor editor = new frmRunEditor())
-            {
-                Utils.Logger.Log("Opening run editor....");
-                
-                editor.ShowDialog(this);
-                //Utils.SetLogWindowLocation(this.Location.X, this.Location.Y + this.Size.Height + 10);
-                
-                
-            }
+            frmRunEditor editor = new frmRunEditor();
+            Utils.Logger.Log("Opening run editor....");
+            editor.Show(this);
+
         }
 
         private void btnLaunchOptimiser_Click(object sender, EventArgs e)
         {
-            using (frmOptimiser optimisor = new frmOptimiser())
-            {
-                Utils.Logger.Log("Opening optimser....");
-                
-                optimisor.ShowDialog(this);
-                //Utils.SetLogWindowLocation(this.Location.X, this.Location.Y + this.Size.Height + 10);
-            }
+            frmOptimiser optimisor = new frmOptimiser();
+
+            Utils.Logger.Log("Opening optimser....");
+
+            optimisor.Show(this);
+            //Utils.SetLogWindowLocation(this.Location.X, this.Location.Y + this.Size.Height + 10);
+
         }
 
         private void btnLaunchTester_Click(object sender, EventArgs e)
         {
-            using (frmNetworkTester tester = new frmNetworkTester())
-            {
-                Utils.Logger.Log("Opening network tester....");               
-                tester.ShowDialog(this);
-                //Utils.SetLogWindowLocation(this.Location.X, this.Location.Y + this.Size.Height + 10);
-            }
+            frmNetworkTester tester = new frmNetworkTester();
+
+            Utils.Logger.Log("Opening network tester....");
+            tester.Show(this);
+            //Utils.SetLogWindowLocation(this.Location.X, this.Location.Y + this.Size.Height + 10);
+
         }
 
         private void frmMainMenu_FormClosed(object sender, FormClosedEventArgs e)
