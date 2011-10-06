@@ -358,7 +358,7 @@ namespace ENFORM.GUI
 
                 if (dlgSave.ShowDialog() == DialogResult.OK)
                 {
-                    using (StreamWriter writer = new StreamWriter(dlgSave.FileName))
+                    using (StreamWriter writer = new StreamWriter(dlgSave.FileName,false))
                     {
                         writer.WriteLine("ENFORM batch file");
                         writer.WriteLine(numRuns.Value.ToString() + "," + numThreads.Value.ToString());
