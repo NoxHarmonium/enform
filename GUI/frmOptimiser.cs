@@ -311,7 +311,39 @@ namespace ENFORM.GUI
 
         private void btnMoveUp_Click(object sender, EventArgs e)
         {
+            if (lstRuns.SelectedItems.Count == 1)
+            {
+                int currentIndex = lstRuns.SelectedIndices[0];
+                currentIndex--;
+                if (currentIndex < 0)
+                {
+                    currentIndex = 0;
+                }
+                ListViewItem item =lstRuns.SelectedItems[0];
+                lstRuns.Items.Remove(item);
+                lstRuns.Items.Insert(currentIndex, item);
+                item.Selected = true;
+                lstRuns.Select();
+            }
+        }
 
+        private void btnMoveDown_Click(object sender, EventArgs e)
+        {
+            if (lstRuns.SelectedItems.Count == 1)
+            {
+                int currentIndex = lstRuns.SelectedIndices[0];
+                currentIndex++;
+                if (currentIndex >= lstRuns.Items.Count )
+                {
+                    currentIndex = lstRuns.Items.Count-1;
+                }
+                ListViewItem item = lstRuns.SelectedItems[0];
+                lstRuns.Items.Remove(item);
+                lstRuns.Items.Insert(currentIndex, item);
+                item.Selected = true;
+                lstRuns.Select();
+
+            }
         }
 
         private void btnSaveBatch_Click(object sender, EventArgs e)
@@ -342,6 +374,8 @@ namespace ENFORM.GUI
 
             } 
         }
+
+        
        
     }
 }

@@ -121,6 +121,7 @@
             this.btnMoveDown.Size = new System.Drawing.Size(28, 23);
             this.btnMoveDown.TabIndex = 4;
             this.btnMoveDown.UseVisualStyleBackColor = true;
+            this.btnMoveDown.Click += new System.EventHandler(this.btnMoveDown_Click);
             // 
             // grpProperties
             // 
