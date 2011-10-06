@@ -11,8 +11,10 @@ namespace ENFORM.GUI
 {
     class GUILogger : ILogger
     {
+        
+        
         private frmLogBox logbox;
-        public delegate void logDelegate(string message);
+        public delegate void logDelegate(string message, string thread);
         public delegate void setPosDelegate(int x, int y);
         public delegate void closeLogDelegate();
         
@@ -22,9 +24,9 @@ namespace ENFORM.GUI
             logbox.Show();          
         }
 
-        private void log(string message)
+        private void log(string message, string thread)
         {
-            logbox.AddLogEntry(message);
+            logbox.AddLogEntry(message, thread);
         }
 
 
@@ -43,15 +45,16 @@ namespace ENFORM.GUI
 
         public void Log(string message)
         {
-            
+
+            string thread = Thread.CurrentThread.Name;
           
             if (logbox.InvokeRequired)
             {
-                logbox.Invoke(new logDelegate(log), new object[] { message });
+                logbox.Invoke(new logDelegate(log), new object[] { message, thread });
             }
             else
             {
-                log(message);
+                log(message, thread);
             }           
 
         }
