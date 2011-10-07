@@ -256,9 +256,10 @@ namespace ENFORM.Core
 
                     if (sourceType == SourceType.FileSystem)
                     {
-                        Utils.Logger.Log("Image not cached: Loading from filesystem");
+                        
                         if (cachedImage == null)
                         {
+                            Utils.Logger.Log("Image not cached: Loading from filesystem");
                             item = new SourceItem(
                                 row["Filename"].ToString(),
                                 Convert.ToInt32(row["SampleType"]),
