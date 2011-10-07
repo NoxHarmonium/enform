@@ -248,9 +248,13 @@
       <Project>{FF4C3306-A814-4DA3-BDA5-600549E018D9}</Project>
       <Name>Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\OpenFileDialogEx\CustomOpenFileDialog.csproj">
+    <ProjectReference Include="..\CustomOpenFile\CustomOpenFileDialog_v10.csproj">
       <Project>{63F16AD6-3C52-43BA-A3D7-981AC870E7CE}</Project>
-      <Name>CustomOpenFileDialog</Name>
+      <Name>CustomOpenFileDialog_v10</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CustomOpenFile\FileDlgExtenders\FileDlgExtenders_v10.csproj">
+      <Project>{9B4DA48C-6D11-46C9-A63D-D369E9C5FE42}</Project>
+      <Name>FileDlgExtenders_v10</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

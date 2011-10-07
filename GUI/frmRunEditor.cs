@@ -11,8 +11,6 @@ using NeuronDotNet.Core.Backpropagation;
 using NeuronDotNet.Core.Initializers;
 using ENFORM.Core;
 using CustomControls;
-using CustomControls.Controls;
-using CustomControls.OS;
 
 
 namespace ENFORM.GUI
@@ -69,21 +67,21 @@ namespace ENFORM.GUI
              * 
              */
 
-            FormOpenFileDialog controlex = new FormOpenFileDialog();
+            MyOpenFileDialogControl dlgLoad = new MyOpenFileDialogControl();
+            
+            dlgLoad.FileDlgInitialDirectory = "./";
+           
+            dlgLoad.FileDlgCaption = "Select file to add to test set...";
+            dlgLoad.FileDlgFilter = "Image Files |*.png;*.jpg;*.bmp";
 
-            controlex.StartLocation = AddonWindowLocation.Right;
-            controlex.DefaultViewMode = FolderViewMode.Thumbnails;
-            controlex.OpenDialog.InitialDirectory = "./";
-            controlex.OpenDialog.AddExtension = true;
-            controlex.OpenDialog.Filter = "Image Files(*.bmp;*.jpg;*.gif;*.png,*.ppm)|*.bmp;*.jpg;*.gif;*.png;*.ppm";
-            DialogResult r = controlex.ShowDialog(this);
+            DialogResult r = dlgLoad.ShowDialog();
 
-            if (r == DialogResult.OK)
+           if (r == DialogResult.OK)
             {
-                /*
-                if (controlex.FileNames.Length > 0)
+
+                if ((dlgLoad.MSDialog as OpenFileDialog).FileNames.Length > 0)
                 {
-                    foreach (String s in controlex.FileNames)
+                    foreach (String s in (dlgLoad.MSDialog as OpenFileDialog).FileNames)
                     {
                         SourceItem item = new SourceItem(s, 0);
 
@@ -92,12 +90,12 @@ namespace ENFORM.GUI
 
                     }
                 }
-                 */
-                SourceItem item = new SourceItem(controlex.Filename, 0);
-                ListViewItem newItem = lstInputs.Items.Add(new ListViewItem(item.GetStringValues()));
-                sourceItems.Add(newItem.GetHashCode(), item);
+                 
+                //SourceItem item = new SourceItem(controlex.Filename, 0);
+                //ListViewItem newItem = lstInputs.Items.Add(new ListViewItem(item.GetStringValues()));
+                //sourceItems.Add(newItem.GetHashCode(), item);
             }
-            controlex.Dispose();
+            //controlex.Dispose();
 
             if (lstInputs.SelectedItems.Count == 0 && lstInputs.Items.Count > 0)
             {
