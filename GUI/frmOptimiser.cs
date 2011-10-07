@@ -209,6 +209,7 @@ namespace ENFORM.GUI
                     {
                         job = jobs.Dequeue();                       
                     }
+                    Utils.Logger.Log("Jobs left: {0}", jobs.Count);
                 }
                 if (job == null)
                 {

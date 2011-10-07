@@ -169,6 +169,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmOptimiser.resx">
       <DependentUpon>frmOptimiser.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="frmRunEditor.resx">
       <DependentUpon>frmRunEditor.cs</DependentUpon>
@@ -246,6 +247,10 @@
     <ProjectReference Include="..\Core\Core.csproj">
       <Project>{FF4C3306-A814-4DA3-BDA5-600549E018D9}</Project>
       <Name>Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OpenFileDialogEx\CustomOpenFileDialog.csproj">
+      <Project>{63F16AD6-3C52-43BA-A3D7-981AC870E7CE}</Project>
+      <Name>CustomOpenFileDialog</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

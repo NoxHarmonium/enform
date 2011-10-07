@@ -10,6 +10,9 @@ using NeuronDotNet.Core;
 using NeuronDotNet.Core.Backpropagation;
 using NeuronDotNet.Core.Initializers;
 using ENFORM.Core;
+using CustomControls;
+using CustomControls.Controls;
+using CustomControls.OS;
 
 
 namespace ENFORM.GUI
@@ -38,6 +41,9 @@ namespace ENFORM.GUI
 
         private void btnLoadImages_Click(object sender, EventArgs e)
         {
+            
+            
+            /*
             OpenFileDialog dlgOpen = new OpenFileDialog();
             dlgOpen.InitialDirectory = "./";
             dlgOpen.Multiselect = true;
@@ -58,6 +64,40 @@ namespace ENFORM.GUI
                     }
                 }
             }
+             * 
+             * /
+             * 
+             */
+
+            FormOpenFileDialog controlex = new FormOpenFileDialog();
+
+            controlex.StartLocation = AddonWindowLocation.Right;
+            controlex.DefaultViewMode = FolderViewMode.Thumbnails;
+            controlex.OpenDialog.InitialDirectory = "./";
+            controlex.OpenDialog.AddExtension = true;
+            controlex.OpenDialog.Filter = "Image Files(*.bmp;*.jpg;*.gif;*.png,*.ppm)|*.bmp;*.jpg;*.gif;*.png;*.ppm";
+            DialogResult r = controlex.ShowDialog(this);
+
+            if (r == DialogResult.OK)
+            {
+                /*
+                if (controlex.FileNames.Length > 0)
+                {
+                    foreach (String s in controlex.FileNames)
+                    {
+                        SourceItem item = new SourceItem(s, 0);
+
+                        ListViewItem newItem = lstInputs.Items.Add(new ListViewItem(item.GetStringValues()));
+                        sourceItems.Add(newItem.GetHashCode(), item);
+
+                    }
+                }
+                 */
+                SourceItem item = new SourceItem(controlex.Filename, 0);
+                ListViewItem newItem = lstInputs.Items.Add(new ListViewItem(item.GetStringValues()));
+                sourceItems.Add(newItem.GetHashCode(), item);
+            }
+            controlex.Dispose();
 
             if (lstInputs.SelectedItems.Count == 0 && lstInputs.Items.Count > 0)
             {
@@ -503,6 +543,7 @@ namespace ENFORM.GUI
             {
                 if (!item.Cached)
                 {
+                    Utils.Logger.Log("->Caching: " + item.Filename);
                     item.Cache();
                 }
             }
@@ -520,13 +561,16 @@ namespace ENFORM.GUI
                 dlgSave.Title = "Save run file as...";
                 if (dlgSave.ShowDialog() == DialogResult.OK)
                 {
+                    Utils.Logger.Log("Caching all images to store in run file...");
                     if (chkEmbed.Checked)
                     {
                         cacheAll();
                     }
                     
                     DataAccess dataAccess = new DataAccess(dlgSave.FileName);
+                    Utils.Logger.Log("Clearing database data...");
                     dataAccess.ClearFile();
+                    Utils.Logger.Log("Adding input groups...");
                     for (int i = 0; i < lstInputGroups.Items.Count; i++)
                     {
                         dataAccess.AddInputGroup(i, (InputGroup)lstInputGroups.Items[i]);                        
@@ -534,11 +578,14 @@ namespace ENFORM.GUI
 
                     Dictionary<int, SourceItem>.ValueCollection values = sourceItems.Values;
                     int count = 0;
+                    Utils.Logger.Log("Saving images...");
                     foreach (SourceItem item in values)
                     {
+                        Utils.Logger.Log("->Saving Image: " + item.Filename);
                         dataAccess.AddSource(count++,item);
                     }
 
+                    Utils.Logger.Log("Saving parameters...");
                     dataAccess.SetParameter("Master_Width", txtWidth.Text);
                     dataAccess.SetParameter("Master_Height", txtHeight.Text);
                     dataAccess.SetParameter("Master_Aspect", chkAspect.Checked.ToString());
@@ -600,7 +647,7 @@ namespace ENFORM.GUI
 
 
                     }
-                    
+                    Utils.Logger.Log("Done...");
 
 
                     

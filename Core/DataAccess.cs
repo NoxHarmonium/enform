@@ -193,7 +193,9 @@ namespace ENFORM.Core
                             "GROUP BY RunID " +
                             ") as re inner join Runs as ru " +
                             "ON re.RunID = ru.RunID;";
+            Utils.Logger.Log("->Executing SQL query...");
             DataSet result = database.RunQuery(query);
+            Utils.Logger.Log("->Parsing...");
             List<Run> list = new List<Run>();
             if (result.Tables.Count > 0)
             {

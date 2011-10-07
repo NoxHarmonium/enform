@@ -116,6 +116,7 @@ namespace ENFORM.Core
             InputGroup[] inputGroups = dataAccess.GetInputGroups();
             SourceItem[] sourceItems = dataAccess.GetSourceItems();
 
+            Utils.Logger.Log("Preprocessing images...");
             foreach (SourceItem item in sourceItems)
             {
                 Utils.Logger.Log("Preprocessing item {0} ", item.Filename);
@@ -319,10 +320,12 @@ namespace ENFORM.Core
         void network_EndEpochEvent(object sender, TrainingEpochEventArgs e)
         {
 
-            results[resultIndex] = (float)network.MeanSquaredError;
-            results[resultIndex + 1 ] = (float)stopWatch.Elapsed.TotalMilliseconds;
-
-            resultIndex += 2;
+            if ((totalIterations % 20) == 0)
+            {
+                results[resultIndex] = (float)network.MeanSquaredError;
+                results[resultIndex + 1] = (float)stopWatch.Elapsed.TotalMilliseconds;
+                resultIndex += 2;
+            }
             totalIterations++;
 
             //Flush results

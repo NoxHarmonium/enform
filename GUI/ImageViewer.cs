@@ -33,7 +33,16 @@ namespace ENFORM.GUI
         public ImageViewer()
         {
             InitializeComponent();
+            this.Paint += new PaintEventHandler(ImageViewer_Paint);
             
+        }
+
+        void ImageViewer_Paint(object sender, PaintEventArgs e)
+        {
+            if (currentImage != null)
+            {
+                this.LoadImage(currentImage);
+            }
         }
         public Color DrawingColour
         {

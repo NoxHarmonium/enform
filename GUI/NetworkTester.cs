@@ -77,6 +77,7 @@ namespace ENFORM.GUI
 
         private void loadRuns(string filename)
         {
+            Utils.Logger.Log("Getting runs...");
             lstRuns.Items.Clear();
             DataAccess dataAccess = new DataAccess(filename);
             Run[] runs = dataAccess.GetRuns();

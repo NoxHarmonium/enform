@@ -228,13 +228,14 @@ namespace NeuronDotNet.Core.PSO
 
         private double getFitness(double[] weights)
         {
+            meanSquaredError = 0.0;
             this.setAllWeights(weights);          
             
             
 
             for (int index = 0; index < trainingSet.TrainingSampleCount; index++)
             {
-                TrainingSample randomSample = trainingSet[index];
+                //TrainingSample randomSample = trainingSet[index];
                 // Learn a random training sample
 
                 LearnSample(trainingSet[index], currentIteration, trainingEpochs);
