@@ -24,6 +24,7 @@ namespace ENFORM.Core
         private float[] results;
         private int resultIndex = 0;
         private int totalIterations = 0;
+        private bool alive = true;
     
         private int runID = -1;
 
@@ -355,7 +356,7 @@ namespace ENFORM.Core
 
             }
 
-            if (Thread.CurrentThread.ThreadState == System.Threading.ThreadState.Aborted)
+            if (!alive)
             {
                 Utils.Logger.Log("Run ended due to thread abort");
                 network.StopLearning();
@@ -365,22 +366,36 @@ namespace ENFORM.Core
 
         public double Optimise()
         {            
+            
             return Optimise(maxIterations);
         }
 
         public double Optimise(int iterations)
         {
             DateTime startTime = DateTime.Now;
-            Utils.Logger.Log("Starting run....");
-            runID = dataAccess.StartRun(this.GetHashCode().ToString());
-            Utils.Logger.Log("id = " + runID.ToString());
-            stopWatch.Start();           
-            Network.Learn(set, iterations);
-            stopWatch.Stop();
             DateTime endTime = DateTime.Now;
-           
-            dataAccess.SaveFinalResult(this.GetHashCode().ToString(), this.Network, resultIndex, results, startTime, endTime,runID,totalIterations);
-            return Network.MeanSquaredError;   
+            Utils.Logger.Log("Starting run....");
+            try
+            {
+                
+                runID = dataAccess.StartRun(this.GetHashCode().ToString());
+                Utils.Logger.Log("id = " + runID.ToString());
+                stopWatch.Start();
+                Network.Learn(set, iterations);
+                stopWatch.Stop();
+                endTime = DateTime.Now;
+            }
+            catch (ThreadAbortException)
+            {
+                Utils.Logger.Log("Thread aborted!");
+                endTime = DateTime.Now;
+            }
+            finally
+            {
+                Utils.Logger.Log("Writing final data!");
+                dataAccess.SaveFinalResult(this.GetHashCode().ToString(), this.Network, resultIndex, results, startTime, endTime, runID, totalIterations);                   
+            }
+            return Network.MeanSquaredError;
         }
 
         
