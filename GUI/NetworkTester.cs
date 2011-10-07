@@ -42,6 +42,7 @@ namespace ENFORM.GUI
 
                 currentSource = new SourceItem(testImageFilename, cmbSampleType.SelectedIndex);
                 redrawPipeline();
+                calculateFitness();
             }
         }
 

@@ -24,7 +24,7 @@ namespace ENFORM.Core
         private float[] results;
         private int resultIndex = 0;
         private int totalIterations = 0;
-        private bool alive = true;
+       
     
         private int runID = -1;
 
@@ -35,6 +35,7 @@ namespace ENFORM.Core
         }
 
         static Stopwatch stopWatch;
+        static Stopwatch ResultCounter;
 
 
         public int MaxTime
@@ -63,6 +64,7 @@ namespace ENFORM.Core
         {
             Utils.Logger.Log("Loading stopwatch... ");
             stopWatch = new Stopwatch();
+            ResultCounter = new Stopwatch();
             
             this.filename = filename;
             Utils.Logger.Log("Loading preprocessor parameters from " + filename);
@@ -324,11 +326,13 @@ namespace ENFORM.Core
         void network_EndEpochEvent(object sender, TrainingEpochEventArgs e)
         {
 
-            if ((totalIterations % 20) == 0)
+            if (ResultCounter.ElapsedMilliseconds >= 100)
             {
                 results[resultIndex] = (float)network.MeanSquaredError;
                 results[resultIndex + 1] = (float)stopWatch.Elapsed.TotalMilliseconds;
                 resultIndex += 2;
+                ResultCounter.Reset();
+                ResultCounter.Start();
             }
             totalIterations++;
 
@@ -356,12 +360,7 @@ namespace ENFORM.Core
 
             }
 
-            if (!alive)
-            {
-                Utils.Logger.Log("Run ended due to thread abort");
-                network.StopLearning();
-
-            }
+            
         }
 
         public double Optimise()
@@ -377,10 +376,12 @@ namespace ENFORM.Core
             Utils.Logger.Log("Starting run....");
             try
             {
-                
+
                 runID = dataAccess.StartRun(this.GetHashCode().ToString());
                 Utils.Logger.Log("id = " + runID.ToString());
+                ResultCounter.Start();
                 stopWatch.Start();
+                
                 Network.Learn(set, iterations);
                 stopWatch.Stop();
                 endTime = DateTime.Now;
@@ -389,6 +390,10 @@ namespace ENFORM.Core
             {
                 Utils.Logger.Log("Thread aborted!");
                 endTime = DateTime.Now;
+            }
+            catch (Exception e)
+            {
+                throw e;
             }
             finally
             {

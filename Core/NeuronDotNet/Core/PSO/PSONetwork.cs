@@ -365,7 +365,7 @@ namespace NeuronDotNet.Core.PSO
                 Evaluations = pso.NextIteration();
                 currentIteration++;
 
-                meanSquaredError = pso.BestFitness * trainingSet.TrainingSampleCount;
+                meanSquaredError = pso.BestFitness;// *trainingSet.TrainingSampleCount;
                 
 
 
@@ -375,6 +375,7 @@ namespace NeuronDotNet.Core.PSO
                 // Check if we need to stop
                 if (isStopping) {
                     pso.EndRun();
+                    
                     isStopping = false; 
                     return; 
                 }

@@ -314,6 +314,8 @@ namespace SPSO_2007
             if (Result.error < bestBest.f)
                 bestBest = Result.SW.P[Result.SW.best].Clone();
 
+            pb.perf(bestBest, pb.function, pb.objective);
+
             // Result display
             Utils.Logger.Log("\nRun {0}. Eval {1}. Error {2} \n", run, Result.nEval, Result.error);
             //for (d=0;d<pb.SS.D;d++) Utils.Logger.Log(" %f",result.SW.P[result.SW.best].x[d]);
