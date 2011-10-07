@@ -31,9 +31,29 @@ namespace ENFORM.CLI
             Console.WriteLine("ENFORM Command Line Interface");
             Console.WriteLine("By Sean Dawson");
             Console.WriteLine("Switching to file logging system now...");
+                   
+            
             Thread.CurrentThread.Name = "Main Thread";
             Utils.Logger = new SQLiteLogger();
             Utils.Logger.StartLogger();
+
+            if (args.Length == 2)
+            {
+                try
+                {
+                    if (Convert.ToInt32(args[1]) == 1)
+                    {
+                        SQLiteLogger l = (SQLiteLogger)Utils.Logger;
+
+                        l.WriteToStdOut= true;
+                    }
+                }
+                catch (Exception)
+                {
+
+                }
+            }
+
 
             Utils.Logger.Log("Attempting to load file...");
 

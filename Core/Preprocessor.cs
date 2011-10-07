@@ -123,8 +123,10 @@ namespace ENFORM.Core
 
             }
 
+            Utils.Logger.Log("->Cropping...");
             AForge.Imaging.Filters.Crop cropper = new AForge.Imaging.Filters.Crop(new Rectangle(0, 0, newWidth, newHeight));
 
+            Utils.Logger.Log("->Scaling...");
             if (ScalingMethod == ScalingMethods.Nearest_Neighbor || ScalingMethod == ScalingMethods.Bicubic)
             {
                 AForge.Imaging.Filters.ResizeNearestNeighbor resizer = new AForge.Imaging.Filters.ResizeNearestNeighbor(newWidth, newHeight);
@@ -177,17 +179,19 @@ namespace ENFORM.Core
 
         public Bitmap Process(Bitmap image)
         {
+            Utils.Logger.Log("Converting to 32 bit...");
             Bitmap filteredImage = convertFormatTo32(image);
 
 
 
             if (filterLevel >= 0)
             {
+                Utils.Logger.Log("Basic resize...");
                 filteredImage = resize(filteredImage, ImageSize.Width, ImageSize.Height);
             }
             if (filterLevel >= 1)
             {
-
+                Utils.Logger.Log("Advanced filters...");
                 if (ContrastStretch)
                 {
                     AForge.Imaging.Filters.ContrastStretch stretcher = new AForge.Imaging.Filters.ContrastStretch();

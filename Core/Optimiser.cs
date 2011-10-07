@@ -118,8 +118,8 @@ namespace ENFORM.Core
 
             foreach (SourceItem item in sourceItems)
             {
+                Utils.Logger.Log("Preprocessing item {0} ", item.Filename);
                 item.InternalImage = preprocessor.Process((Bitmap)item.InternalImage);
-
             }
 
             int total = 0;

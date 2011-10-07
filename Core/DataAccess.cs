@@ -243,8 +243,10 @@ namespace ENFORM.Core
 
                     if ((bool)row["Cached"])
                     {
+                        Utils.Logger.Log("Image cached: Loading from database");
+                        
                         int index = Convert.ToInt32(row["ImageBLOBRef"]);
-
+                        Utils.Logger.Log("Index = " + index);
 
                         cachedImage = database.RetrieveBLOBImage(index);
                         
@@ -254,6 +256,7 @@ namespace ENFORM.Core
 
                     if (sourceType == SourceType.FileSystem)
                     {
+                        Utils.Logger.Log("Image not cached: Loading from filesystem");
                         if (cachedImage == null)
                         {
                             item = new SourceItem(

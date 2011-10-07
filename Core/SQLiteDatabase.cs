@@ -24,7 +24,7 @@ namespace ENFORM.Core
         public SQLiteDatabase(string filename)
         {
             connection = new SQLiteConnection(
-                "Data Source=" + filename
+                "Synchronous=Full;Data Source=" + filename
                 );
         }
 
