@@ -144,7 +144,28 @@ namespace ENFORM.GUI
                 
 
             }
+            for (int i = 0; i < numThreads.Value; i++)
+            {
+                /*   
+                   BackgroundWorker worker = new BackgroundWorker();
+               
+                   worker.DoWork += new DoWorkEventHandler(worker_DoWork);
+                   worker.ProgressChanged += new ProgressChangedEventHandler(worker_ProgressChanged);
+                   worker.WorkerReportsProgress = true;
+                   worker.WorkerSupportsCancellation = true;
+                   worker.RunWorkerAsync(i);
+                   backgroundWorkers.Add(worker);
+                 * */
 
+                threads[i] = new Thread(new ParameterizedThreadStart(runThread));
+                threads[i].Name = i.ToString();
+
+
+                threads[i].Start(i);
+
+
+
+            }
 
 
 
@@ -160,28 +181,7 @@ namespace ENFORM.GUI
             }
 
             
-            for (int i = 0; i < numThreads.Value; i++)
-            {
-             /*   
-                BackgroundWorker worker = new BackgroundWorker();
-               
-                worker.DoWork += new DoWorkEventHandler(worker_DoWork);
-                worker.ProgressChanged += new ProgressChangedEventHandler(worker_ProgressChanged);
-                worker.WorkerReportsProgress = true;
-                worker.WorkerSupportsCancellation = true;
-                worker.RunWorkerAsync(i);
-                backgroundWorkers.Add(worker);
-              * */
-                
-                threads[i] = new Thread(new ParameterizedThreadStart(runThread));
-                threads[i].Name = i.ToString();
-
-                
-                threads[i].Start(i);
-                
-                
-
-            }
+            
           
            
             
