@@ -42,9 +42,9 @@ namespace ENFORM.Core
 
             foreach (InputGroup inputGroup in inputGroups)
             {
-                for (int i = 0; i < inputGroup.Segments; i++)
+                for (int i = 0; i < image.Width; i++)
                 {
-                    for (int j = 0; j < inputGroup.Segments; j++)
+                    for (int j = 0; j < image.Height; j++)
                     {
                         outputs[outputIndex++] = ((double)bitmap.GetPixel(j, i).R) / 255.0;
                     }

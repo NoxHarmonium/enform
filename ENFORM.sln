@@ -13,10 +13,22 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomOpenFileDialog_v10", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileDlgExtenders_v10", "CustomOpenFile\FileDlgExtenders\FileDlgExtenders_v10.csproj", "{9B4DA48C-6D11-46C9-A63D-D369E9C5FE42}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{6F08CC7F-DCEC-441C-AE5D-37B85E55A684}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{815EAC5F-2107-4C2C-8319-6773B3ABDEA7}"
+	ProjectSection(SolutionItems) = preProject
+		ENFORM.vsmdi = ENFORM.vsmdi
+		Local.testsettings = Local.testsettings
+		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True
 		Manager = AnkhSVN - Subversion Support for Visual Studio
+	EndGlobalSection
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = ENFORM.vsmdi
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -110,6 +122,19 @@ Global
 		{9B4DA48C-6D11-46C9-A63D-D369E9C5FE42}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{9B4DA48C-6D11-46C9-A63D-D369E9C5FE42}.Release|x64.ActiveCfg = Release|Any CPU
 		{9B4DA48C-6D11-46C9-A63D-D369E9C5FE42}.Release|x86.ActiveCfg = Release|Any CPU
+		{6F08CC7F-DCEC-441C-AE5D-37B85E55A684}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F08CC7F-DCEC-441C-AE5D-37B85E55A684}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F08CC7F-DCEC-441C-AE5D-37B85E55A684}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{6F08CC7F-DCEC-441C-AE5D-37B85E55A684}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{6F08CC7F-DCEC-441C-AE5D-37B85E55A684}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{6F08CC7F-DCEC-441C-AE5D-37B85E55A684}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6F08CC7F-DCEC-441C-AE5D-37B85E55A684}.Debug|x86.Build.0 = Debug|Any CPU
+		{6F08CC7F-DCEC-441C-AE5D-37B85E55A684}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F08CC7F-DCEC-441C-AE5D-37B85E55A684}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F08CC7F-DCEC-441C-AE5D-37B85E55A684}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{6F08CC7F-DCEC-441C-AE5D-37B85E55A684}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{6F08CC7F-DCEC-441C-AE5D-37B85E55A684}.Release|x64.ActiveCfg = Release|Any CPU
+		{6F08CC7F-DCEC-441C-AE5D-37B85E55A684}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

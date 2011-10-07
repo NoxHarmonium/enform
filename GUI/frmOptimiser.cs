@@ -226,7 +226,9 @@ namespace ENFORM.GUI
                 double mes = 1;                
                
                 mes = optimiser.Optimise();    
+
             }
+            changeThreadProgress(Int32.Parse(Thread.CurrentThread.Name), -1, -1, "No more jobs!");
 
         }
 

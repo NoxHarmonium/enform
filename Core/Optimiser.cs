@@ -8,6 +8,7 @@ using NeuronDotNet.Core.PSO;
 using NeuronDotNet.Core.Initializers;
 using System.Drawing;
 using System.Diagnostics;
+using System.Threading;
 
 using SPSO_2007;
 namespace ENFORM.Core
@@ -55,6 +56,8 @@ namespace ENFORM.Core
         }
         private TrainingSet set;
         
+        
+
         public Optimiser(string filename)
         {
             Utils.Logger.Log("Loading stopwatch... ");
@@ -348,6 +351,13 @@ namespace ENFORM.Core
             if((stopWatch.ElapsedMilliseconds/1000) >= maxTime)
             {
                  Utils.Logger.Log("Run ended due to time limit reached");
+                network.StopLearning();
+
+            }
+
+            if (Thread.CurrentThread.ThreadState == System.Threading.ThreadState.Aborted)
+            {
+                Utils.Logger.Log("Run ended due to thread abort");
                 network.StopLearning();
 
             }
