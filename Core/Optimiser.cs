@@ -57,10 +57,11 @@ namespace ENFORM.Core
         
         public Optimiser(string filename)
         {
+            Utils.Logger.Log("Loading stopwatch... ");
             stopWatch = new Stopwatch();
             
             this.filename = filename;
-
+            Utils.Logger.Log("Loading preprocessor parameters from " + filename);
             dataAccess = new DataAccess(filename);
             preprocessor = new Preprocessor();
 

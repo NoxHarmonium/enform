@@ -26,7 +26,13 @@ namespace ENFORM.Core.Logging
 
         private int sessionID = -1;
         private SQLiteDatabase database;
+        private bool writeToStdOut = false;
 
+        public bool WriteToStdOut
+        {
+            get { return writeToStdOut; }
+            set { writeToStdOut = value; }
+        }
 
         public void StartLogger()
         {
@@ -60,6 +66,11 @@ namespace ENFORM.Core.Logging
                     Thread.CurrentThread.Name + "','" +
                     message + "',datetime('now','localtime'));");
             }
+            if (writeToStdOut)
+            {
+                Console.WriteLine(message);
+            }
+            
         }
 
         public void Log(string format, params object[] args)

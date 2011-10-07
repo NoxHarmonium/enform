@@ -52,7 +52,7 @@ namespace ENFORM.CLI
                         threads = new Thread[threadCount];
                         while (!reader.EndOfStream)
                         {
-                            files.Add(rootDir+ "\\" + reader.ReadLine());
+                            files.Add(rootDir+ "/" + reader.ReadLine());
                         }
                     }
 
@@ -75,6 +75,12 @@ namespace ENFORM.CLI
             {
                 beginRun(filename);
             }
+            for (int i = 0; i < threadCount; i++)
+            {
+                threads[i] = new Thread(new ParameterizedThreadStart(runThread));
+                threads[i].Name = i.ToString();
+                threads[i].Start(i);
+            }
             Utils.Logger.Log("Waiting on threads...");
             foreach (Thread t in threads)
             {
@@ -82,6 +88,7 @@ namespace ENFORM.CLI
             }
             Utils.Logger.Log("All threads closed...");
             Utils.Logger.Log("Exiting...");
+            Utils.Logger.StopLogger();
         }
 
 
@@ -133,12 +140,7 @@ namespace ENFORM.CLI
             }
 
 
-            for (int i = 0; i < threadCount; i++)
-            {           
-                threads[i] = new Thread(new ParameterizedThreadStart(runThread));
-                threads[i].Name = i.ToString();
-                threads[i].Start(i);
-            }
+            
 
 
 
