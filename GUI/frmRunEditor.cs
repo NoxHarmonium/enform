@@ -72,7 +72,7 @@ namespace ENFORM.GUI
             dlgLoad.FileDlgInitialDirectory = "./";
            
             dlgLoad.FileDlgCaption = "Select file to add to test set...";
-            dlgLoad.FileDlgFilter = "Image Files |*.png;*.jpg;*.bmp";
+            dlgLoad.FileDlgFilter = "Image Files (*.png,*.jpg,*.bmp,*.ppm)|*.png;*.jpg;*.bmp;*.ppm";
 
             DialogResult r = dlgLoad.ShowDialog();
 

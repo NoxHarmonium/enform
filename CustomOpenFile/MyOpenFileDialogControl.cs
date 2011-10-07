@@ -60,7 +60,8 @@ namespace CustomControls
                 filePath.ToLower().EndsWith(".jpg") ||
                 filePath.ToLower().EndsWith(".png") ||
                 filePath.ToLower().EndsWith(".tif") ||
-                filePath.ToLower().EndsWith(".gif"))
+                filePath.ToLower().EndsWith(".gif")||
+                filePath.ToLower().EndsWith(".ppm"))
             {
                 if (pbxPreview.Image != null)
                     pbxPreview.Image.Dispose();
@@ -68,7 +69,14 @@ namespace CustomControls
                 try
                 {
                     FileInfo fi = new FileInfo(filePath);
-                    pbxPreview.Image = Bitmap.FromFile(filePath);
+                    if (filePath.ToLower().EndsWith(".ppm"))
+                    {
+                        pbxPreview.Image = new PixelMap.PixelMap(filePath).BitMap;
+                    }
+                    else
+                    {
+                        pbxPreview.Image = Bitmap.FromFile(filePath);
+                    }
                     lblSizeValue.Text = (fi.Length / 1024).ToString() + "KB";
                     lblColorsValue.Text = GetColorsCountFromImage(pbxPreview.Image);
                     lblFormatValue.Text = GetFormatFromImage(pbxPreview.Image);
@@ -124,6 +132,8 @@ namespace CustomControls
                 return "PNG";
             else if (image.RawFormat.Equals(ImageFormat.Tiff))
                 return "TIFF";
+            else if (image.RawFormat.Guid.ToString().Equals("b96b3caa-0728-11d3-9d7b-0000f81ef32e"))
+                return "PPM";          
             return string.Empty;
         }
         #endregion

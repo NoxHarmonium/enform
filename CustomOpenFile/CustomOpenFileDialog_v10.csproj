@@ -191,6 +191,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Pixelmap\PixelMap.csproj">
+      <Project>{74EE3A85-61D9-4864-BDEF-106E0C5A7748}</Project>
+      <Name>PixelMap</Name>
+    </ProjectReference>
     <ProjectReference Include="FileDlgExtenders\FileDlgExtenders_v10.csproj">
       <Project>{9B4DA48C-6D11-46C9-A63D-D369E9C5FE42}</Project>
       <Name>FileDlgExtenders_v10</Name>

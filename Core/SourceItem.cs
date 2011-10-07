@@ -89,6 +89,10 @@ namespace ENFORM.Core
                 {
                     try
                     {
+                        if (filename.ToLower().EndsWith(".ppm"))
+                        {
+                            return new PixelMap.PixelMap(filename).BitMap;
+                        }
                         return Image.FromFile(filename);
                     }
                     catch (Exception e)
@@ -210,8 +214,15 @@ namespace ENFORM.Core
         /// Load the file off the hard drive and store in memory for quick retrieval.
         /// </summary>
         public void Cache()
-        {      
-            internalImage = Image.FromFile(filename);
+        {
+            if (filename.ToLower().EndsWith(".ppm"))
+            {
+                internalImage = new PixelMap.PixelMap(filename).BitMap;
+            }
+            else
+            {               
+                internalImage = Image.FromFile(filename);
+            }
             cached = true;
         }
 
