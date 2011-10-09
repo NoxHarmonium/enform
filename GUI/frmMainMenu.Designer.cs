@@ -34,6 +34,7 @@
             this.btnRunEditor = new System.Windows.Forms.Button();
             this.btnLaunchOptimiser = new System.Windows.Forms.Button();
             this.btnLaunchTester = new System.Windows.Forms.Button();
+            this.btnAnalyser = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lblTitle
@@ -92,11 +93,24 @@
             this.btnLaunchTester.UseVisualStyleBackColor = true;
             this.btnLaunchTester.Click += new System.EventHandler(this.btnLaunchTester_Click);
             // 
+            // btnAnalyser
+            // 
+            this.btnAnalyser.Image = ((System.Drawing.Image)(resources.GetObject("btnAnalyser.Image")));
+            this.btnAnalyser.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnAnalyser.Location = new System.Drawing.Point(12, 285);
+            this.btnAnalyser.Name = "btnAnalyser";
+            this.btnAnalyser.Size = new System.Drawing.Size(251, 61);
+            this.btnAnalyser.TabIndex = 5;
+            this.btnAnalyser.Text = "Launch Results Analyser";
+            this.btnAnalyser.UseVisualStyleBackColor = true;
+            this.btnAnalyser.Click += new System.EventHandler(this.btnAnalyser_Click);
+            // 
             // frmMainMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(275, 296);
+            this.ClientSize = new System.Drawing.Size(275, 353);
+            this.Controls.Add(this.btnAnalyser);
             this.Controls.Add(this.btnLaunchTester);
             this.Controls.Add(this.btnLaunchOptimiser);
             this.Controls.Add(this.btnRunEditor);
@@ -119,5 +133,6 @@
         private System.Windows.Forms.Button btnRunEditor;
         private System.Windows.Forms.Button btnLaunchOptimiser;
         private System.Windows.Forms.Button btnLaunchTester;
+        private System.Windows.Forms.Button btnAnalyser;
     }
 }

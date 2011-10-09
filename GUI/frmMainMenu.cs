@@ -63,6 +63,15 @@ namespace ENFORM.GUI
 
         }
 
+        private void btnAnalyser_Click(object sender, EventArgs e)
+        {
+            frmResultsAnalyser analyser = new frmResultsAnalyser();
+
+            Utils.Logger.Log("Opening results analyser....");
+            analyser.Show(this);
+
+        }
+
         private void frmMainMenu_FormClosed(object sender, FormClosedEventArgs e)
         {
             Utils.Logger.StopLogger();
@@ -121,6 +130,8 @@ namespace ENFORM.GUI
              
             */
         }
+
+       
 
        
 
