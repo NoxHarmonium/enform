@@ -354,6 +354,11 @@ namespace ENFORM.GUI
             } 
         }
 
+        private void btnDeleteRuns_Click(object sender, EventArgs e)
+        {
+
+        }
+
         
        
     }

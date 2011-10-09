@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using NeuronDotNet.Core;
 using NeuronDotNet.Core.Backpropagation;
 using ENFORM.Core;
+using System.IO;
 
 namespace ENFORM.GUI
 {
@@ -69,6 +70,7 @@ namespace ENFORM.GUI
                 {
                     loadRuns(dlgLoad.FileName);
                     currentRunFile = dlgLoad.FileName;
+                    this.Text = "Network Tester - " + new FileInfo(dlgLoad.FileName).Name; 
                    
 
                 }
@@ -157,8 +159,45 @@ namespace ENFORM.GUI
             DataAccess dataAccess = new DataAccess(currentRunFile);
             if (currentRunFile != "" && currentSource != null && lstRuns.SelectedItems.Count > 0)
             {
+                
+
+                int width = Convert.ToInt32(dataAccess.GetParameter("Master_Width"));
+                int height = Convert.ToInt32(dataAccess.GetParameter("Master_Height"));
+                bool aspect = Convert.ToBoolean(dataAccess.GetParameter("Master_Aspect"));
+                int scalingMethod = Convert.ToInt32(dataAccess.GetParameter("Master_Resize"));
+
+                chkContastStretch.Checked = Convert.ToBoolean(dataAccess.GetParameter("Filter_Stretch"));
+                chkHistogram.Checked = Convert.ToBoolean(dataAccess.GetParameter("Filter_Histo"));
+                chkGaussian.Checked = Convert.ToBoolean(dataAccess.GetParameter("Filter_Gaussian"));
+                numBlurStrength.Value = Convert.ToInt32(dataAccess.GetParameter("Filter_BlurStr"));
+                chkContrast.Checked = Convert.ToBoolean(dataAccess.GetParameter("Filter_Contrast"));
+                numContrast.Value = Convert.ToDecimal(dataAccess.GetParameter("Filter_ContrastStr"));
+                chkGreyscale.Checked = Convert.ToBoolean(dataAccess.GetParameter("Filter_Greyscale"));
+                chkBradley.Checked = Convert.ToBoolean(dataAccess.GetParameter("Filter_Bradley"));
+                chkThreshold.Checked = Convert.ToBoolean(dataAccess.GetParameter("Filter_Threshold"));
+                numThreshold.Value = Convert.ToDecimal(dataAccess.GetParameter("Filter_ThresholdStr"));
+
+
+
+
+                Preprocessor preprocessor = new Preprocessor();
+                preprocessor.Bradley = chkBradley.Checked;
+                preprocessor.ContrastAdjustment = chkContrast.Checked;
+                preprocessor.ContrastStrength = numContrast.Value;
+                preprocessor.ContrastStretch = chkContastStretch.Checked;
+                preprocessor.FilterLevel = 1;
+                preprocessor.Gaussian = chkGaussian.Checked;
+                preprocessor.GaussianStrength = numBlurStrength.Value;
+                preprocessor.Greyscale = chkGreyscale.Checked;
+                preprocessor.Histogram = chkHistogram.Checked;
+                preprocessor.ImageSize = new Size(width, height);
+                preprocessor.KeepAspectRatio = aspect;
+                preprocessor.ScalingMethod = (ScalingMethods)scalingMethod;
+                preprocessor.Threshold = chkThreshold.Checked;
+                preprocessor.ThresholdStrength = numThreshold.Value;
+                
                 Network network = dataAccess.GetNetwork(int.Parse(lstRuns.SelectedItems[0].SubItems[5].Text));
-                double[] result = network.Run(Utils.getImageWeights(currentSource.InternalImage, (InputGroup[])lstInputGroups.Items.Cast<InputGroup>().ToArray<InputGroup>()));
+                double[] result = network.Run(Utils.getImageWeights(preprocessor.Process((Bitmap)currentSource.InternalImage), (InputGroup[])lstInputGroups.Items.Cast<InputGroup>().ToArray<InputGroup>()));
                 lblFitness.Text = "Fitness: " + result[0].ToString();
             }
         }

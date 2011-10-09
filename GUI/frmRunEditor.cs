@@ -667,6 +667,8 @@ namespace ENFORM.GUI
                 {
                     DataAccess dataAccess = new DataAccess(dlgLoad.FileName);
                     SourceItem[] sources = dataAccess.GetSourceItems();
+                    sourceItems.Clear();
+                    lstInputs.Clear();
                     foreach (SourceItem source in sources)
                     {
                         ListViewItem newItem = lstInputs.Items.Add(new ListViewItem(source.GetStringValues()));

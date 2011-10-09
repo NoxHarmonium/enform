@@ -102,6 +102,7 @@
             this.btnDeleteRuns.TabIndex = 2;
             this.btnDeleteRuns.Text = "Remove";
             this.btnDeleteRuns.UseVisualStyleBackColor = true;
+            this.btnDeleteRuns.Click += new System.EventHandler(this.btnDeleteRuns_Click);
             // 
             // btnMoveUp
             // 

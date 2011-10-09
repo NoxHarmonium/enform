@@ -46,7 +46,7 @@ namespace ENFORM.Core
                 {
                     for (int j = 0; j < image.Height; j++)
                     {
-                        outputs[outputIndex++] = ((double)bitmap.GetPixel(j, i).R) / 255.0;
+                        outputs[outputIndex++] = ((double)bitmap.GetPixel(i, j).R) / 255.0;
                     }
 
                 }
