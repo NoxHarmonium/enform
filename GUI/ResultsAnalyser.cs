@@ -49,6 +49,8 @@ namespace ENFORM.GUI
 
         private void btnProcess_Click(object sender, EventArgs e)
         {
+            DialogResult r = MessageBox.Show("Do you want to also write out time as well as fitness?", "Write time?", MessageBoxButtons.YesNo);
+            
             for (int i = 0; i < lstRuns.Items.Count; i++)
             {
 
@@ -56,12 +58,24 @@ namespace ENFORM.GUI
                 string file = lstRuns.Items[i].SubItems[2].Text;
                 Utils.Logger.Log("Processing file: " + file);
                 float[] averageResults = getAverageResults(file);
+                float[] averageTimes = null;
+                if (r == DialogResult.Yes)
+                {
+                    averageTimes = getAverageTimes(file);
+                }
                 Utils.Logger.Log("Writing file: " + file + ".txt");
                 using (StreamWriter writer = new StreamWriter(file + ".txt", false))
                 {
-                    foreach (float f in averageResults)
+                    for (int j = 0; j< averageResults.Length; j++)
                     {
-                        writer.WriteLine(f.ToString());
+                        if (r == DialogResult.Yes)
+                        {
+                            writer.WriteLine(averageTimes[j].ToString() + "," + averageResults[j].ToString());
+                        }
+                        else
+                        {
+                            writer.WriteLine(averageResults[j].ToString());
+                        }
                     }
                     writer.Close();
                 }
@@ -97,7 +111,7 @@ namespace ENFORM.GUI
                 int z = 0;
                 for (int k = 0; k < results.Length; k++)
                 {
-                    if (results[k].Length < k)
+                    if (j < results[k].Length) 
                     {
                         total += results[k][j];
                         z++;
@@ -105,6 +119,56 @@ namespace ENFORM.GUI
                 }
                 
                 total /= z;
+                if (float.IsNaN(total))
+                {
+                    throw new Exception("");
+                }
+                results[mrlIndex][j] = total;
+            }
+
+            return results[0];
+        }
+
+        private float[] getAverageTimes(string filename)
+        {
+
+            DataAccess dataAccess = new DataAccess(filename);
+            Run[] runs = dataAccess.GetRuns();
+            float[][] results = new float[runs.Length][];
+            for (int j = 0; j < runs.Length; j++)
+            {
+                results[j] = dataAccess.GetTimes(runs[j]);
+            }
+
+            int maxResultLength = 0;
+            int mrlIndex = -1;
+            for (int j = 0; j < results.Length; j++)
+            {
+                if (results[j].Length > maxResultLength)
+                {
+                    maxResultLength = results[j].Length;
+                    mrlIndex = j;
+                }
+            }
+
+            for (int j = 0; j < maxResultLength; j++)
+            {
+                float total = 0.0f;
+                int z = 0;
+                for (int k = 0; k < results.Length; k++)
+                {
+                    if (results[k].Length < k)
+                    {
+                        total += results[k][j];
+                        z++;
+                    }
+                }
+
+                total /= z;
+                if (float.IsNaN(total))
+                {
+                    throw new Exception("ddd");
+                }
                 results[mrlIndex][j] = total;
             }
 

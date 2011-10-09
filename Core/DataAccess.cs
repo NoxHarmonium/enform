@@ -166,6 +166,26 @@ namespace ENFORM.Core
 
         }
 
+        public float[] GetTimes(Run run)
+        {
+            string query = "SELECT * FROM Results WHERE RunID="+ run.RunID.ToString() + ";";
+            DataSet result = database.RunQuery(query);
+            if (result.Tables.Count > 0)
+            {
+                float[] output = new float[result.Tables[0].Rows.Count];
+                for (int i = 0; i < output.Length; i++)
+                {
+                    output[i] = Convert.ToSingle(result.Tables[0].Rows[i][3]);
+                    
+                }
+                return output;
+            }
+            return null;
+
+
+
+        }
+
         public void SavePartialResult(string jobUUID, int iterations, float[] results, int runid, int totalIterations)
         {
 

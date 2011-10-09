@@ -192,11 +192,7 @@ namespace ENFORM.Core
 
 
 
-            if (filterLevel >= 0)
-            {
-                Utils.Logger.Log("Basic resize...");
-                filteredImage = resize(filteredImage, ImageSize.Width, ImageSize.Height);
-            }
+           
             if (filterLevel >= 1)
             {
                 Utils.Logger.Log("Advanced filters...");
@@ -261,6 +257,12 @@ namespace ENFORM.Core
                     filteredImage = bradlifier.Apply(filteredImage);
 
                 }
+            }
+
+            if (filterLevel >= 0)
+            {
+                Utils.Logger.Log("Basic resize...");
+                filteredImage = resize(filteredImage, ImageSize.Width, ImageSize.Height);
             }
             Utils.Logger.Log("Preprocessor finished...");
             return filteredImage;

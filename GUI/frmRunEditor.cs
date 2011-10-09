@@ -496,7 +496,7 @@ namespace ENFORM.GUI
             int inputNodes = Convert.ToInt32(txtWidth.Text) * Convert.ToInt32(txtHeight.Text);
             int hiddenNodes = calculateHiddenNodeCount();
             int outputNodes = 1;
-            int total = inputNodes;
+            int total =0;
             total += hiddenNodes;
             total += outputNodes;
             total += lstInputGroups.Items.Count * inputNodes;
@@ -668,7 +668,7 @@ namespace ENFORM.GUI
                     DataAccess dataAccess = new DataAccess(dlgLoad.FileName);
                     SourceItem[] sources = dataAccess.GetSourceItems();
                     sourceItems.Clear();
-                    lstInputs.Clear();
+                    lstInputs.Items.Clear();
                     foreach (SourceItem source in sources)
                     {
                         ListViewItem newItem = lstInputs.Items.Add(new ListViewItem(source.GetStringValues()));
