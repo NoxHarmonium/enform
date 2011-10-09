@@ -10,6 +10,7 @@ using NeuronDotNet.Core;
 using NeuronDotNet.Core.Backpropagation;
 using ENFORM.Core;
 using System.IO;
+using CustomControls;
 
 namespace ENFORM.GUI
 {
@@ -29,22 +30,29 @@ namespace ENFORM.GUI
 
         private void btnOpenTestImage_Click(object sender, EventArgs e)
         {
-            using (OpenFileDialog dlgOpen = new OpenFileDialog())
-            {
-                dlgOpen.InitialDirectory = "./";
-                dlgOpen.Multiselect = false;
-                dlgOpen.Title = "Select file to add to test set...";
-                dlgOpen.Filter = "Image Files |*.png;*.jpg;*.bmp";
-                DialogResult r = dlgOpen.ShowDialog(this);
-                if (r == DialogResult.OK)
-                {
-                    testImageFilename = dlgOpen.FileName;
-                }
+            MyOpenFileDialogControl dlgLoad = new MyOpenFileDialogControl();
 
-                currentSource = new SourceItem(testImageFilename, cmbSampleType.SelectedIndex);
-                redrawPipeline();
-                calculateFitness();
+            dlgLoad.FileDlgInitialDirectory = "./";
+
+            dlgLoad.FileDlgCaption = "Select file to add to test set...";
+            dlgLoad.FileDlgFilter = "Image Files (*.png,*.jpg,*.bmp,*.ppm)|*.png;*.jpg;*.bmp;*.ppm";
+
+            DialogResult r = dlgLoad.ShowDialog();
+
+            if (r == DialogResult.OK)
+            {
+
+                testImageFilename = dlgLoad.FileDlgFileName;
+
+                //SourceItem item = new SourceItem(controlex.Filename, 0);
+                //ListViewItem newItem = lstInputs.Items.Add(new ListViewItem(item.GetStringValues()));
+                //sourceItems.Add(newItem.GetHashCode(), item);
             }
+
+            currentSource = new SourceItem(testImageFilename, cmbSampleType.SelectedIndex);
+            redrawPipeline();
+            calculateFitness();
+           
         }
 
         private void cmbSampleType_SelectedIndexChanged(object sender, EventArgs e)
