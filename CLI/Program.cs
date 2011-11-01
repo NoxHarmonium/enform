@@ -33,9 +33,12 @@ namespace ENFORM.CLI
             Console.WriteLine("Switching to file logging system now...");
                    
             
-            Thread.CurrentThread.Name = "Main Thread";
+            //Thread.CurrentThread.Name = "Main Thread";
+            Console.WriteLine("Thread name changed...");
             Utils.Logger = new SQLiteLogger();
             Utils.Logger.StartLogger();
+
+            Console.WriteLine("Logger started...");
 
             if (args.Length == 2)
             {

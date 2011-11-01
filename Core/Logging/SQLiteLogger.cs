@@ -26,7 +26,7 @@ namespace ENFORM.Core.Logging
 
         private int sessionID = -1;
         private SQLiteDatabase database;
-        private bool writeToStdOut = false;
+        private bool writeToStdOut = true;
 
         public bool WriteToStdOut
         {
@@ -36,16 +36,17 @@ namespace ENFORM.Core.Logging
 
         public void StartLogger()
         {
-            
+            Console.WriteLine("Creating new database instance...");
             database = new SQLiteDatabase("log.sqlite");
             if (!File.Exists("log.sqlite"))
             {
+                Console.WriteLine("Creating blank log file...");
                 SQLiteConnection.CreateFile("log.sqlite");
                 
                 database.RunQueryNoResult(databaseSQL);
             }
 
-
+            Console.WriteLine("Adding session...");
             DataSet result = database.RunQuery(
                 "INSERT INTO Sessions VALUES (NULL,datetime('now','localtime'));" + 
                 "SELECT last_insert_rowid();");
