@@ -77,6 +77,8 @@
             this.lstInputGroups = new System.Windows.Forms.ListBox();
             this.tabOptimisation = new System.Windows.Forms.TabPage();
             this.grpEndCond = new System.Windows.Forms.GroupBox();
+            this.lblBufferSize = new System.Windows.Forms.Label();
+            this.txtBufferSize = new System.Windows.Forms.TextBox();
             this.txtMaxTime = new System.Windows.Forms.TextBox();
             this.lblMaxTime = new System.Windows.Forms.Label();
             this.lblMinError = new System.Windows.Forms.Label();
@@ -145,8 +147,6 @@
             this.btnSaveRun = new System.Windows.Forms.Button();
             this.colourPicker1 = new ENFORM.GUI.ColourPicker();
             this.imageViewer1 = new ENFORM.GUI.ImageViewer();
-            this.txtBufferSize = new System.Windows.Forms.TextBox();
-            this.lblBufferSize = new System.Windows.Forms.Label();
             this.tabMain.SuspendLayout();
             this.tabTestData.SuspendLayout();
             this.tabInnerTestData.SuspendLayout();
@@ -758,6 +758,23 @@
             this.grpEndCond.TabIndex = 4;
             this.grpEndCond.TabStop = false;
             this.grpEndCond.Text = "Global Parameters";
+            // 
+            // lblBufferSize
+            // 
+            this.lblBufferSize.AutoSize = true;
+            this.lblBufferSize.Location = new System.Drawing.Point(49, 101);
+            this.lblBufferSize.Name = "lblBufferSize";
+            this.lblBufferSize.Size = new System.Drawing.Size(61, 13);
+            this.lblBufferSize.TabIndex = 12;
+            this.lblBufferSize.Text = "Buffer Size:";
+            // 
+            // txtBufferSize
+            // 
+            this.txtBufferSize.Location = new System.Drawing.Point(116, 98);
+            this.txtBufferSize.Name = "txtBufferSize";
+            this.txtBufferSize.Size = new System.Drawing.Size(100, 20);
+            this.txtBufferSize.TabIndex = 11;
+            this.txtBufferSize.Text = "100000";
             // 
             // txtMaxTime
             // 
@@ -1465,23 +1482,6 @@
             this.imageViewer1.TabIndex = 1;
             this.imageViewer1.Load += new System.EventHandler(this.imageViewer1_Load);
             this.imageViewer1.Paint += new System.Windows.Forms.PaintEventHandler(this.imageViewer1_Paint);
-            // 
-            // txtBufferSize
-            // 
-            this.txtBufferSize.Location = new System.Drawing.Point(116, 98);
-            this.txtBufferSize.Name = "txtBufferSize";
-            this.txtBufferSize.Size = new System.Drawing.Size(100, 20);
-            this.txtBufferSize.TabIndex = 11;
-            this.txtBufferSize.Text = "100000";
-            // 
-            // lblBufferSize
-            // 
-            this.lblBufferSize.AutoSize = true;
-            this.lblBufferSize.Location = new System.Drawing.Point(49, 101);
-            this.lblBufferSize.Name = "lblBufferSize";
-            this.lblBufferSize.Size = new System.Drawing.Size(61, 13);
-            this.lblBufferSize.TabIndex = 12;
-            this.lblBufferSize.Text = "Buffer Size:";
             // 
             // frmRunEditor
             // 

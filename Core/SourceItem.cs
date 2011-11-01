@@ -25,6 +25,13 @@ namespace ENFORM.Core
         protected bool cached = false;
         protected Image internalImage;
         protected SourceType sourceType;
+        Preprocessor preprocessor = null;
+
+        public Preprocessor Preprocessor
+        {
+            get { return preprocessor; }
+            set { preprocessor = value; }
+        }
 
         public Size Size
         {
@@ -83,30 +90,42 @@ namespace ENFORM.Core
             {
                 if (cached)
                 {
-                    return internalImage;
+                    return preprocessor.Process((Bitmap)internalImage);
                 }
                 else
                 {
+                    Image img = null;
                     try
                     {
                         if (filename.ToLower().EndsWith(".ppm"))
                         {
-                            return new PixelMap.PixelMap(filename).BitMap;
+                            img = new PixelMap.PixelMap(filename).BitMap;
                         }
-                        return Image.FromFile(filename);
+                        else
+                        {
+                            img = Image.FromFile(filename);
+                        }
                     }
                     catch (Exception e)
                     {
                         Utils.Logger.Log("Error reading file.\n Exception: " + e.Message);
                     }
-                    return null;
+                    if (preprocessor != null && img != null)
+                    {
+                        return preprocessor.Process((Bitmap)img);
+                    }
+                    else
+                    {
+                        return img;
+                    }
                     
                 }
 
             }
             set
             {
-                internalImage = value;
+               
+                internalImage = value;                
                 size = internalImage.Size;
                 cached = true;
 

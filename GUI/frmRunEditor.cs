@@ -27,6 +27,7 @@ namespace ENFORM.GUI
         protected SourceItem currentSource = null;
         protected Optimiser optimisor;
 
+
         public frmRunEditor()
         {
             InitializeComponent();
@@ -305,8 +306,11 @@ namespace ENFORM.GUI
             preprocessor.ScalingMethod = (ScalingMethods)cmbScalingMethod.SelectedIndex;
             preprocessor.Threshold = chkThreshold.Checked;
             preprocessor.ThresholdStrength = numThreshold.Value;
-
-            imageViewer1.LoadImage(preprocessor.Process((Bitmap)currentSource.InternalImage));
+            
+            currentSource.Preprocessor = preprocessor;
+            
+            
+            imageViewer1.LoadImage(currentSource.InternalImage);
 
             if (filterLevel >= 2)
             {

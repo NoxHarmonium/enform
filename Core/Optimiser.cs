@@ -122,12 +122,14 @@ namespace ENFORM.Core
             InputGroup[] inputGroups = dataAccess.GetInputGroups();
             SourceItem[] sourceItems = dataAccess.GetSourceItems();
 
-            Utils.Logger.Log("Preprocessing images...");
+            /*
+            Utils.Logger.Log("Preprocessing images...");            
             foreach (SourceItem item in sourceItems)
             {
                 Utils.Logger.Log("Preprocessing item {0} ", item.Filename);
                 item.InternalImage = preprocessor.Process((Bitmap)item.InternalImage);
             }
+             */
 
             int total = 0;
             foreach (InputGroup inputGroup in inputGroups)
