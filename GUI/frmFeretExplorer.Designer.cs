@@ -35,7 +35,6 @@
             this.imageViewer1 = new ENFORM.GUI.ImageViewer();
             this.lstSelect = new System.Windows.Forms.ListView();
             this.clmFaceID = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.clmSelected = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.lstInfo = new System.Windows.Forms.ListView();
             this.clmKey = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.clmValue = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -68,28 +67,28 @@
             this.imageViewer1.Location = new System.Drawing.Point(343, 10);
             this.imageViewer1.Name = "imageViewer1";
             this.imageViewer1.ScalingMethod = ENFORM.Core.ScalingMethods.Nearest_Neighbor;
-            this.imageViewer1.Size = new System.Drawing.Size(258, 334);
+            this.imageViewer1.Size = new System.Drawing.Size(258, 360);
             this.imageViewer1.TabIndex = 1;
             // 
             // lstSelect
             // 
+            this.lstSelect.CheckBoxes = true;
             this.lstSelect.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.clmFaceID,
-            this.clmSelected});
+            this.clmFaceID});
+            this.lstSelect.FullRowSelect = true;
             this.lstSelect.Location = new System.Drawing.Point(12, 12);
+            this.lstSelect.MultiSelect = false;
             this.lstSelect.Name = "lstSelect";
-            this.lstSelect.Size = new System.Drawing.Size(134, 332);
+            this.lstSelect.Size = new System.Drawing.Size(134, 457);
             this.lstSelect.TabIndex = 3;
             this.lstSelect.UseCompatibleStateImageBehavior = false;
             this.lstSelect.View = System.Windows.Forms.View.Details;
+            this.lstSelect.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.lstSelect_ItemCheck);
+            this.lstSelect.SelectedIndexChanged += new System.EventHandler(this.lstSelect_SelectedIndexChanged);
             // 
             // clmFaceID
             // 
             this.clmFaceID.Text = "ID";
-            // 
-            // clmSelected
-            // 
-            this.clmSelected.Text = " ";
             // 
             // lstInfo
             // 
@@ -98,7 +97,7 @@
             this.clmValue});
             this.lstInfo.Location = new System.Drawing.Point(152, 12);
             this.lstInfo.Name = "lstInfo";
-            this.lstInfo.Size = new System.Drawing.Size(185, 332);
+            this.lstInfo.Size = new System.Drawing.Size(185, 457);
             this.lstInfo.TabIndex = 4;
             this.lstInfo.UseCompatibleStateImageBehavior = false;
             this.lstInfo.View = System.Windows.Forms.View.Details;
@@ -114,7 +113,7 @@
             // 
             // btnLoadData
             // 
-            this.btnLoadData.Location = new System.Drawing.Point(12, 451);
+            this.btnLoadData.Location = new System.Drawing.Point(12, 514);
             this.btnLoadData.Name = "btnLoadData";
             this.btnLoadData.Size = new System.Drawing.Size(75, 23);
             this.btnLoadData.TabIndex = 5;
@@ -124,7 +123,7 @@
             // 
             // txtQuery
             // 
-            this.txtQuery.Location = new System.Drawing.Point(56, 355);
+            this.txtQuery.Location = new System.Drawing.Point(56, 488);
             this.txtQuery.Name = "txtQuery";
             this.txtQuery.Size = new System.Drawing.Size(477, 20);
             this.txtQuery.TabIndex = 6;
@@ -133,7 +132,7 @@
             // lblQuery
             // 
             this.lblQuery.AutoSize = true;
-            this.lblQuery.Location = new System.Drawing.Point(12, 358);
+            this.lblQuery.Location = new System.Drawing.Point(12, 491);
             this.lblQuery.Name = "lblQuery";
             this.lblQuery.Size = new System.Drawing.Size(38, 13);
             this.lblQuery.TabIndex = 7;
@@ -143,7 +142,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(610, 486);
+            this.ClientSize = new System.Drawing.Size(610, 549);
             this.Controls.Add(this.lblQuery);
             this.Controls.Add(this.txtQuery);
             this.Controls.Add(this.btnLoadData);
@@ -152,6 +151,7 @@
             this.Controls.Add(this.imageViewer1);
             this.Name = "frmFeretExplorer";
             this.Text = "frmFeretExplorer";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmFeretExplorer_FormClosing);
             this.Load += new System.EventHandler(this.frmFeretExplorer_Load);
             ((System.ComponentModel.ISupportInitialize)(this.feretDataSet)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.facesBindingSource)).EndInit();
@@ -168,7 +168,6 @@
         private ImageViewer imageViewer1;
         private System.Windows.Forms.ListView lstSelect;
         private System.Windows.Forms.ColumnHeader clmFaceID;
-        private System.Windows.Forms.ColumnHeader clmSelected;
         private System.Windows.Forms.ListView lstInfo;
         private System.Windows.Forms.ColumnHeader clmKey;
         private System.Windows.Forms.ColumnHeader clmValue;

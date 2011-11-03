@@ -294,6 +294,10 @@
       <Project>{9B4DA48C-6D11-46C9-A63D-D369E9C5FE42}</Project>
       <Name>FileDlgExtenders_v10</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Pixelmap\PixelMap.csproj">
+      <Project>{74EE3A85-61D9-4864-BDEF-106E0C5A7748}</Project>
+      <Name>PixelMap</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
