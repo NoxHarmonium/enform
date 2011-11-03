@@ -11,6 +11,7 @@ using NeuronDotNet.Core;
 using NeuronDotNet.Core.Initializers;
 using NeuronDotNet.Core.PSO;
 using ENFORM.Core;
+using ENFORM.Core.Logging;
 using System.Threading;
 
 namespace ENFORM.GUI
@@ -23,7 +24,8 @@ namespace ENFORM.GUI
         {
             Thread.CurrentThread.Name = "Main UI Thread";
             InitializeComponent();
-            Utils.Logger = new GUILogger();
+            Utils.Logger = new SQLiteLogger();
+            
             Utils.Logger.StartLogger();
             Utils.Logger.Log("ENFORM booting up....");
         }
@@ -81,7 +83,14 @@ namespace ENFORM.GUI
 
         private void frmMainMenu_Shown(object sender, EventArgs e)
         {
-            ((GUILogger)Utils.Logger).SetLogWindowLocation(this.Location.X, this.Location.Y + this.Size.Height + 50);
+            try
+            {
+                ((GUILogger)Utils.Logger).SetLogWindowLocation(this.Location.X, this.Location.Y + this.Size.Height + 50);
+            }
+            catch (Exception)
+            {
+
+            }
         }
 
 
@@ -129,6 +138,14 @@ namespace ENFORM.GUI
             a.Finish();
              
             */
+        }
+
+        private void btnFaceExplorer_Click(object sender, EventArgs e)
+        {
+            frmFeretExplorer explorer = new frmFeretExplorer();
+
+            Utils.Logger.Log("Opening face explorer....");
+            explorer.Show(this);
         }
 
        

@@ -38,6 +38,7 @@ namespace CustomControls
             this.lblSizeValue = new System.Windows.Forms.Label();
             this.lblFormatValue = new System.Windows.Forms.Label();
             this.lblColorsValue = new System.Windows.Forms.Label();
+            this.cmbSampleType = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbxPreview)).BeginInit();
             this.SuspendLayout();
@@ -66,7 +67,7 @@ namespace CustomControls
             // lblColors
             // 
             this.lblColors.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblColors.Location = new System.Drawing.Point(5, 309);
+            this.lblColors.Location = new System.Drawing.Point(5, 303);
             this.lblColors.Name = "lblColors";
             this.lblColors.Size = new System.Drawing.Size(42, 13);
             this.lblColors.TabIndex = 3;
@@ -75,7 +76,7 @@ namespace CustomControls
             // lblFormat
             // 
             this.lblFormat.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblFormat.Location = new System.Drawing.Point(5, 273);
+            this.lblFormat.Location = new System.Drawing.Point(5, 267);
             this.lblFormat.Name = "lblFormat";
             this.lblFormat.Size = new System.Drawing.Size(42, 13);
             this.lblFormat.TabIndex = 4;
@@ -84,7 +85,7 @@ namespace CustomControls
             // lblSize
             // 
             this.lblSize.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblSize.Location = new System.Drawing.Point(5, 291);
+            this.lblSize.Location = new System.Drawing.Point(5, 285);
             this.lblSize.Name = "lblSize";
             this.lblSize.Size = new System.Drawing.Size(42, 13);
             this.lblSize.TabIndex = 5;
@@ -93,7 +94,7 @@ namespace CustomControls
             // lblSizeValue
             // 
             this.lblSizeValue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblSizeValue.Location = new System.Drawing.Point(53, 291);
+            this.lblSizeValue.Location = new System.Drawing.Point(53, 285);
             this.lblSizeValue.Name = "lblSizeValue";
             this.lblSizeValue.Size = new System.Drawing.Size(178, 13);
             this.lblSizeValue.TabIndex = 8;
@@ -101,7 +102,7 @@ namespace CustomControls
             // lblFormatValue
             // 
             this.lblFormatValue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblFormatValue.Location = new System.Drawing.Point(53, 273);
+            this.lblFormatValue.Location = new System.Drawing.Point(53, 267);
             this.lblFormatValue.Name = "lblFormatValue";
             this.lblFormatValue.Size = new System.Drawing.Size(178, 13);
             this.lblFormatValue.TabIndex = 7;
@@ -109,15 +110,27 @@ namespace CustomControls
             // lblColorsValue
             // 
             this.lblColorsValue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblColorsValue.Location = new System.Drawing.Point(53, 309);
+            this.lblColorsValue.Location = new System.Drawing.Point(53, 303);
             this.lblColorsValue.Name = "lblColorsValue";
             this.lblColorsValue.Size = new System.Drawing.Size(178, 13);
             this.lblColorsValue.TabIndex = 6;
+            // 
+            // cmbSampleType
+            // 
+            this.cmbSampleType.FormattingEnabled = true;
+            this.cmbSampleType.Items.AddRange(new object[] {
+            "Positive Sample",
+            "Negitive Sample"});
+            this.cmbSampleType.Location = new System.Drawing.Point(8, 267);
+            this.cmbSampleType.Name = "cmbSampleType";
+            this.cmbSampleType.Size = new System.Drawing.Size(121, 21);
+            this.cmbSampleType.TabIndex = 9;
             // 
             // MyOpenFileDialogControl
             // 
             this.BackColor = System.Drawing.SystemColors.Control;
             this.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.Controls.Add(this.cmbSampleType);
             this.Controls.Add(this.lblSizeValue);
             this.Controls.Add(this.lblFormatValue);
             this.Controls.Add(this.lblColorsValue);
@@ -155,5 +168,6 @@ namespace CustomControls
         private System.Windows.Forms.Label lblSizeValue;
         private System.Windows.Forms.Label lblFormatValue;
         private System.Windows.Forms.Label lblColorsValue;
+        private System.Windows.Forms.ComboBox cmbSampleType;
     }
 }

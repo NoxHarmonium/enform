@@ -36,10 +36,21 @@ namespace CustomControls
     
     public partial class MyOpenFileDialogControl : FileDialogControlBase
     {
+
+        public int SampleType
+        {
+            get
+            {
+                return 1 -cmbSampleType.SelectedIndex;
+            }
+
+        }
+        
         #region Constructors
         public MyOpenFileDialogControl()
         {
             InitializeComponent();
+            cmbSampleType.SelectedIndex = 0;
         }
         #endregion
 

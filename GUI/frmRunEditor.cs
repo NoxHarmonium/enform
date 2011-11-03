@@ -79,12 +79,12 @@ namespace ENFORM.GUI
 
            if (r == DialogResult.OK)
             {
-
+               
                 if ((dlgLoad.MSDialog as OpenFileDialog).FileNames.Length > 0)
                 {
                     foreach (String s in (dlgLoad.MSDialog as OpenFileDialog).FileNames)
                     {
-                        SourceItem item = new SourceItem(s, 0);
+                        SourceItem item = new SourceItem(s, dlgLoad.SampleType);
 
                         ListViewItem newItem = lstInputs.Items.Add(new ListViewItem(item.GetStringValues()));
                         sourceItems.Add(newItem.GetHashCode(), item);
@@ -128,13 +128,14 @@ namespace ENFORM.GUI
                     redrawPipeline();
                     
                     
-                }                    
+                } 
                 catch (Exception ex)
                 {
                     MessageBox.Show("Error loading the selected file as an image.\n" + ex.Message + ex.StackTrace);
                     imageViewer1.LoadImage(ENFORM.GUI.Properties.Resources.Error);
                     
                 }
+                 
                      
 
             }
@@ -563,6 +564,22 @@ namespace ENFORM.GUI
                 dlgSave.Title = "Save run file as...";
                 if (dlgSave.ShowDialog() == DialogResult.OK)
                 {
+                     Preprocessor preprocessor = new Preprocessor();
+                    preprocessor.Bradley = chkBradley.Checked;
+                    preprocessor.ContrastAdjustment = chkContrast.Checked;
+                    preprocessor.ContrastStrength = numContrast.Value;
+                    preprocessor.ContrastStretch = chkContastStretch.Checked;
+                    preprocessor.FilterLevel = filterLevel;
+                    preprocessor.Gaussian = chkGaussian.Checked;
+                    preprocessor.GaussianStrength = numBlurStrength.Value;
+                    preprocessor.Greyscale = chkGreyscale.Checked;
+                    preprocessor.Histogram = chkHistogram.Checked;
+                    preprocessor.ImageSize = new Size(Int32.Parse(txtWidth.Text), Int32.Parse(txtHeight.Text));
+                    preprocessor.KeepAspectRatio = chkAspect.Checked;
+                    preprocessor.ScalingMethod = (ScalingMethods)cmbScalingMethod.SelectedIndex;
+                    preprocessor.Threshold = chkThreshold.Checked;
+                    preprocessor.ThresholdStrength = numThreshold.Value;
+                    
                     Utils.Logger.Log("Caching all images to store in run file...");
                     if (chkEmbed.Checked)
                     {
@@ -584,7 +601,15 @@ namespace ENFORM.GUI
                     foreach (SourceItem item in values)
                     {
                         Utils.Logger.Log("->Saving Image: " + item.Filename);
-                        dataAccess.AddSource(count++,item);
+                        item.Preprocessor = preprocessor;
+                        try
+                        {
+                            dataAccess.AddSource(count++, item);
+                        }
+                        catch
+                        {
+                            Utils.Logger.Log("Warning... error saving source... skipping");
+                        }
                     }
 
                     Utils.Logger.Log("Saving parameters...");

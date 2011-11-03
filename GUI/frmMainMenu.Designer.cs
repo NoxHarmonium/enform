@@ -35,6 +35,7 @@
             this.btnLaunchOptimiser = new System.Windows.Forms.Button();
             this.btnLaunchTester = new System.Windows.Forms.Button();
             this.btnAnalyser = new System.Windows.Forms.Button();
+            this.btnFaceExplorer = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lblTitle
@@ -105,11 +106,24 @@
             this.btnAnalyser.UseVisualStyleBackColor = true;
             this.btnAnalyser.Click += new System.EventHandler(this.btnAnalyser_Click);
             // 
+            // btnFaceExplorer
+            // 
+            this.btnFaceExplorer.Image = ((System.Drawing.Image)(resources.GetObject("btnFaceExplorer.Image")));
+            this.btnFaceExplorer.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnFaceExplorer.Location = new System.Drawing.Point(12, 352);
+            this.btnFaceExplorer.Name = "btnFaceExplorer";
+            this.btnFaceExplorer.Size = new System.Drawing.Size(251, 61);
+            this.btnFaceExplorer.TabIndex = 6;
+            this.btnFaceExplorer.Text = "Launch Face Explorer";
+            this.btnFaceExplorer.UseVisualStyleBackColor = true;
+            this.btnFaceExplorer.Click += new System.EventHandler(this.btnFaceExplorer_Click);
+            // 
             // frmMainMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(275, 353);
+            this.ClientSize = new System.Drawing.Size(275, 419);
+            this.Controls.Add(this.btnFaceExplorer);
             this.Controls.Add(this.btnAnalyser);
             this.Controls.Add(this.btnLaunchTester);
             this.Controls.Add(this.btnLaunchOptimiser);
@@ -134,5 +148,6 @@
         private System.Windows.Forms.Button btnLaunchOptimiser;
         private System.Windows.Forms.Button btnLaunchTester;
         private System.Windows.Forms.Button btnAnalyser;
+        private System.Windows.Forms.Button btnFaceExplorer;
     }
 }

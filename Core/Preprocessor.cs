@@ -157,8 +157,11 @@ namespace ENFORM.Core
 
 
         Bitmap convertFormatTo32(Bitmap image)
-        {
+        {           
+            
+          
             return AForge.Imaging.Image.Clone(image, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            
             /*
             return image.Clone(
                 new Rectangle(0,

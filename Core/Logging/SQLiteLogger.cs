@@ -27,6 +27,8 @@ namespace ENFORM.Core.Logging
         private int sessionID = -1;
         private SQLiteDatabase database;
         private bool writeToStdOut = true;
+        private Object lockObject = new Object();
+        private string filename = "c:/temp/log.sqlite3";
 
         public bool WriteToStdOut
         {
@@ -37,11 +39,13 @@ namespace ENFORM.Core.Logging
         public void StartLogger()
         {
             Console.WriteLine("Creating new database instance...");
-            database = new SQLiteDatabase("log.sqlite");
-            if (!File.Exists("log.sqlite"))
+
+
+            database = new SQLiteDatabase(filename);
+            if (!File.Exists(filename))
             {
                 Console.WriteLine("Creating blank log file...");
-                SQLiteConnection.CreateFile("log.sqlite");
+                SQLiteConnection.CreateFile(filename);
                 
                 database.RunQueryNoResult(databaseSQL);
             }
@@ -60,12 +64,21 @@ namespace ENFORM.Core.Logging
 
         public void Log(string message)
         {
-            lock (database)
+           
+            lock (lockObject)
             {
-                database.RunQueryNoResult("INSERT INTO Log VALUES (NULL,'" +
-                    sessionID.ToString() + "','" +
-                    Thread.CurrentThread.Name + "','" +
-                    message + "',datetime('now','localtime'));");
+                try
+                {
+                    database.RunQueryNoResult("INSERT INTO Log VALUES (NULL,'" +
+                        sessionID.ToString() + "','" +
+                        Thread.CurrentThread.Name + "','" +
+                        message + "',datetime('now','localtime'));");
+                }
+                catch (Exception e)
+                {
+                    throw new Exception("Logging fail.\nAttempted to log:\n\"" + message + "\"", e);
+
+                }
             }
             if (writeToStdOut)
             {

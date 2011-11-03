@@ -112,6 +112,17 @@
     <Compile Include="ColourPicker.Designer.cs">
       <DependentUpon>ColourPicker.cs</DependentUpon>
     </Compile>
+    <Compile Include="feretDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>feretDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="frmFeretExplorer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmFeretExplorer.Designer.cs">
+      <DependentUpon>frmFeretExplorer.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmMainMenu.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -173,6 +184,9 @@
     <EmbeddedResource Include="ColourPicker.resx">
       <DependentUpon>ColourPicker.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmFeretExplorer.resx">
+      <DependentUpon>frmFeretExplorer.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmMainMenu.resx">
       <DependentUpon>frmMainMenu.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -215,6 +229,17 @@
     </EmbeddedResource>
     <None Include="app.config" />
     <None Include="db\template.s3db" />
+    <None Include="feretDataSet.xsc">
+      <DependentUpon>feretDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="feretDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>feretDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="feretDataSet.xss">
+      <DependentUpon>feretDataSet.xsd</DependentUpon>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
