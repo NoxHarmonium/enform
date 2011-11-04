@@ -180,6 +180,15 @@
     <Compile Include="ResultsAnalyser.Designer.cs">
       <DependentUpon>ResultsAnalyser.cs</DependentUpon>
     </Compile>
+    <Compile Include="selectedSet.cs">
+      <DependentUpon>selectedSet.xsd</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="selectedSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>selectedSet.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Settings.cs" />
     <EmbeddedResource Include="ColourPicker.resx">
       <DependentUpon>ColourPicker.cs</DependentUpon>
@@ -249,6 +258,17 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="selectedSet.xsc">
+      <DependentUpon>selectedSet.xsd</DependentUpon>
+    </None>
+    <None Include="selectedSet.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>selectedSet.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="selectedSet.xss">
+      <DependentUpon>selectedSet.xsd</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="Images\Error.png" />

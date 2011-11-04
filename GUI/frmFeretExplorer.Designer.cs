@@ -30,31 +30,36 @@
         {
             this.components = new System.ComponentModel.Container();
             this.feretDataSet = new ENFORM.GUI.feretDataSet();
-            this.facesBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.facesTableAdapter = new ENFORM.GUI.feretDataSetTableAdapters.facesTableAdapter();
             this.imageViewer1 = new ENFORM.GUI.ImageViewer();
-            this.lstSelect = new System.Windows.Forms.ListView();
-            this.clmFaceID = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.lstInfo = new System.Windows.Forms.ListView();
             this.clmKey = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.clmValue = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.btnLoadData = new System.Windows.Forms.Button();
             this.txtQuery = new System.Windows.Forms.TextBox();
             this.lblQuery = new System.Windows.Forms.Label();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.selectedSetBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.selectedSet = new ENFORM.GUI.selectedSet();
+            this.selectedIndexBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.subjectidDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.trainingsetDataGridViewCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.testingsetDataGridViewCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.statusBar = new System.Windows.Forms.StatusStrip();
+            this.lblToolStrip = new System.Windows.Forms.ToolStripStatusLabel();
+            this.btnSaveSetList = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.feretDataSet)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.facesBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.selectedSetBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.selectedSet)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.selectedIndexBindingSource)).BeginInit();
+            this.statusBar.SuspendLayout();
             this.SuspendLayout();
             // 
             // feretDataSet
             // 
             this.feretDataSet.DataSetName = "feretDataSet";
             this.feretDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
-            // 
-            // facesBindingSource
-            // 
-            this.facesBindingSource.DataMember = "faces";
-            this.facesBindingSource.DataSource = this.feretDataSet;
-            this.facesBindingSource.CurrentChanged += new System.EventHandler(this.facesBindingSource_CurrentChanged);
             // 
             // facesTableAdapter
             // 
@@ -64,38 +69,18 @@
             // 
             this.imageViewer1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.imageViewer1.DrawingColour = System.Drawing.Color.Black;
-            this.imageViewer1.Location = new System.Drawing.Point(343, 10);
+            this.imageViewer1.Location = new System.Drawing.Point(356, 12);
             this.imageViewer1.Name = "imageViewer1";
             this.imageViewer1.ScalingMethod = ENFORM.Core.ScalingMethods.Nearest_Neighbor;
             this.imageViewer1.Size = new System.Drawing.Size(258, 360);
             this.imageViewer1.TabIndex = 1;
-            // 
-            // lstSelect
-            // 
-            this.lstSelect.CheckBoxes = true;
-            this.lstSelect.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.clmFaceID});
-            this.lstSelect.FullRowSelect = true;
-            this.lstSelect.Location = new System.Drawing.Point(12, 12);
-            this.lstSelect.MultiSelect = false;
-            this.lstSelect.Name = "lstSelect";
-            this.lstSelect.Size = new System.Drawing.Size(134, 457);
-            this.lstSelect.TabIndex = 3;
-            this.lstSelect.UseCompatibleStateImageBehavior = false;
-            this.lstSelect.View = System.Windows.Forms.View.Details;
-            this.lstSelect.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.lstSelect_ItemCheck);
-            this.lstSelect.SelectedIndexChanged += new System.EventHandler(this.lstSelect_SelectedIndexChanged);
-            // 
-            // clmFaceID
-            // 
-            this.clmFaceID.Text = "ID";
             // 
             // lstInfo
             // 
             this.lstInfo.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.clmKey,
             this.clmValue});
-            this.lstInfo.Location = new System.Drawing.Point(152, 12);
+            this.lstInfo.Location = new System.Drawing.Point(165, 12);
             this.lstInfo.Name = "lstInfo";
             this.lstInfo.Size = new System.Drawing.Size(185, 457);
             this.lstInfo.TabIndex = 4;
@@ -138,23 +123,117 @@
             this.lblQuery.TabIndex = 7;
             this.lblQuery.Text = "Query:";
             // 
+            // dataGridView1
+            // 
+            this.dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.AllowUserToDeleteRows = false;
+            this.dataGridView1.AutoGenerateColumns = false;
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.subjectidDataGridViewTextBoxColumn,
+            this.trainingsetDataGridViewCheckBoxColumn,
+            this.testingsetDataGridViewCheckBoxColumn});
+            this.dataGridView1.DataSource = this.selectedIndexBindingSource;
+            this.dataGridView1.Location = new System.Drawing.Point(12, 12);
+            this.dataGridView1.MultiSelect = false;
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridView1.Size = new System.Drawing.Size(147, 457);
+            this.dataGridView1.TabIndex = 8;
+            this.dataGridView1.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellClick);
+            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
+            this.dataGridView1.CurrentCellChanged += new System.EventHandler(this.dataGridView1_CurrentCellChanged);
+            this.dataGridView1.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_RowEnter);
+            this.dataGridView1.SelectionChanged += new System.EventHandler(this.dataGridView1_SelectionChanged);
+            // 
+            // selectedSetBindingSource
+            // 
+            this.selectedSetBindingSource.AllowNew = true;
+            this.selectedSetBindingSource.DataSource = this.selectedSet;
+            this.selectedSetBindingSource.Position = 0;
+            // 
+            // selectedSet
+            // 
+            this.selectedSet.DataSetName = "selectedSet";
+            this.selectedSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            // 
+            // selectedIndexBindingSource
+            // 
+            this.selectedIndexBindingSource.DataMember = "SelectedIndex";
+            this.selectedIndexBindingSource.DataSource = this.selectedSetBindingSource;
+            // 
+            // subjectidDataGridViewTextBoxColumn
+            // 
+            this.subjectidDataGridViewTextBoxColumn.DataPropertyName = "subjectid";
+            this.subjectidDataGridViewTextBoxColumn.HeaderText = "ID";
+            this.subjectidDataGridViewTextBoxColumn.Name = "subjectidDataGridViewTextBoxColumn";
+            this.subjectidDataGridViewTextBoxColumn.ReadOnly = true;
+            this.subjectidDataGridViewTextBoxColumn.Width = 30;
+            // 
+            // trainingsetDataGridViewCheckBoxColumn
+            // 
+            this.trainingsetDataGridViewCheckBoxColumn.DataPropertyName = "trainingset";
+            this.trainingsetDataGridViewCheckBoxColumn.HeaderText = "tRs";
+            this.trainingsetDataGridViewCheckBoxColumn.Name = "trainingsetDataGridViewCheckBoxColumn";
+            this.trainingsetDataGridViewCheckBoxColumn.Width = 30;
+            // 
+            // testingsetDataGridViewCheckBoxColumn
+            // 
+            this.testingsetDataGridViewCheckBoxColumn.DataPropertyName = "testingset";
+            this.testingsetDataGridViewCheckBoxColumn.HeaderText = "tEs";
+            this.testingsetDataGridViewCheckBoxColumn.Name = "testingsetDataGridViewCheckBoxColumn";
+            this.testingsetDataGridViewCheckBoxColumn.Width = 30;
+            // 
+            // statusBar
+            // 
+            this.statusBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.lblToolStrip});
+            this.statusBar.Location = new System.Drawing.Point(0, 546);
+            this.statusBar.Name = "statusBar";
+            this.statusBar.Size = new System.Drawing.Size(621, 22);
+            this.statusBar.TabIndex = 9;
+            this.statusBar.Text = "statusStrip1";
+            // 
+            // lblToolStrip
+            // 
+            this.lblToolStrip.Name = "lblToolStrip";
+            this.lblToolStrip.Size = new System.Drawing.Size(118, 17);
+            this.lblToolStrip.Text = "toolStripStatusLabel1";
+            // 
+            // btnSaveSetList
+            // 
+            this.btnSaveSetList.Location = new System.Drawing.Point(93, 514);
+            this.btnSaveSetList.Name = "btnSaveSetList";
+            this.btnSaveSetList.Size = new System.Drawing.Size(100, 23);
+            this.btnSaveSetList.TabIndex = 10;
+            this.btnSaveSetList.Text = "Save Set List";
+            this.btnSaveSetList.UseVisualStyleBackColor = true;
+            this.btnSaveSetList.Click += new System.EventHandler(this.btnSaveSetList_Click);
+            // 
             // frmFeretExplorer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(610, 549);
+            this.ClientSize = new System.Drawing.Size(621, 568);
+            this.Controls.Add(this.btnSaveSetList);
+            this.Controls.Add(this.statusBar);
+            this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.lblQuery);
             this.Controls.Add(this.txtQuery);
             this.Controls.Add(this.btnLoadData);
             this.Controls.Add(this.lstInfo);
-            this.Controls.Add(this.lstSelect);
             this.Controls.Add(this.imageViewer1);
             this.Name = "frmFeretExplorer";
             this.Text = "frmFeretExplorer";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmFeretExplorer_FormClosing);
             this.Load += new System.EventHandler(this.frmFeretExplorer_Load);
             ((System.ComponentModel.ISupportInitialize)(this.feretDataSet)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.facesBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.selectedSetBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.selectedSet)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.selectedIndexBindingSource)).EndInit();
+            this.statusBar.ResumeLayout(false);
+            this.statusBar.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -163,16 +242,23 @@
         #endregion
 
         private feretDataSet feretDataSet;
-        private System.Windows.Forms.BindingSource facesBindingSource;
         private feretDataSetTableAdapters.facesTableAdapter facesTableAdapter;
         private ImageViewer imageViewer1;
-        private System.Windows.Forms.ListView lstSelect;
-        private System.Windows.Forms.ColumnHeader clmFaceID;
         private System.Windows.Forms.ListView lstInfo;
         private System.Windows.Forms.ColumnHeader clmKey;
         private System.Windows.Forms.ColumnHeader clmValue;
         private System.Windows.Forms.Button btnLoadData;
         private System.Windows.Forms.TextBox txtQuery;
         private System.Windows.Forms.Label lblQuery;
+        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.BindingSource selectedSetBindingSource;
+        private selectedSet selectedSet;
+        private System.Windows.Forms.DataGridViewTextBoxColumn subjectidDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn trainingsetDataGridViewCheckBoxColumn;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn testingsetDataGridViewCheckBoxColumn;
+        private System.Windows.Forms.BindingSource selectedIndexBindingSource;
+        private System.Windows.Forms.StatusStrip statusBar;
+        private System.Windows.Forms.ToolStripStatusLabel lblToolStrip;
+        private System.Windows.Forms.Button btnSaveSetList;
     }
 }

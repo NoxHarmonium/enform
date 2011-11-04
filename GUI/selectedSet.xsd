@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="selectedSet" targetNamespace="http://tempuri.org/selectedSet.xsd" xmlns:mstns="http://tempuri.org/selectedSet.xsd" xmlns="http://tempuri.org/selectedSet.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="selectedSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="selectedSet" msprop:Generator_UserDSName="selectedSet">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="SelectedIndex" msprop:Generator_TableClassName="SelectedIndexDataTable" msprop:Generator_TableVarName="tableSelectedIndex" msprop:Generator_TablePropName="SelectedIndex" msprop:Generator_RowDeletingName="SelectedIndexRowDeleting" msprop:Generator_UserTableName="SelectedIndex" msprop:Generator_RowChangingName="SelectedIndexRowChanging" msprop:Generator_RowEvHandlerName="SelectedIndexRowChangeEventHandler" msprop:Generator_RowDeletedName="SelectedIndexRowDeleted" msprop:Generator_RowEvArgName="SelectedIndexRowChangeEvent" msprop:Generator_RowChangedName="SelectedIndexRowChanged" msprop:Generator_RowClassName="SelectedIndexRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="subjectid" msprop:Generator_ColumnVarNameInTable="columnsubjectid" msprop:Generator_ColumnPropNameInRow="subjectid" msprop:Generator_ColumnPropNameInTable="subjectidColumn" msprop:Generator_UserColumnName="subjectid" type="xs:int" />
+              <xs:element name="trainingset" msprop:Generator_ColumnVarNameInTable="columntrainingset" msprop:Generator_ColumnPropNameInRow="trainingset" msprop:Generator_ColumnPropNameInTable="trainingsetColumn" msprop:Generator_UserColumnName="trainingset" type="xs:boolean" />
+              <xs:element name="testingset" msprop:Generator_ColumnVarNameInTable="columntestingset" msprop:Generator_ColumnPropNameInRow="testingset" msprop:Generator_ColumnPropNameInTable="testingsetColumn" msprop:Generator_UserColumnName="testingset" type="xs:boolean" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:SelectedIndex" />
+      <xs:field xpath="mstns:subjectid" />
+    </xs:unique>
+  </xs:element>
+</xs:schema>
