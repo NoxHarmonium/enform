@@ -36,6 +36,7 @@
             this.btnLaunchTester = new System.Windows.Forms.Button();
             this.btnAnalyser = new System.Windows.Forms.Button();
             this.btnFaceExplorer = new System.Windows.Forms.Button();
+            this.btnImageTool = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lblTitle
@@ -118,11 +119,24 @@
             this.btnFaceExplorer.UseVisualStyleBackColor = true;
             this.btnFaceExplorer.Click += new System.EventHandler(this.btnFaceExplorer_Click);
             // 
+            // btnImageTool
+            // 
+            this.btnImageTool.Image = ((System.Drawing.Image)(resources.GetObject("btnImageTool.Image")));
+            this.btnImageTool.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnImageTool.Location = new System.Drawing.Point(12, 419);
+            this.btnImageTool.Name = "btnImageTool";
+            this.btnImageTool.Size = new System.Drawing.Size(251, 61);
+            this.btnImageTool.TabIndex = 7;
+            this.btnImageTool.Text = "Inanimate Image Tool";
+            this.btnImageTool.UseVisualStyleBackColor = true;
+            this.btnImageTool.Click += new System.EventHandler(this.btnImageTool_Click);
+            // 
             // frmMainMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(275, 419);
+            this.ClientSize = new System.Drawing.Size(275, 486);
+            this.Controls.Add(this.btnImageTool);
             this.Controls.Add(this.btnFaceExplorer);
             this.Controls.Add(this.btnAnalyser);
             this.Controls.Add(this.btnLaunchTester);
@@ -149,5 +163,6 @@
         private System.Windows.Forms.Button btnLaunchTester;
         private System.Windows.Forms.Button btnAnalyser;
         private System.Windows.Forms.Button btnFaceExplorer;
+        private System.Windows.Forms.Button btnImageTool;
     }
 }

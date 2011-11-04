@@ -148,6 +148,12 @@ namespace ENFORM.GUI
             explorer.Show(this);
         }
 
+        private void btnImageTool_Click(object sender, EventArgs e)
+        {
+            frmImageTool imageTool = new frmImageTool();
+            imageTool.Show(this);
+        }
+
        
 
        
