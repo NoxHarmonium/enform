@@ -1489,7 +1489,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(794, 425);
             this.Controls.Add(this.colourPicker1);
-            this.Controls.Add(this.imageViewer1);
+            //imageViewer1this.Controls.Add(this.imageViewer1);
             this.Controls.Add(this.tabMain);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;

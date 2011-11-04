@@ -39,20 +39,22 @@
             this.txtQuery = new System.Windows.Forms.TextBox();
             this.lblQuery = new System.Windows.Forms.Label();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.selectedSetBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.selectedSet = new ENFORM.GUI.selectedSet();
-            this.selectedIndexBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.subjectidDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.trainingsetDataGridViewCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.testingsetDataGridViewCheckBoxColumn = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.selectedIndexBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.selectedSetBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.selectedSet = new ENFORM.GUI.selectedSet();
             this.statusBar = new System.Windows.Forms.StatusStrip();
             this.lblToolStrip = new System.Windows.Forms.ToolStripStatusLabel();
             this.btnSaveSetList = new System.Windows.Forms.Button();
+            this.btnSelectAlternate = new System.Windows.Forms.Button();
+            this.btnSelectNone = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.feretDataSet)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.selectedIndexBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.selectedSetBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.selectedSet)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.selectedIndexBindingSource)).BeginInit();
             this.statusBar.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -147,22 +149,6 @@
             this.dataGridView1.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_RowEnter);
             this.dataGridView1.SelectionChanged += new System.EventHandler(this.dataGridView1_SelectionChanged);
             // 
-            // selectedSetBindingSource
-            // 
-            this.selectedSetBindingSource.AllowNew = true;
-            this.selectedSetBindingSource.DataSource = this.selectedSet;
-            this.selectedSetBindingSource.Position = 0;
-            // 
-            // selectedSet
-            // 
-            this.selectedSet.DataSetName = "selectedSet";
-            this.selectedSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
-            // 
-            // selectedIndexBindingSource
-            // 
-            this.selectedIndexBindingSource.DataMember = "SelectedIndex";
-            this.selectedIndexBindingSource.DataSource = this.selectedSetBindingSource;
-            // 
             // subjectidDataGridViewTextBoxColumn
             // 
             this.subjectidDataGridViewTextBoxColumn.DataPropertyName = "subjectid";
@@ -184,6 +170,22 @@
             this.testingsetDataGridViewCheckBoxColumn.HeaderText = "tEs";
             this.testingsetDataGridViewCheckBoxColumn.Name = "testingsetDataGridViewCheckBoxColumn";
             this.testingsetDataGridViewCheckBoxColumn.Width = 30;
+            // 
+            // selectedIndexBindingSource
+            // 
+            this.selectedIndexBindingSource.DataMember = "SelectedIndex";
+            this.selectedIndexBindingSource.DataSource = this.selectedSetBindingSource;
+            // 
+            // selectedSetBindingSource
+            // 
+            this.selectedSetBindingSource.AllowNew = true;
+            this.selectedSetBindingSource.DataSource = this.selectedSet;
+            this.selectedSetBindingSource.Position = 0;
+            // 
+            // selectedSet
+            // 
+            this.selectedSet.DataSetName = "selectedSet";
+            this.selectedSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
             // 
             // statusBar
             // 
@@ -211,11 +213,33 @@
             this.btnSaveSetList.UseVisualStyleBackColor = true;
             this.btnSaveSetList.Click += new System.EventHandler(this.btnSaveSetList_Click);
             // 
+            // btnSelectAlternate
+            // 
+            this.btnSelectAlternate.Location = new System.Drawing.Point(199, 514);
+            this.btnSelectAlternate.Name = "btnSelectAlternate";
+            this.btnSelectAlternate.Size = new System.Drawing.Size(100, 23);
+            this.btnSelectAlternate.TabIndex = 11;
+            this.btnSelectAlternate.Text = "Select Alternate";
+            this.btnSelectAlternate.UseVisualStyleBackColor = true;
+            this.btnSelectAlternate.Click += new System.EventHandler(this.btnSelectAlternate_Click);
+            // 
+            // btnSelectNone
+            // 
+            this.btnSelectNone.Location = new System.Drawing.Point(305, 514);
+            this.btnSelectNone.Name = "btnSelectNone";
+            this.btnSelectNone.Size = new System.Drawing.Size(100, 23);
+            this.btnSelectNone.TabIndex = 12;
+            this.btnSelectNone.Text = "Select None";
+            this.btnSelectNone.UseVisualStyleBackColor = true;
+            this.btnSelectNone.Click += new System.EventHandler(this.btnSelectNone_Click);
+            // 
             // frmFeretExplorer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(621, 568);
+            this.Controls.Add(this.btnSelectNone);
+            this.Controls.Add(this.btnSelectAlternate);
             this.Controls.Add(this.btnSaveSetList);
             this.Controls.Add(this.statusBar);
             this.Controls.Add(this.dataGridView1);
@@ -230,9 +254,9 @@
             this.Load += new System.EventHandler(this.frmFeretExplorer_Load);
             ((System.ComponentModel.ISupportInitialize)(this.feretDataSet)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.selectedIndexBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.selectedSetBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.selectedSet)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.selectedIndexBindingSource)).EndInit();
             this.statusBar.ResumeLayout(false);
             this.statusBar.PerformLayout();
             this.ResumeLayout(false);
@@ -261,5 +285,7 @@
         private System.Windows.Forms.StatusStrip statusBar;
         private System.Windows.Forms.ToolStripStatusLabel lblToolStrip;
         private System.Windows.Forms.Button btnSaveSetList;
+        private System.Windows.Forms.Button btnSelectAlternate;
+        private System.Windows.Forms.Button btnSelectNone;
     }
 }

@@ -458,7 +458,7 @@ namespace ENFORM.GUI
 
                             if (row.testingset || row.trainingset)
                             {
-                                w.WriteLine(row.subjectid.ToString() + "," + Convert.ToInt32(row.trainingset).ToString() + "," + Convert.ToInt32(row.testingset).ToString());
+                                w.WriteLine(row.subjectid.ToString() + "," + Convert.ToInt32(row.trainingset).ToString() + "," + Convert.ToInt32(row.testingset).ToString() + "," + feretDataSet.faces.Select("subjectid=" +row.subjectid.ToString())[0]["filename"].ToString() );
                             }
 
                         }
@@ -466,6 +466,27 @@ namespace ENFORM.GUI
                     }
                 }
 
+            }
+        }
+
+        private void btnSelectAlternate_Click(object sender, EventArgs e)
+        {
+            bool flipper = false;
+            foreach (DataGridViewRow row in dataGridView1.Rows)
+            {
+                row.Cells[1].Value = flipper;
+                row.Cells[2].Value = !flipper;
+                flipper = !flipper;
+            }
+        }
+
+        private void btnSelectNone_Click(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow row in dataGridView1.Rows)
+            {
+                row.Cells[1].Value = false;
+                row.Cells[2].Value = false;
+               
             }
         }
 
