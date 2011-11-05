@@ -312,7 +312,12 @@ namespace PixelMap
             IntPtr pImageData = Marshal.AllocHGlobal(this.imageData.Length);
             Marshal.Copy(this.imageData, 0, pImageData, this.imageData.Length);
             Bitmap bitmap = new Bitmap(this.header.Width, this.header.Height, this.stride, this.pixelFormat, pImageData);
-            return bitmap;
+            
+            Bitmap cloney = new Bitmap(this.header.Width, this.header.Height, this.pixelFormat);
+            Graphics.FromImage(cloney).DrawImage(bitmap, new Point(0, 0));
+            bitmap.Dispose();
+            Marshal.FreeHGlobal(pImageData);
+            return cloney;
         }
 
         private Bitmap CreateGreyMap()
