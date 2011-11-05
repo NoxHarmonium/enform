@@ -51,6 +51,17 @@ namespace ENFORM.Core
             CreateNewRunFile(filename);
         }
 
+        public void StartTransaction()
+        {
+            database.StartTransaction();
+        }
+
+
+        public void CommitTransaction()
+        {
+            database.CommitTransaction();
+        }
+
         public string GetParameter(string key)
         {
             string query = 

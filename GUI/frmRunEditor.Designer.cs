@@ -383,15 +383,15 @@
             // 
             // btnGetFERETImages
             // 
-            this.btnGetFERETImages.Enabled = false;
             this.btnGetFERETImages.Image = ((System.Drawing.Image)(resources.GetObject("btnGetFERETImages.Image")));
             this.btnGetFERETImages.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnGetFERETImages.Location = new System.Drawing.Point(9, 115);
             this.btnGetFERETImages.Name = "btnGetFERETImages";
             this.btnGetFERETImages.Size = new System.Drawing.Size(236, 50);
             this.btnGetFERETImages.TabIndex = 4;
-            this.btnGetFERETImages.Text = "Add images from FERET database";
+            this.btnGetFERETImages.Text = "Add images from EList file";
             this.btnGetFERETImages.UseVisualStyleBackColor = true;
+            this.btnGetFERETImages.Click += new System.EventHandler(this.btnGetFERETImages_Click);
             // 
             // tabPreproc
             // 
@@ -1489,7 +1489,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(794, 425);
             this.Controls.Add(this.colourPicker1);
-            //imageViewer1this.Controls.Add(this.imageViewer1);
             this.Controls.Add(this.tabMain);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;

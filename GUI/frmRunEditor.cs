@@ -11,10 +11,13 @@ using NeuronDotNet.Core.Backpropagation;
 using NeuronDotNet.Core.Initializers;
 using ENFORM.Core;
 using CustomControls;
+using System.IO;
 
 
 namespace ENFORM.GUI
 {
+    
+    
     public partial class frmRunEditor : Form
     {
 
@@ -26,6 +29,7 @@ namespace ENFORM.GUI
         protected CustomImage currentImage = null;
         protected SourceItem currentSource = null;
         protected Optimiser optimisor;
+        protected frmProgressDialog dlgProgress;
 
 
         public frmRunEditor()
@@ -564,7 +568,20 @@ namespace ENFORM.GUI
                 dlgSave.Title = "Save run file as...";
                 if (dlgSave.ShowDialog() == DialogResult.OK)
                 {
-                     Preprocessor preprocessor = new Preprocessor();
+                    BackgroundWorker worker = new BackgroundWorker();
+                    worker.WorkerReportsProgress = true;
+                    worker.DoWork += new DoWorkEventHandler(worker_DoWork);
+                    worker.ProgressChanged += new ProgressChangedEventHandler(worker_ProgressChanged);
+                    worker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(worker_RunWorkerCompleted);
+                    
+                    this.Enabled = false;
+                    dlgProgress = new frmProgressDialog();
+                    dlgProgress.Show(this);
+                    dlgProgress.Title = "Saving run file...";
+
+
+
+                    Preprocessor preprocessor = new Preprocessor();
                     preprocessor.Bradley = chkBradley.Checked;
                     preprocessor.ContrastAdjustment = chkContrast.Checked;
                     preprocessor.ContrastStrength = numContrast.Value;
@@ -579,110 +596,150 @@ namespace ENFORM.GUI
                     preprocessor.ScalingMethod = (ScalingMethods)cmbScalingMethod.SelectedIndex;
                     preprocessor.Threshold = chkThreshold.Checked;
                     preprocessor.ThresholdStrength = numThreshold.Value;
-                    
+
                     Utils.Logger.Log("Caching all images to store in run file...");
                     if (chkEmbed.Checked)
                     {
-                        cacheAll();
+                        //cacheAll();
                     }
-                    
+
                     DataAccess dataAccess = new DataAccess(dlgSave.FileName);
                     Utils.Logger.Log("Clearing database data...");
                     dataAccess.ClearFile();
                     Utils.Logger.Log("Adding input groups...");
                     for (int i = 0; i < lstInputGroups.Items.Count; i++)
                     {
-                        dataAccess.AddInputGroup(i, (InputGroup)lstInputGroups.Items[i]);                        
+                        dataAccess.AddInputGroup(i, (InputGroup)lstInputGroups.Items[i]);
                     }
 
-                    Dictionary<int, SourceItem>.ValueCollection values = sourceItems.Values;
-                    int count = 0;
-                    Utils.Logger.Log("Saving images...");
-                    foreach (SourceItem item in values)
-                    {
-                        Utils.Logger.Log("->Saving Image: " + item.Filename);
-                        item.Preprocessor = preprocessor;
-                        try
-                        {
-                            dataAccess.AddSource(count++, item);
-                        }
-                        catch
-                        {
-                            Utils.Logger.Log("Warning... error saving source... skipping");
-                        }
-                    }
-
-                    Utils.Logger.Log("Saving parameters...");
-                    dataAccess.SetParameter("Master_Width", txtWidth.Text);
-                    dataAccess.SetParameter("Master_Height", txtHeight.Text);
-                    dataAccess.SetParameter("Master_Aspect", chkAspect.Checked.ToString());
-                    dataAccess.SetParameter("Master_Resize", cmbScalingMethod.SelectedIndex.ToString());
-                    dataAccess.SetParameter("Filter_Stretch", chkContastStretch.Checked.ToString());
-                    dataAccess.SetParameter("Filter_Histo", chkHistogram.Checked.ToString());
-                    dataAccess.SetParameter("Filter_Gaussian", chkGaussian.Checked.ToString());
-                    dataAccess.SetParameter("Filter_BlurStr", numBlurStrength.Value.ToString());
-                    dataAccess.SetParameter("Filter_Contrast", chkContrast.Checked.ToString());
-                    dataAccess.SetParameter("Filter_ContrastStr", numContrast.Value.ToString());
-                    dataAccess.SetParameter("Filter_Greyscale", chkGreyscale.Checked.ToString());
-                    dataAccess.SetParameter("Filter_Bradley", chkBradley.Checked.ToString());
-                    dataAccess.SetParameter("Filter_Threshold", chkThreshold.Checked.ToString());
-                    dataAccess.SetParameter("Filter_ThresholdStr", numThreshold.Value.ToString());
-
-                    dataAccess.SetParameter("Opt_Global_MaxIterations", txtMaxIterations.Text);
-                    dataAccess.SetParameter("Opt_Global_MinError", txtMinimumError.Text);
-                    dataAccess.SetParameter("Opt_Global_MaxTime", txtMaxTime.Text);
-                    dataAccess.SetParameter("Opt_Global_BufferSize", txtBufferSize.Text);
-
-                    dataAccess.SetParameter("Opt_Bp_Enabled", chkBackPropogation.Checked.ToString());
-                    if (chkBackPropogation.Checked)
-                    {
-                        dataAccess.SetParameter("Opt_Bp_LearningType", cmbLearningRateType.SelectedIndex.ToString());
-                        dataAccess.SetParameter("Opt_Bp_InitialLearnRate", txtInitialRate.Text);
-                        dataAccess.SetParameter("Opt_Bp_FinalLearnRate", txtFinalRate.Text);
-                        dataAccess.SetParameter("Opt_Bp_JitterEpoch", txtJitterEpoch.Text);
-                        dataAccess.SetParameter("Opt_Bp_JitterNoiseLimit", txtJitterNoiseLimit.Text);
-                      
-                    }
-
-                    dataAccess.SetParameter("Opt_Pso_Enabled", chkPSO.Checked.ToString());
-                    if (chkPSO.Checked)
-                    {
-                        dataAccess.SetParameter("Opt_Pso_MinP", txtMinP.Text);
-                        dataAccess.SetParameter("Opt_Pso_MaxP", txtMaxP.Text);
-                        dataAccess.SetParameter("Opt_Pso_MinI", txtMinI.Text);
-                        dataAccess.SetParameter("Opt_Pso_MaxI", txtMaxI.Text);
-                        dataAccess.SetParameter("Opt_Pso_Quant",txtQuant.Text);
-
-                        dataAccess.SetParameter("Opt_Pso_Clamping", cmbClamping.SelectedIndex.ToString());
-                        dataAccess.SetParameter("Opt_Pso_InitLinks", cmbInitLinks.SelectedIndex.ToString());
-                        dataAccess.SetParameter("Opt_Pso_Randomness", cmbPSORandom.SelectedIndex.ToString());
-                        dataAccess.SetParameter("Opt_Pso_ParticleOrder", cmbRandOrder.SelectedIndex.ToString());
-                        dataAccess.SetParameter("Opt_Pso_Rotation", cmbRotation.SelectedIndex.ToString());
-                        
-                        dataAccess.SetParameter("Opt_Pso_Dimensions", txtDimensions.Text);
-                        dataAccess.SetParameter("Opt_Pso_Particles", txtSwarmSize.Text);
-                        dataAccess.SetParameter("Opt_Pso_k", txtK.Text);
-                        dataAccess.SetParameter("Opt_Pso_p", txtP.Text);
-                        dataAccess.SetParameter("Opt_Pso_w", txtW.Text);
-                        dataAccess.SetParameter("Opt_Pso_c", txtC.Text);
-
-                        dataAccess.SetParameter("Opt_Pso_AutoParticles", chkAutoSwarmSize.Checked.ToString());
-                        dataAccess.SetParameter("Opt_Pso_AutoK", chkAutoK.Checked.ToString());
-                        dataAccess.SetParameter("Opt_Pso_AutoP", chkAutoP.Checked.ToString());
-                        dataAccess.SetParameter("Opt_Pso_AutoW", chkAutoW.Checked.ToString());
-                        dataAccess.SetParameter("Opt_Pso_AutoC", chkAutoC.Checked.ToString());
-
-
-                    }
-                    Utils.Logger.Log("Done...");
-
-
+                    worker.RunWorkerAsync(new object[] {dataAccess,preprocessor});
                     
+
+                  
+
+
+
                 }
 
             
             } 
         }
+
+        void worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            this.Enabled = true;
+            dlgProgress.Dispose();
+
+            DataAccess dataAccess = (DataAccess)e.Result;
+
+            Utils.Logger.Log("Saving parameters...");
+            dataAccess.SetParameter("Master_Width", txtWidth.Text);
+            dataAccess.SetParameter("Master_Height", txtHeight.Text);
+            dataAccess.SetParameter("Master_Aspect", chkAspect.Checked.ToString());
+            dataAccess.SetParameter("Master_Resize", cmbScalingMethod.SelectedIndex.ToString());
+            dataAccess.SetParameter("Filter_Stretch", chkContastStretch.Checked.ToString());
+            dataAccess.SetParameter("Filter_Histo", chkHistogram.Checked.ToString());
+            dataAccess.SetParameter("Filter_Gaussian", chkGaussian.Checked.ToString());
+            dataAccess.SetParameter("Filter_BlurStr", numBlurStrength.Value.ToString());
+            dataAccess.SetParameter("Filter_Contrast", chkContrast.Checked.ToString());
+            dataAccess.SetParameter("Filter_ContrastStr", numContrast.Value.ToString());
+            dataAccess.SetParameter("Filter_Greyscale", chkGreyscale.Checked.ToString());
+            dataAccess.SetParameter("Filter_Bradley", chkBradley.Checked.ToString());
+            dataAccess.SetParameter("Filter_Threshold", chkThreshold.Checked.ToString());
+            dataAccess.SetParameter("Filter_ThresholdStr", numThreshold.Value.ToString());
+
+            dataAccess.SetParameter("Opt_Global_MaxIterations", txtMaxIterations.Text);
+            dataAccess.SetParameter("Opt_Global_MinError", txtMinimumError.Text);
+            dataAccess.SetParameter("Opt_Global_MaxTime", txtMaxTime.Text);
+            dataAccess.SetParameter("Opt_Global_BufferSize", txtBufferSize.Text);
+
+            dataAccess.SetParameter("Opt_Bp_Enabled", chkBackPropogation.Checked.ToString());
+            if (chkBackPropogation.Checked)
+            {
+                dataAccess.SetParameter("Opt_Bp_LearningType", cmbLearningRateType.SelectedIndex.ToString());
+                dataAccess.SetParameter("Opt_Bp_InitialLearnRate", txtInitialRate.Text);
+                dataAccess.SetParameter("Opt_Bp_FinalLearnRate", txtFinalRate.Text);
+                dataAccess.SetParameter("Opt_Bp_JitterEpoch", txtJitterEpoch.Text);
+                dataAccess.SetParameter("Opt_Bp_JitterNoiseLimit", txtJitterNoiseLimit.Text);
+
+            }
+
+            dataAccess.SetParameter("Opt_Pso_Enabled", chkPSO.Checked.ToString());
+            if (chkPSO.Checked)
+            {
+                dataAccess.SetParameter("Opt_Pso_MinP", txtMinP.Text);
+                dataAccess.SetParameter("Opt_Pso_MaxP", txtMaxP.Text);
+                dataAccess.SetParameter("Opt_Pso_MinI", txtMinI.Text);
+                dataAccess.SetParameter("Opt_Pso_MaxI", txtMaxI.Text);
+                dataAccess.SetParameter("Opt_Pso_Quant", txtQuant.Text);
+
+                dataAccess.SetParameter("Opt_Pso_Clamping", cmbClamping.SelectedIndex.ToString());
+                dataAccess.SetParameter("Opt_Pso_InitLinks", cmbInitLinks.SelectedIndex.ToString());
+                dataAccess.SetParameter("Opt_Pso_Randomness", cmbPSORandom.SelectedIndex.ToString());
+                dataAccess.SetParameter("Opt_Pso_ParticleOrder", cmbRandOrder.SelectedIndex.ToString());
+                dataAccess.SetParameter("Opt_Pso_Rotation", cmbRotation.SelectedIndex.ToString());
+
+                dataAccess.SetParameter("Opt_Pso_Dimensions", txtDimensions.Text);
+                dataAccess.SetParameter("Opt_Pso_Particles", txtSwarmSize.Text);
+                dataAccess.SetParameter("Opt_Pso_k", txtK.Text);
+                dataAccess.SetParameter("Opt_Pso_p", txtP.Text);
+                dataAccess.SetParameter("Opt_Pso_w", txtW.Text);
+                dataAccess.SetParameter("Opt_Pso_c", txtC.Text);
+
+                dataAccess.SetParameter("Opt_Pso_AutoParticles", chkAutoSwarmSize.Checked.ToString());
+                dataAccess.SetParameter("Opt_Pso_AutoK", chkAutoK.Checked.ToString());
+                dataAccess.SetParameter("Opt_Pso_AutoP", chkAutoP.Checked.ToString());
+                dataAccess.SetParameter("Opt_Pso_AutoW", chkAutoW.Checked.ToString());
+                dataAccess.SetParameter("Opt_Pso_AutoC", chkAutoC.Checked.ToString());
+
+
+            }
+            Utils.Logger.Log("Done...");
+        }
+
+        void worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            dlgProgress.Description = e.ProgressPercentage.ToString() + "% - " + e.UserState.ToString();
+        }
+
+        void worker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            //new object[] {dataAccess,preprocessor}
+            
+            
+            BackgroundWorker worker = (BackgroundWorker)sender;
+            Dictionary<int, SourceItem>.ValueCollection values = sourceItems.Values;
+            DataAccess dataAccess = (DataAccess )((object[])e.Argument)[0];
+            int count = 0;
+            Utils.Logger.Log("Saving images...");
+            dataAccess.StartTransaction();
+            foreach (SourceItem item in values)
+            {
+                Utils.Logger.Log("->Saving Image: " + item.Filename);
+                worker.ReportProgress((int)(((float)count / (float)values.Count) * 100.0f), "Saving Image: " + item.Filename);
+                item.Preprocessor = (Preprocessor)((object[])e.Argument)[1];
+                try
+                {
+                    if (chkEmbed.Checked)
+                    {
+                        item.Cache();
+                    }
+                    dataAccess.AddSource(count++, item);
+                    item.InternalImage.Dispose();
+                    
+                }
+                catch (Exception ex)
+                {
+                    Utils.Logger.Log("Warning... error saving source... skipping");
+                    throw ex;
+                }
+            }
+            dataAccess.CommitTransaction();
+            e.Result = dataAccess;
+            
+        }
+
+       
 
         private void btnLoadRun_Click(object sender, EventArgs e)
         {
@@ -1043,6 +1100,56 @@ namespace ENFORM.GUI
             {
                 txtSwarmSize.Text = Convert.ToString(Math.Ceiling(10 + (2 * Math.Sqrt(Convert.ToDouble(txtDimensions.Text)))));
             }
+        }
+
+        private void btnGetFERETImages_Click(object sender, EventArgs e)
+        {
+          
+
+            
+            
+            using (  MyOpenFileDialogControl dlgLoad = new MyOpenFileDialogControl())
+            {
+                dlgLoad.FileDlgCaption = "Select a ERun file...";
+                dlgLoad.FileDlgFilter = "ENFORM Set File (*.eset)|*.eset|Text File (*.txt) |*.txt|Any file (*.*)|*.*";
+               
+
+                if (dlgLoad.ShowDialog() == DialogResult.OK)
+                {
+
+                    if ((dlgLoad.MSDialog as OpenFileDialog).FileNames.Length > 0)
+                    {
+
+                        using (StreamReader r = new StreamReader(dlgLoad.FileDlgFileName))
+                        {
+                            while (!r.EndOfStream)
+                            {
+                                string[] s = r.ReadLine().Split(',');
+                                string use = s[1].Trim();
+                                string filename = s[3];
+                                if (use == "1")
+                                {
+                                    SourceItem item = new SourceItem(filename, dlgLoad.SampleType);
+
+                                    ListViewItem newItem = lstInputs.Items.Add(new ListViewItem(item.GetStringValues()));
+                                    sourceItems.Add(newItem.GetHashCode(), item);
+                                }
+                            }
+
+                        }
+                        
+                            
+
+                        
+                    }
+
+                    //SourceItem item = new SourceItem(controlex.Filename, 0);
+                    //ListViewItem newItem = lstInputs.Items.Add(new ListViewItem(item.GetStringValues()));
+                    //sourceItems.Add(newItem.GetHashCode(), item);
+                }
+
+            }
+
         }
 
        

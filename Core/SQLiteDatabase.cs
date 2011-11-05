@@ -20,12 +20,30 @@ namespace ENFORM.Core
     public class SQLiteDatabase
     {
         private SQLiteConnection connection;
+        private SQLiteTransaction globalTransaction;
         
         public SQLiteDatabase(string filename)
         {
             connection = new SQLiteConnection(
                 "Synchronous=Full;Data Source=" + filename
                 );
+        }
+
+        public void StartTransaction()
+        {
+            Open();
+            globalTransaction = connection.BeginTransaction();
+
+        }
+
+
+        public void CommitTransaction()
+        {
+
+            globalTransaction.Commit();
+            globalTransaction.Dispose();
+            globalTransaction = null;
+            Close();
         }
 
         private void Open()
@@ -84,24 +102,42 @@ namespace ENFORM.Core
 
         public int RunQueryNoResult(string query)
         {
+            if (connection.State == ConnectionState.Open && globalTransaction == null)
+            {
+                connection.Close();
+            }
+           
             using (var command = connection.CreateCommand())
             {
-                connection.Open();
-                using (var tx = connection.BeginTransaction())
+                
+                SQLiteTransaction tx;
+                if (globalTransaction == null)
                 {
-                                 
-                    int retval = 0;
-                    // Ottieni il risultato e chiudi la connessione
-                    foreach (string cmd in query.Split(new char[] {';'}))
-                    {
-                        command.CommandText = cmd;    
-                        retval += command.ExecuteNonQuery();
-                    }
-                    
-                    tx.Commit();
-                    connection.Close();
-                    return retval;
+                    connection.Open();
+                    tx = connection.BeginTransaction();
                 }
+                else
+                {
+                    tx = globalTransaction;
+                }
+
+                
+                                 
+                int retval = 0;
+                // Ottieni il risultato e chiudi la connessione
+                foreach (string cmd in query.Split(new char[] {';'}))
+                {
+                    command.CommandText = cmd;    
+                    retval += command.ExecuteNonQuery();
+                }
+
+                if (globalTransaction == null)
+                {
+                    tx.Commit();
+                    Close();
+                }
+                return retval;
+                
             }
             
             
@@ -129,51 +165,59 @@ namespace ENFORM.Core
         private int insertBLOB(byte[] buffer)
         {
             int rowId = -1;
-            SQLiteTransaction transaction = null;
-            try
-            {
-                Open();
-                transaction = connection.BeginTransaction();
-             
+            
+          
+                
 
-
-
-                SQLiteCommand command = new SQLiteCommand(connection);
-                command.CommandText = "INSERT INTO BLOBS VALUES (NULL,@image); ";
-                command.Parameters.Add("@image", DbType.Binary).Value = buffer;
-                command.Transaction = transaction;
-                command.ExecuteNonQuery();
-
-
-                command = new SQLiteCommand();
-                command.CommandText = "SELECT last_insert_rowid();";
-                command.Transaction = transaction;
-                SQLiteDataReader reader = command.ExecuteReader();
-
-                while (reader.Read())
+                SQLiteTransaction tx;
+                if (globalTransaction == null)
                 {
-                    rowId = (int)(long)reader[0];
+                    connection.Open();
+                    tx = connection.BeginTransaction();
+                }
+                else
+                {
+                    tx = globalTransaction;
                 }
 
-                transaction.Commit();
+                try
+                {
+                    SQLiteCommand command = new SQLiteCommand(connection);
+                    command.CommandText = "INSERT INTO BLOBS VALUES (NULL,@image); ";
+                    command.Parameters.Add("@image", DbType.Binary).Value = buffer;
+                    command.Transaction = tx;
+                    command.ExecuteNonQuery();
+
+
+                    command = new SQLiteCommand();
+                    command.CommandText = "SELECT last_insert_rowid();";
+                    command.Transaction = tx;
+                    SQLiteDataReader reader = command.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        rowId = (int)(long)reader[0];
+                    }
+
+                    if (globalTransaction == null)
+                    {
+                        tx.Commit();
+                        Close();
+                    }
             }
 
             catch (Exception ex)
             {
                 if (connection.State == ConnectionState.Open)
                 {
-                    if (transaction != null)
                     {
-                        transaction.Rollback();
+                        tx.Rollback();
                     }
                 }
-                Utils.Logger.Log(ex.Message);
+                throw ex;
 
             }
-            finally
-            {
-                Close();
-            }
+           
 
             return rowId;
 

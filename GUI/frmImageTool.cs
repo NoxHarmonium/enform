@@ -65,8 +65,11 @@ namespace ENFORM.GUI
 
                             foreach (FileInfo file in files)
                             {
-                                w.WriteLine("0," + Convert.ToInt32(flipper).ToString() + "," + Convert.ToInt32(!flipper).ToString() + "," + file.FullName);
-                                flipper = !flipper;
+                                if (!file.Name.Contains(".db"))
+                                {
+                                    w.WriteLine("0," + Convert.ToInt32(flipper).ToString() + "," + Convert.ToInt32(!flipper).ToString() + "," + file.FullName);
+                                    flipper = !flipper;
+                                }
                             }
                             
                         }

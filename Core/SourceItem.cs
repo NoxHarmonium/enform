@@ -90,7 +90,15 @@ namespace ENFORM.Core
             {
                 if (cached)
                 {
-                    return preprocessor.Process((Bitmap)internalImage);
+                    if (preprocessor != null)
+                    {
+                        return preprocessor.Process((Bitmap)internalImage);
+                    }
+                    else
+                    {
+                        return internalImage;
+                    }
+
                 }
                 else
                 {

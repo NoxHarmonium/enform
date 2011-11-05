@@ -64,7 +64,7 @@ namespace ENFORM.Core.Logging
 
         public void Log(string message)
         {
-           
+            return;
             lock (lockObject)
             {
                 try

@@ -22,7 +22,7 @@ namespace ENFORM.GUI
         
         public frmMainMenu()
         {
-            Thread.CurrentThread.Name = "Main UI Thread";
+            //Thread.CurrentThread.Name = "Main UI Thread";
             InitializeComponent();
             Utils.Logger = new SQLiteLogger();
             
