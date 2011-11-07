@@ -181,6 +181,7 @@ namespace ENFORM.Core
             this.sourceType = SourceType.FileSystem;            
             Image image = this.InternalImage;
             this.size = new Size(image.Width, image.Height);
+            image.Dispose();
             this.name = filename.Substring(filename.LastIndexOf("\\")+1);
         }
 
