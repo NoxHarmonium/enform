@@ -51,10 +51,7 @@ namespace ENFORM.Core
 
                 }
             }
-            if (outputs.Length != 150)
-            {
-                throw new Exception("wtf");
-            }
+            
             return outputs;
         }
 
