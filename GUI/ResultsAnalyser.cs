@@ -50,7 +50,9 @@ namespace ENFORM.GUI
         private void btnProcess_Click(object sender, EventArgs e)
         {
             DialogResult r = MessageBox.Show("Do you want to also write out time as well as fitness?", "Write time?", MessageBoxButtons.YesNo);
-            
+
+          
+
             for (int i = 0; i < lstRuns.Items.Count; i++)
             {
 
@@ -173,6 +175,18 @@ namespace ENFORM.GUI
             }
 
             return results[0];
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < lstRuns.Items.Count; i++)
+            {
+
+
+                string file = lstRuns.Items[i].SubItems[2].Text;
+
+
+            }
         }
     }
 }

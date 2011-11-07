@@ -54,6 +54,7 @@
             this.imgTestImage = new ENFORM.GUI.ImageViewer();
             this.lblFitness = new System.Windows.Forms.Label();
             this.cmbSampleType = new System.Windows.Forms.ComboBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.grpFilters.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numThreshold)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numContrast)).BeginInit();
@@ -356,11 +357,22 @@
             this.cmbSampleType.TabIndex = 3;
             this.cmbSampleType.SelectedIndexChanged += new System.EventHandler(this.cmbSampleType_SelectedIndexChanged);
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(126, 353);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(107, 23);
+            this.button1.TabIndex = 8;
+            this.button1.Text = "TEST!";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // frmNetworkTester
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(970, 381);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.lblFitness);
             this.Controls.Add(this.lstInputGroups);
             this.Controls.Add(this.grpFilters);
@@ -410,5 +422,6 @@
         private System.Windows.Forms.ListBox lstInputGroups;
         private System.Windows.Forms.Label lblFitness;
         private System.Windows.Forms.ComboBox cmbSampleType;
+        private System.Windows.Forms.Button button1;
     }
 }

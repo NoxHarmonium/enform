@@ -115,11 +115,11 @@ namespace ENFORM.GUI
 
                     Bitmap b = AForge.Imaging.Image.Clone((Bitmap)image, System.Drawing.Imaging.PixelFormat.Format24bppRgb); 
 
-                    AForge.Imaging.Filters.ResizeBicubic bc = new AForge.Imaging.Filters.ResizeBicubic(width, 384);
+                    AForge.Imaging.Filters.ResizeBicubic bc = new AForge.Imaging.Filters.ResizeBicubic(10, 15);
 
-                    AForge.Imaging.Filters.Crop cp = new AForge.Imaging.Filters.Crop(new Rectangle((image.Width - 256)/2, 0, 256, 384));
+                    //AForge.Imaging.Filters.Crop cp = new AForge.Imaging.Filters.Crop(new Rectangle((image.Width - 256)/2, 0, 256, 384));
                     b =bc.Apply(b);
-                    b = cp.Apply(b);
+                    //b = cp.Apply(b);
                     b.Save(file.FullName+".new.jpg");
                     image.Dispose();
                     file.Delete();

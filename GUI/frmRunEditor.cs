@@ -730,6 +730,7 @@ namespace ENFORM.GUI
                 }
                 catch (Exception ex)
                 {
+                    GC.Collect();
                     Utils.Logger.Log("Warning... error saving source... skipping");
                     throw ex;
                 }
@@ -1104,15 +1105,15 @@ namespace ENFORM.GUI
 
         private void btnGetFERETImages_Click(object sender, EventArgs e)
         {
-          
 
-            
-            
-            using (  MyOpenFileDialogControl dlgLoad = new MyOpenFileDialogControl())
+
+
+
+            using (MyOpenFileDialogControl dlgLoad = new MyOpenFileDialogControl())
             {
                 dlgLoad.FileDlgCaption = "Select a ERun file...";
                 dlgLoad.FileDlgFilter = "ENFORM Set File (*.eset)|*.eset|Text File (*.txt) |*.txt|Any file (*.*)|*.*";
-               
+
 
                 if (dlgLoad.ShowDialog() == DialogResult.OK)
                 {
@@ -1137,10 +1138,10 @@ namespace ENFORM.GUI
                             }
 
                         }
-                        
-                            
 
-                        
+
+
+
                     }
 
                     //SourceItem item = new SourceItem(controlex.Filename, 0);

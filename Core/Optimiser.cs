@@ -168,7 +168,8 @@ namespace ENFORM.Core
                 hiddenLayer.InputGroups = inputGroups.Length;
                 NeuronDotNet.Core.Backpropagation.SigmoidLayer outputLayer = new NeuronDotNet.Core.Backpropagation.SigmoidLayer(1);
 
-                hiddenLayer.Initializer = new NormalizedRandomFunction();
+                hiddenLayer.Initializer = new NguyenWidrowFunction();
+
 
 
                 new BackpropagationConnector(
@@ -284,7 +285,7 @@ namespace ENFORM.Core
                 hiddenLayer.InputGroups = inputGroups.Length;
                 NeuronDotNet.Core.PSO.SigmoidLayer outputLayer = new NeuronDotNet.Core.PSO.SigmoidLayer(1);
 
-                hiddenLayer.Initializer = new NormalizedRandomFunction();
+                hiddenLayer.Initializer = new NguyenWidrowFunction();
 
 
                 new PSOConnector(
@@ -399,7 +400,11 @@ namespace ENFORM.Core
             }
             finally
             {
-                Utils.Logger.Log("Writing final data!");
+                Utils.Logger.Log("Writing final data!");               
+                if (this.network.GetType().ToString() == "NeuronDotNet.Core.PSO.PSONetwork")
+                {
+                    ((PSONetwork)network).SetBestWeights();
+                }
                 dataAccess.SaveFinalResult(this.GetHashCode().ToString(), this.Network, resultIndex, results, startTime, endTime, runID, totalIterations);                   
             }
             return Network.MeanSquaredError;

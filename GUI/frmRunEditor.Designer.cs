@@ -1473,21 +1473,19 @@
             // 
             // imageViewer1
             // 
-            this.imageViewer1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.imageViewer1.DrawingColour = System.Drawing.Color.Black;
-            this.imageViewer1.Location = new System.Drawing.Point(12, 12);
+            this.imageViewer1.Location = new System.Drawing.Point(10, 12);
             this.imageViewer1.Name = "imageViewer1";
             this.imageViewer1.ScalingMethod = ENFORM.Core.ScalingMethods.Nearest_Neighbor;
-            this.imageViewer1.Size = new System.Drawing.Size(258, 375);
-            this.imageViewer1.TabIndex = 1;
-            this.imageViewer1.Load += new System.EventHandler(this.imageViewer1_Load);
-            this.imageViewer1.Paint += new System.Windows.Forms.PaintEventHandler(this.imageViewer1_Paint);
+            this.imageViewer1.Size = new System.Drawing.Size(258, 334);
+            this.imageViewer1.TabIndex = 3;
             // 
             // frmRunEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(794, 425);
+            this.Controls.Add(this.imageViewer1);
             this.Controls.Add(this.colourPicker1);
             this.Controls.Add(this.tabMain);
             this.DoubleBuffered = true;
@@ -1546,8 +1544,7 @@
         private System.Windows.Forms.Button btnGetFERETImages;
         private System.Windows.Forms.Button btnLoadImages;
         private System.Windows.Forms.Button btnNewImage;
-        private System.Windows.Forms.GroupBox grpInputProperties;
-        private ImageViewer imageViewer1;
+        private System.Windows.Forms.GroupBox grpInputProperties;     
         private System.Windows.Forms.ColumnHeader clmSize;
         private System.Windows.Forms.CheckBox chkAspect;
         private ColourPicker colourPicker1;
@@ -1652,6 +1649,7 @@
         private System.Windows.Forms.CheckBox chkAutoK;
         private System.Windows.Forms.Label lblBufferSize;
         private System.Windows.Forms.TextBox txtBufferSize;
+        private ImageViewer imageViewer1;
     }
 }
 

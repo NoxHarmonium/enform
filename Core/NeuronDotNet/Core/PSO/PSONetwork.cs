@@ -41,7 +41,7 @@ namespace NeuronDotNet.Core.PSO
         private Problem psoProblem;      
         private Parameters psoParameters;
         private int evaluations = 0;
-
+        private SPSO_2007.Algorithm pso;
         public int Evaluations
         {
             get { return evaluations; }
@@ -302,6 +302,14 @@ namespace NeuronDotNet.Core.PSO
             return weights.ToArray();
         }
 
+        public void SetBestWeights()
+        {
+            if (pso != null)
+            {
+                this.setAllWeights(pso.BestResult);
+            }
+        }
+
         /// <summary>
         /// Trains the neural network for the given training set (Batch Training)
         /// </summary>
@@ -341,7 +349,7 @@ namespace NeuronDotNet.Core.PSO
             Initialize();           
             
            
-            SPSO_2007.Algorithm pso = new SPSO_2007.Algorithm(PsoProblem,PsoParameters);
+            pso = new SPSO_2007.Algorithm(PsoProblem,PsoParameters);
             pso.StartRun();
 
             for (currentIteration = 0; currentIteration < trainingEpochs;)
@@ -375,6 +383,7 @@ namespace NeuronDotNet.Core.PSO
                 // Check if we need to stop
                 if (isStopping) {
                     pso.EndRun();
+                    this.setAllWeights(pso.BestResult);
                     
                     isStopping = false; 
                     return; 

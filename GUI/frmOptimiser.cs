@@ -23,6 +23,7 @@ namespace ENFORM.GUI
         public delegate void ThreadProgressChangedHandler(int tabIndex,double meanErrorSquared, int currentEpoch, string message);
         private delegate void UpdateTabHandler ( int tabIndex, double meanErrorSquared, int currentEpoch, string message );
         public event ThreadProgressChangedHandler ThreadProgressChanged;
+        
 
         //private Dictionary<
         
@@ -34,8 +35,9 @@ namespace ENFORM.GUI
         private Queue<Job> jobs = new Queue<Job>();
 
         [ThreadStatic]
-        static Stopwatch stopWatch;
-   
+        static Stopwatch stopWatch; 
+        [ThreadStatic]
+        private NeuronDotNet.Core.TrainingEpochEventHandler epochHandler;
 
   
         
@@ -196,7 +198,7 @@ namespace ENFORM.GUI
             stopWatch.Start();
            
             Job currentJob;
-           
+            epochHandler = new NeuronDotNet.Core.TrainingEpochEventHandler(Network_EndEpochEvent);
             // Thread.CurrentThread.Name = o.ToString();
             while (Thread.CurrentThread.IsAlive)
             {
@@ -221,11 +223,12 @@ namespace ENFORM.GUI
               
                 Optimiser optimiser = new Optimiser(job.Filename);
            
-                optimiser.Network.EndEpochEvent += new NeuronDotNet.Core.TrainingEpochEventHandler(Network_EndEpochEvent);               
+                optimiser.Network.EndEpochEvent += epochHandler;              
               
                 double mes = 1;                
                
-                mes = optimiser.Optimise();    
+                mes = optimiser.Optimise();
+                optimiser.Network.EndEpochEvent -= epochHandler;
 
             }
             changeThreadProgress(Int32.Parse(Thread.CurrentThread.Name), -1, -1, "No more jobs!");
@@ -261,6 +264,9 @@ namespace ENFORM.GUI
                     threads[i].Abort();
                 }
             }
+
+            GC.Collect();
+
             
         }
 

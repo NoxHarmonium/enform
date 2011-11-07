@@ -162,7 +162,7 @@ namespace ENFORM.GUI
             
         }
 
-        private void calculateFitness()
+        private double calculateFitness()
         {
             DataAccess dataAccess = new DataAccess(currentRunFile);
             if (currentRunFile != "" && currentSource != null && lstRuns.SelectedItems.Count > 0)
@@ -205,9 +205,14 @@ namespace ENFORM.GUI
                 preprocessor.ThresholdStrength = numThreshold.Value;
                 
                 Network network = dataAccess.GetNetwork(int.Parse(lstRuns.SelectedItems[0].SubItems[5].Text));
-                double[] result = network.Run(Utils.getImageWeights(preprocessor.Process((Bitmap)currentSource.InternalImage), (InputGroup[])lstInputGroups.Items.Cast<InputGroup>().ToArray<InputGroup>()));
+                currentSource.Preprocessor = preprocessor;
+                Bitmap b = (Bitmap)currentSource.InternalImage;
+                double[] result = network.Run(Utils.getImageWeights(b, (InputGroup[])lstInputGroups.Items.Cast<InputGroup>().ToArray<InputGroup>()));
+                b.Dispose();
                 lblFitness.Text = "Fitness: " + result[0].ToString();
+                return result[0];
             }
+            return -1.0 ;
         }
 
         private void lblFitness_Click(object sender, EventArgs e)
@@ -219,6 +224,53 @@ namespace ENFORM.GUI
         {
             //Utils.SetLogWindowLocation(this.Location.X, this.Location.Y + this.Size.Height + 10);
 
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+           
+            using (MyOpenFileDialogControl dlgLoad = new MyOpenFileDialogControl())
+            {
+                dlgLoad.FileDlgCaption = "Select a ERun file...";
+                dlgLoad.FileDlgFilter = "ENFORM Set File (*.eset)|*.eset|Text File (*.txt) |*.txt|Any file (*.*)|*.*";
+
+
+                if (dlgLoad.ShowDialog() == DialogResult.OK)
+                {
+
+                    
+                    if ((dlgLoad.MSDialog as OpenFileDialog).FileNames.Length > 0)
+                    {
+                        double total = 0.0;
+                        int count = 0;
+                        using (StreamReader r = new StreamReader(dlgLoad.FileDlgFileName))
+                        {
+                            while (!r.EndOfStream)
+                            {
+                                string[] s = r.ReadLine().Split(',');
+                                string use = s[2].Trim();
+                                string filename = s[3];
+                                if (use == "1")
+                                {
+                                    SourceItem item = new SourceItem(filename, dlgLoad.SampleType);
+                                    currentSource = item;
+                                    total += calculateFitness();
+                                    count++;
+                                }
+                            }
+
+                        }
+
+                        MessageBox.Show("Average fitness = " + (total / (double) count).ToString());
+
+                    }
+
+                    //SourceItem item = new SourceItem(controlex.Filename, 0);
+                    //ListViewItem newItem = lstInputs.Items.Add(new ListViewItem(item.GetStringValues()));
+                    //sourceItems.Add(newItem.GetHashCode(), item);
+                }
+
+            }
         }
     }
 }
