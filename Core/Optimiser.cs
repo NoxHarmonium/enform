@@ -356,7 +356,7 @@ namespace ENFORM.Core
                 network.StopLearning();
             }
 
-            if((stopWatch.ElapsedMilliseconds/1000) >= maxTime)
+            if(maxTime > 0 && (stopWatch.ElapsedMilliseconds/1000) >= maxTime)
             {
                  Utils.Logger.Log("Run ended due to time limit reached");
                 network.StopLearning();
