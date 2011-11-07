@@ -117,28 +117,22 @@ namespace ENFORM.Core
             int aWidth = newWidth;
             if (KeepAspectRatio)
             {
-                if (image.Width < image.Height)
-                {
+                
                     double ratio = (double)newWidth / (double)image.Width;
-                    aWidth = (int)((double)image.Width * ratio);
-                }
-                else
-                {
-                    double ratio = (double)newHeight / (double)image.Height;
-                    aWidth = (int)((double)image.Width * ratio);
-                }
+                    aWidth = (int)((double)image.Height * ratio);        
+               
                 
 
             }
 
 
-            AForge.Imaging.Filters.Crop cropper = new AForge.Imaging.Filters.Crop(new Rectangle(0, 0, newWidth, newHeight));
+            AForge.Imaging.Filters.Crop cropper = new AForge.Imaging.Filters.Crop(new Rectangle(0, (aWidth-newHeight)/2, newWidth, newHeight));
 
             Utils.Logger.Log("->Scaling and cropping...");
             if (ScalingMethod == ScalingMethods.Nearest_Neighbor || ScalingMethod == ScalingMethods.Bicubic)
             {
                 Utils.Logger.Log("-->Nearest Neighbor...");
-                AForge.Imaging.Filters.ResizeNearestNeighbor resizer = new AForge.Imaging.Filters.ResizeNearestNeighbor(aWidth, newHeight);
+                AForge.Imaging.Filters.ResizeNearestNeighbor resizer = new AForge.Imaging.Filters.ResizeNearestNeighbor(newWidth,aWidth);
                 image = resizer.Apply((Bitmap)image);
                 Utils.Logger.Log("-->Cropping...");
                 image = cropper.Apply(image);
@@ -146,7 +140,7 @@ namespace ENFORM.Core
             if (ScalingMethod == ScalingMethods.Bicubic)
             {
                 Utils.Logger.Log("-->Bicubic resize is not implimented for now.\nNReverting to nearest neighbor...");
-                AForge.Imaging.Filters.ResizeNearestNeighbor resizer = new AForge.Imaging.Filters.ResizeNearestNeighbor(aWidth, newHeight);
+                AForge.Imaging.Filters.ResizeNearestNeighbor resizer = new AForge.Imaging.Filters.ResizeNearestNeighbor(newWidth, aWidth);
                 image = resizer.Apply((Bitmap)image);
                 Utils.Logger.Log("-->Cropping...");
                 image = cropper.Apply(image);
@@ -154,7 +148,7 @@ namespace ENFORM.Core
             if (ScalingMethod == ScalingMethods.Bilinear)
             {
                 Utils.Logger.Log("-->Bilinear...");
-                AForge.Imaging.Filters.ResizeBilinear resizer = new AForge.Imaging.Filters.ResizeBilinear(aWidth, newHeight);
+                AForge.Imaging.Filters.ResizeBilinear resizer = new AForge.Imaging.Filters.ResizeBilinear(newWidth, aWidth);
                 image = resizer.Apply((Bitmap)image);
                 Utils.Logger.Log("-->Cropping...");
                 image = cropper.Apply(image);
