@@ -247,6 +247,7 @@ namespace SPSO_2007
             }
         }
 
+        
 
         // =================================================
         public Algorithm(Problem pb, Parameters param)
@@ -395,7 +396,7 @@ namespace SPSO_2007
                     PSOResult.SW.V[s].v[d] = (rand.NextDouble(pb.SS.min[d], pb.SS.max[d]) - PSOResult.SW.X[s].x[d]) / 2;
                 }
                 // Take quantisation into account
-                Position.quantis(PSOResult.SW.X[s], pb.SS);
+                //Position.quantis(PSOResult.SW.X[s], pb.SS);
 
                 // First evaluations
                 PSOResult.SW.X[s].f =
@@ -464,6 +465,7 @@ namespace SPSO_2007
 
         public int NextIteration()
         {
+            int numClamped = 0;
             iter++;
 
             if (initLinks == 1)	// Random topology
@@ -590,7 +592,7 @@ namespace SPSO_2007
                 //noEval = 1;
 
                 // Quantisation
-                Position.quantis(PSOResult.SW.X[s], pb.SS);
+                //Position.quantis(PSOResult.SW.X[s], pb.SS);
 
                 switch (param.clamping)
                 {
@@ -603,7 +605,7 @@ namespace SPSO_2007
                                 outside++;
                         }
 
-                        if (outside == 0)	// If inside, the position is evaluated
+                        //if (outside == 0)	// If inside, the position is evaluated
                         {
                             PSOResult.SW.X[s].f =
                                 pb.perf(PSOResult.SW.X[s], pb.function, pb.objective);
@@ -618,12 +620,15 @@ namespace SPSO_2007
                             {
                                 PSOResult.SW.X[s].x[d] = pb.SS.min[d];
                                 PSOResult.SW.V[s].v[d] = 0;
+
+                                numClamped++;
                             }
 
                             if (PSOResult.SW.X[s].x[d] > pb.SS.max[d])
                             {
                                 PSOResult.SW.X[s].x[d] = pb.SS.max[d];
                                 PSOResult.SW.V[s].v[d] = 0;
+                                numClamped++;
                             }
                         }
 
@@ -674,7 +679,8 @@ namespace SPSO_2007
 
 
 
-            return (int)PSOResult.nEval;
+            //return (int)PSOResult.nEval;
+            return numClamped;
         }
     }
 }
