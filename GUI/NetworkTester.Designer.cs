@@ -51,10 +51,10 @@
             this.chkContastStretch = new System.Windows.Forms.CheckBox();
             this.chkGreyscale = new System.Windows.Forms.CheckBox();
             this.lstInputGroups = new System.Windows.Forms.ListBox();
-            this.imgTestImage = new ENFORM.GUI.ImageViewer();
             this.lblFitness = new System.Windows.Forms.Label();
             this.cmbSampleType = new System.Windows.Forms.ComboBox();
             this.button1 = new System.Windows.Forms.Button();
+            this.imgTestImage = new ENFORM.GUI.ImageViewer();
             this.grpFilters.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numThreshold)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numContrast)).BeginInit();
@@ -325,16 +325,6 @@
             this.lstInputGroups.Size = new System.Drawing.Size(198, 56);
             this.lstInputGroups.TabIndex = 6;
             // 
-            // imgTestImage
-            // 
-            this.imgTestImage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.imgTestImage.DrawingColour = System.Drawing.Color.Black;
-            this.imgTestImage.Location = new System.Drawing.Point(696, 12);
-            this.imgTestImage.Name = "imgTestImage";
-            this.imgTestImage.ScalingMethod = ENFORM.Core.ScalingMethods.Nearest_Neighbor;
-            this.imgTestImage.Size = new System.Drawing.Size(258, 334);
-            this.imgTestImage.TabIndex = 0;
-            // 
             // lblFitness
             // 
             this.lblFitness.AutoSize = true;
@@ -359,13 +349,23 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(126, 353);
+            this.button1.Location = new System.Drawing.Point(126, 351);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(107, 23);
             this.button1.TabIndex = 8;
-            this.button1.Text = "TEST!";
+            this.button1.Text = "Test On Set";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // imgTestImage
+            // 
+            this.imgTestImage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.imgTestImage.DrawingColour = System.Drawing.Color.Black;
+            this.imgTestImage.Location = new System.Drawing.Point(696, 12);
+            this.imgTestImage.Name = "imgTestImage";
+            this.imgTestImage.ScalingMethod = ENFORM.Core.ScalingMethods.Nearest_Neighbor;
+            this.imgTestImage.Size = new System.Drawing.Size(258, 334);
+            this.imgTestImage.TabIndex = 0;
             // 
             // frmNetworkTester
             // 

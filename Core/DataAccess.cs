@@ -296,10 +296,10 @@ namespace ENFORM.Core
 
                     if ((bool)row["Cached"])
                     {
-                        Utils.Logger.Log("Image cached: Loading from database");
+                        //Utils.Logger.Log("Image cached: Loading from database");
                         
                         int index = Convert.ToInt32(row["ImageBLOBRef"]);
-                        Utils.Logger.Log("Index = " + index);
+                        //Utils.Logger.Log("Index = " + index);
 
                         cachedImage = database.RetrieveBLOBImage(index);
                         

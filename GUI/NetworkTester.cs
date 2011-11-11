@@ -252,10 +252,18 @@ namespace ENFORM.GUI
                                 string filename = s[3];
                                 if (use == "1")
                                 {
+                                    try
+                                    {
                                     SourceItem item = new SourceItem(filename, dlgLoad.SampleType);
                                     currentSource = item;
-                                    total += calculateFitness();
-                                    count++;
+                                   
+                                        total += calculateFitness();
+                                        count++;
+                                    }
+                                    catch (Exception)
+                                    {
+                                        
+                                    }
                                 }
                             }
 

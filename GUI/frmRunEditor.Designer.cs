@@ -147,6 +147,8 @@
             this.btnSaveRun = new System.Windows.Forms.Button();
             this.colourPicker1 = new ENFORM.GUI.ColourPicker();
             this.imageViewer1 = new ENFORM.GUI.ImageViewer();
+            this.lblVMax = new System.Windows.Forms.Label();
+            this.txtVMax = new System.Windows.Forms.TextBox();
             this.tabMain.SuspendLayout();
             this.tabTestData.SuspendLayout();
             this.tabInnerTestData.SuspendLayout();
@@ -1170,6 +1172,8 @@
             // 
             // grpSwarm
             // 
+            this.grpSwarm.Controls.Add(this.txtVMax);
+            this.grpSwarm.Controls.Add(this.lblVMax);
             this.grpSwarm.Controls.Add(this.txtQuant);
             this.grpSwarm.Controls.Add(this.lblQuant);
             this.grpSwarm.Controls.Add(this.lblMaxI);
@@ -1480,6 +1484,23 @@
             this.imageViewer1.Size = new System.Drawing.Size(258, 334);
             this.imageViewer1.TabIndex = 3;
             // 
+            // lblVMax
+            // 
+            this.lblVMax.AutoSize = true;
+            this.lblVMax.Location = new System.Drawing.Point(101, 67);
+            this.lblVMax.Name = "lblVMax";
+            this.lblVMax.Size = new System.Drawing.Size(40, 13);
+            this.lblVMax.TabIndex = 10;
+            this.lblVMax.Text = "Max V:";
+            // 
+            // txtVMax
+            // 
+            this.txtVMax.Location = new System.Drawing.Point(147, 64);
+            this.txtVMax.Name = "txtVMax";
+            this.txtVMax.Size = new System.Drawing.Size(46, 20);
+            this.txtVMax.TabIndex = 11;
+            this.txtVMax.Text = "1.0";
+            // 
             // frmRunEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1650,6 +1671,8 @@
         private System.Windows.Forms.Label lblBufferSize;
         private System.Windows.Forms.TextBox txtBufferSize;
         private ImageViewer imageViewer1;
+        private System.Windows.Forms.TextBox txtVMax;
+        private System.Windows.Forms.Label lblVMax;
     }
 }
 

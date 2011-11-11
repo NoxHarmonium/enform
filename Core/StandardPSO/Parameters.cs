@@ -14,5 +14,6 @@
         public int S;			// Swarm size
         public int stop;		// Flag for stop criterion
         public double w;		// Confidence coefficient
+        public double vMax;
     };
 }

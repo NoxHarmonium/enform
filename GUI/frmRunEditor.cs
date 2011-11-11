@@ -672,6 +672,7 @@ namespace ENFORM.GUI
                 dataAccess.SetParameter("Opt_Pso_MinI", txtMinI.Text);
                 dataAccess.SetParameter("Opt_Pso_MaxI", txtMaxI.Text);
                 dataAccess.SetParameter("Opt_Pso_Quant", txtQuant.Text);
+                dataAccess.SetParameter("Opt_Pso_vMax", txtVMax.Text);
 
                 dataAccess.SetParameter("Opt_Pso_Clamping", cmbClamping.SelectedIndex.ToString());
                 dataAccess.SetParameter("Opt_Pso_InitLinks", cmbInitLinks.SelectedIndex.ToString());
@@ -691,6 +692,8 @@ namespace ENFORM.GUI
                 dataAccess.SetParameter("Opt_Pso_AutoP", chkAutoP.Checked.ToString());
                 dataAccess.SetParameter("Opt_Pso_AutoW", chkAutoW.Checked.ToString());
                 dataAccess.SetParameter("Opt_Pso_AutoC", chkAutoC.Checked.ToString());
+
+               
 
 
             }
@@ -715,7 +718,7 @@ namespace ENFORM.GUI
             dataAccess.StartTransaction();
             foreach (SourceItem item in values)
             {
-                Utils.Logger.Log("->Saving Image: " + item.Filename);
+               // Utils.Logger.Log("->Saving Image: " + item.Filename);
                 worker.ReportProgress((int)(((float)count / (float)values.Count) * 100.0f), "Saving Image: " + item.Filename);
                 item.Preprocessor = (Preprocessor)((object[])e.Argument)[1];
                 try
@@ -785,6 +788,7 @@ namespace ENFORM.GUI
                     chkBradley.Checked = Convert.ToBoolean(dataAccess.GetParameter("Filter_Bradley"));
                     chkThreshold.Checked  = Convert.ToBoolean(dataAccess.GetParameter("Filter_Threshold"));
                     numThreshold.Value  = Convert.ToDecimal(dataAccess.GetParameter("Filter_ThresholdStr"));
+                    
 
                     try
                     {
@@ -823,6 +827,7 @@ namespace ENFORM.GUI
                         txtMinI.Text = dataAccess.GetParameter("Opt_Pso_MinI");
                         txtMaxI.Text = dataAccess.GetParameter("Opt_Pso_MaxI");
                         txtQuant.Text = dataAccess.GetParameter("Opt_Pso_Quant");
+                        txtVMax.Text = dataAccess.GetParameter("Opt_Pso_vMax");
 
                         cmbClamping.SelectedIndex = Convert.ToInt32(dataAccess.GetParameter("Opt_Pso_Clamping"));
                         cmbInitLinks.SelectedIndex = Convert.ToInt32(dataAccess.GetParameter("Opt_Pso_InitLinks"));

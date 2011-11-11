@@ -136,7 +136,7 @@ namespace ENFORM.GUI
             {
                 AForge.Imaging.Filters.ResizeNearestNeighbor resize = new AForge.Imaging.Filters.ResizeNearestNeighbor(newWidth, newHeight);
                 g.DrawImage(resize.Apply((Bitmap)image), new Point(0, 0));
-                AForge.Imaging.Filters.ResizeBilinear resizeB = new AForge.Imaging.Filters.ResizeBilinear(newWidth, newHeight);
+                AForge.Imaging.Filters.ResizeNearestNeighbor resizeB = new AForge.Imaging.Filters.ResizeNearestNeighbor(newWidth, newHeight);
                 g.DrawImage(resizeB.Apply((Bitmap)overlay), new Point(0, 0));
             }
 

@@ -192,7 +192,7 @@ namespace NeuronDotNet.Core.PSO
         /// </param>
         protected override void OnEndEpoch(int currentIteration, TrainingSet trainingSet)
         {
-            meanSquaredError /= trainingSet.TrainingSampleCount;
+            //meanSquaredError /= trainingSet.TrainingSampleCount;
             isValidMSE = true;
             base.OnEndEpoch(currentIteration, trainingSet);
         }
@@ -347,7 +347,7 @@ namespace NeuronDotNet.Core.PSO
 
             // Re-Initialize the network
             Initialize();           
-            
+          
            
             pso = new SPSO_2007.Algorithm(PsoProblem,PsoParameters);
             pso.StartRun();
@@ -371,6 +371,7 @@ namespace NeuronDotNet.Core.PSO
 
 
                 Evaluations = pso.NextIteration();
+                Utils.Logger.Log("Number of clamped: {0}", Evaluations);
                 currentIteration++;
 
                 meanSquaredError = pso.BestFitness;// *trainingSet.TrainingSampleCount;

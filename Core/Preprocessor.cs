@@ -128,29 +128,29 @@ namespace ENFORM.Core
 
             AForge.Imaging.Filters.Crop cropper = new AForge.Imaging.Filters.Crop(new Rectangle(0, (aWidth-newHeight)/2, newWidth, newHeight));
 
-            Utils.Logger.Log("->Scaling and cropping...");
+            //Utils.Logger.Log("->Scaling and cropping...");
             if (ScalingMethod == ScalingMethods.Nearest_Neighbor || ScalingMethod == ScalingMethods.Bicubic)
             {
-                Utils.Logger.Log("-->Nearest Neighbor...");
+                //Utils.Logger.Log("-->Nearest Neighbor...");
                 AForge.Imaging.Filters.ResizeNearestNeighbor resizer = new AForge.Imaging.Filters.ResizeNearestNeighbor(newWidth,aWidth);
                 image = resizer.Apply((Bitmap)image);
-                Utils.Logger.Log("-->Cropping...");
+                //Utils.Logger.Log("-->Cropping...");
                 image = cropper.Apply(image);
             }
             if (ScalingMethod == ScalingMethods.Bicubic)
             {
-                Utils.Logger.Log("-->Bicubic resize is not implimented for now.\nNReverting to nearest neighbor...");
+                //Utils.Logger.Log("-->Bicubic resize is not implimented for now.\nNReverting to nearest neighbor...");
                 AForge.Imaging.Filters.ResizeNearestNeighbor resizer = new AForge.Imaging.Filters.ResizeNearestNeighbor(newWidth, aWidth);
                 image = resizer.Apply((Bitmap)image);
-                Utils.Logger.Log("-->Cropping...");
+                //Utils.Logger.Log("-->Cropping...");
                 image = cropper.Apply(image);
             }
             if (ScalingMethod == ScalingMethods.Bilinear)
             {
-                Utils.Logger.Log("-->Bilinear...");
+                //Utils.Logger.Log("-->Bilinear...");
                 AForge.Imaging.Filters.ResizeBilinear resizer = new AForge.Imaging.Filters.ResizeBilinear(newWidth, aWidth);
                 image = resizer.Apply((Bitmap)image);
-                Utils.Logger.Log("-->Cropping...");
+                //Utils.Logger.Log("-->Cropping...");
                 image = cropper.Apply(image);
             }
 
@@ -193,7 +193,7 @@ namespace ENFORM.Core
 
         public Bitmap Process(Bitmap image)
         {
-            Utils.Logger.Log("Converting to 32 bit...");
+            //Utils.Logger.Log("Converting to 32 bit...");
            
            image = convertFormatTo32(image);
 
@@ -202,10 +202,10 @@ namespace ENFORM.Core
            
             if (filterLevel >= 1)
             {
-                Utils.Logger.Log("Advanced filters...");
+                //Utils.Logger.Log("Advanced filters...");
                 if (ContrastStretch)
                 {
-                    Utils.Logger.Log("->Contrast Stretch...");
+                    //Utils.Logger.Log("->Contrast Stretch...");
                     AForge.Imaging.Filters.ContrastStretch stretcher = new AForge.Imaging.Filters.ContrastStretch();
                     image = stretcher.Apply(image);
 
@@ -215,7 +215,7 @@ namespace ENFORM.Core
 
                 if (Histogram)
                 {
-                    Utils.Logger.Log("->Histogram EQ...");
+                    //Utils.Logger.Log("->Histogram EQ...");
                     AForge.Imaging.Filters.HistogramEqualization histogrammer = new AForge.Imaging.Filters.HistogramEqualization();
                     image = histogrammer.Apply(image);
 
@@ -223,7 +223,7 @@ namespace ENFORM.Core
 
                 if (Gaussian)
                 {
-                    Utils.Logger.Log("->Gaussian Blur..");
+                   // Utils.Logger.Log("->Gaussian Blur..");
                     AForge.Imaging.Filters.GaussianBlur blurrer = new AForge.Imaging.Filters.GaussianBlur();
                     blurrer.Size = (int)GaussianStrength;
                     image = blurrer.Apply(image);
@@ -231,7 +231,7 @@ namespace ENFORM.Core
 
                 if (ContrastAdjustment)
                 {
-                    Utils.Logger.Log("->Contrast Adjustment..");
+                    //Utils.Logger.Log("->Contrast Adjustment..");
                     AForge.Imaging.Filters.ContrastCorrection contraster = new AForge.Imaging.Filters.ContrastCorrection();
                     contraster.Factor = (float)ContrastStrength;
                     image = contraster.Apply(image);
@@ -241,7 +241,7 @@ namespace ENFORM.Core
                 if (Greyscale)
                 {
                     
-                    Utils.Logger.Log("->Greyscale..");
+                    //Utils.Logger.Log("->Greyscale..");
                     //image = convertFormatTo32(image);
                     image = AForge.Imaging.Filters.Grayscale.CommonAlgorithms.BT709.Apply(image);
                     //Greyscale downgrades format
@@ -249,7 +249,7 @@ namespace ENFORM.Core
                 }
                 if (Threshold)
                 {
-                    Utils.Logger.Log("->Threshold..");
+                    //Utils.Logger.Log("->Threshold..");
                     //image.InternalBitmap = convertFormatToGS(image.InternalBitmap);
                     AForge.Imaging.Filters.Threshold thresholder = new AForge.Imaging.Filters.Threshold();
                     thresholder.ThresholdValue = (int)(((double)ThresholdStrength / 10.0) * 255.0);
@@ -258,7 +258,7 @@ namespace ENFORM.Core
                 }
                 if (Bradley)
                 {
-                    Utils.Logger.Log("->Bradley..");
+                    //Utils.Logger.Log("->Bradley..");
                     AForge.Imaging.Filters.BradleyLocalThresholding bradlifier = new AForge.Imaging.Filters.BradleyLocalThresholding();
 
                     image = bradlifier.Apply(image);
@@ -268,10 +268,10 @@ namespace ENFORM.Core
 
             if (filterLevel >= 0)
             {
-                Utils.Logger.Log("Basic resize...");
+                //Utils.Logger.Log("Basic resize...");
                 image = resize(image, ImageSize.Width, ImageSize.Height);
             }
-            Utils.Logger.Log("Preprocessor finished...");
+            //Utils.Logger.Log("Preprocessor finished...");
             if (image.Width != this.imageSize.Width || image.Height != this.imageSize.Height)
             {
                 //throw new Exception("WTF?");

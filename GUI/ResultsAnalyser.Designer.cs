@@ -35,7 +35,6 @@
             this.clmDone = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.clmFullFilename = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.btnProcess = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnDeleteRuns
@@ -94,22 +93,11 @@
             this.btnProcess.UseVisualStyleBackColor = true;
             this.btnProcess.Click += new System.EventHandler(this.btnProcess_Click);
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(376, 92);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 7;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
             // frmResultsAnalyser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(560, 438);
-            this.Controls.Add(this.button1);
+            this.ClientSize = new System.Drawing.Size(354, 410);
             this.Controls.Add(this.btnProcess);
             this.Controls.Add(this.btnDeleteRuns);
             this.Controls.Add(this.btnAddRun);
@@ -129,7 +117,6 @@
         private System.Windows.Forms.ColumnHeader clmDone;
         private System.Windows.Forms.ColumnHeader clmFullFilename;
         private System.Windows.Forms.Button btnProcess;
-        private System.Windows.Forms.Button button1;
 
     }
 }

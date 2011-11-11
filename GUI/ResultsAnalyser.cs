@@ -72,7 +72,7 @@ namespace ENFORM.GUI
                     {
                         if (r == DialogResult.Yes)
                         {
-                            writer.WriteLine(averageTimes[j].ToString() + "," + averageResults[j].ToString());
+                            writer.WriteLine(averageTimes[j].ToString() + " " + (averageResults[j]).ToString());
                         }
                         else
                         {
@@ -142,11 +142,11 @@ namespace ENFORM.GUI
                 results[j] = dataAccess.GetTimes(runs[j]);
             }
 
-            int maxResultLength = 0;
+            int maxResultLength = Int32.MaxValue;
             int mrlIndex = -1;
             for (int j = 0; j < results.Length; j++)
             {
-                if (results[j].Length > maxResultLength)
+                if (results[j].Length < maxResultLength)
                 {
                     maxResultLength = results[j].Length;
                     mrlIndex = j;
@@ -159,11 +159,10 @@ namespace ENFORM.GUI
                 int z = 0;
                 for (int k = 0; k < results.Length; k++)
                 {
-                    if (results[k].Length < k)
-                    {
+                   
                         total += results[k][j];
                         z++;
-                    }
+                    
                 }
 
                 total /= z;
@@ -171,7 +170,7 @@ namespace ENFORM.GUI
                 {
                     throw new Exception("ddd");
                 }
-                results[mrlIndex][j] = total;
+                results[0][j] = total;
             }
 
             return results[0];

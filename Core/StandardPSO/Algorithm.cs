@@ -185,6 +185,7 @@ namespace SPSO_2007
         private double p;
         private Velocity PX;
         private Result R;
+        private double vMax = 1.0;
 
         public Result PSOResult
         {
@@ -221,6 +222,8 @@ namespace SPSO_2007
         private Problem pb;
         private Parameters param;
         private Result result;
+
+        private double vAve = 0.0;
 
         private int runMax;
 
@@ -268,7 +271,7 @@ namespace SPSO_2007
             if (runMax > R_max) runMax = R_max;
 
 
-           
+            this.vMax = param.vMax;
 
             Utils.Logger.Log("\n c = {0},  w = {1}", param.c, param.w);
             //---------------
@@ -462,9 +465,13 @@ namespace SPSO_2007
 
         }
 
+        
 
         public int NextIteration()
         {
+            double lAve = 0.0;
+            int vNum = 0;
+            
             int numClamped = 0;
             iter++;
 
@@ -581,11 +588,28 @@ namespace SPSO_2007
                         }
                         break;
                 }
+                
+
+
+
 
                 // Update the position
                 for (d = 0; d < pb.SS.D; d++)
                 {
-                    PSOResult.SW.X[s].x[d] = PSOResult.SW.X[s].x[d] + PSOResult.SW.V[s].v[d];
+                    lAve += Math.Abs(PSOResult.SW.V[s].v[d]);
+                    vNum++;
+                    if (iter > 1)
+                    {
+                        if (PSOResult.SW.V[s].v[d] > vMax)
+                        {
+                            PSOResult.SW.V[s].v[d] = vAve;
+                        }
+                        else if (PSOResult.SW.V[s].v[d] < -vMax)
+                        {
+                            PSOResult.SW.V[s].v[d] = -vAve;
+                        }
+                    }
+                    PSOResult.SW.X[s].x[d] = PSOResult.SW.X[s].x[d] + (PSOResult.SW.V[s].v[d]);
                 }
 
                 // --------------------------
@@ -649,6 +673,10 @@ namespace SPSO_2007
                     }
                 }
             }			// End of "for (s0=0 ...  "	
+
+            vAve = lAve / (double)vNum;
+
+            
             // Check if finished
             switch (param.stop)
             {

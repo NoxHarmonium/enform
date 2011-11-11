@@ -215,6 +215,7 @@ namespace ENFORM.Core
                 double minI = Convert.ToDouble(dataAccess.GetParameter("Opt_Pso_MinI"));
                 double maxI = Convert.ToDouble(dataAccess.GetParameter("Opt_Pso_MaxI"));
                 double quant = Convert.ToDouble(dataAccess.GetParameter("Opt_Pso_Quant"));
+                double vMax = Convert.ToDouble(dataAccess.GetParameter("Opt_Pso_vMax"));
 
                 int clamping = Convert.ToInt32(dataAccess.GetParameter("Opt_Pso_Clamping"));
                 int initLinks = Convert.ToInt32(dataAccess.GetParameter("Opt_Pso_InitLinks"));
@@ -231,6 +232,8 @@ namespace ENFORM.Core
 
 
                 Parameters param = new Parameters();
+                param.vMax = vMax;
+
                 param.clamping = clamping;
                 // 0 => no clamping AND no evaluation. WARNING: the program
                 // 				may NEVER stop (in particular with option move 20 (jumps)) 1

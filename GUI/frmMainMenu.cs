@@ -22,9 +22,9 @@ namespace ENFORM.GUI
         
         public frmMainMenu()
         {
-            //Thread.CurrentThread.Name = "Main UI Thread";
+            Thread.CurrentThread.Name = "Main UI Thread";
             InitializeComponent();
-            Utils.Logger = new SQLiteLogger();
+            Utils.Logger = new GUILogger() ;
             
             Utils.Logger.StartLogger();
             Utils.Logger.Log("ENFORM booting up....");

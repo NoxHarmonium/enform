@@ -48,6 +48,10 @@ namespace ENFORM.GUI
         {
 
             string thread = Thread.CurrentThread.Name;
+            if (thread == null)
+            {
+                thread = "{Unknown Thread/s}";
+            }
           
             if (logbox.InvokeRequired)
             {
