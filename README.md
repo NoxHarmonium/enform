@@ -3,7 +3,7 @@ enform
 
 Experimental Neural Facial recognition Optimisation Reporting and Management
 
-This is a software package I wrote while I was at University to experiment with facial recognition and neural networks. I used it to write a report for an evolutionary computing class in which I compared particle swarm optimisation and back-propagation as training methods for the neural network weights. The report which provides some background and documentation to the software package can be found in the repo at [Documentation/Report.pdf](https://github.com/NoxHarmonium/enform/blob/master/Documentation/Report.pdf). 
+This is a software package I wrote while I was at University to experiment with facial recognition and neural networks. I used it to write a report for an evolutionary computing class in which I compared particle swarm optimisation and back-propagation as training methods for the neural network weights. The report which provides some background and documentation to the software package can be found in the repo at [Documentation/Report.pdf](https://github.com/NoxHarmonium/enform/blob/master/Documentation/Report.pdf?raw=true). 
 
 I wrote it a while ago and it is not currently under active development so it might have few bugs and lack some in-code documentation but I just put it up for curiosity sake for a few interested friends.
 
